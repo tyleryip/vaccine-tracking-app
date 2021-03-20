@@ -70,15 +70,17 @@ class DisposalSite(models.Model):
 
 class DisposedAt(models.Model):
     disposed_at_id = models.AutoField(primary_key=True)
-    DIN_no = models.OneToOneField(Vaccine, on_delete=models.CASCADE)
+    DIN_no = models.OneToOneField(Vaccine, on_delete=models.CASCADE, verbose_name='Vaccine')
     disposal_site_address = models.OneToOneField(DisposalSite, on_delete=models.CASCADE)
-    sharp = models.BooleanField(default=True)
-    biohazard_leakage = models.BooleanField(default=True)
+    sharp = models.BooleanField(default=True, verbose_name='Sharp Risk')
+    biohazard_leakage = models.BooleanField(default=True, verbose_name='Biohazard Leakage Risk')
 
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['DIN_no', 'disposal_site_address'], name='DisposedAt PK')
         ]
+        verbose_name = 'Vaccine Disposal (DisposedAt)'
+        verbose_name_plural = 'Vaccine Disposals (DisposedAt)'
 
     def __str__(self):
         return "Din: " + str(self.DIN_no) + " - Address: " + str(self.site_address)
@@ -189,9 +191,9 @@ class PpeSupplier(models.Model):
 
 class Ppe(models.Model):
     ppe_id = models.AutoField(primary_key=True)
-    is_disposable = models.BooleanField()
-    supplier_name = models.OneToOneField(PpeSupplier, on_delete=models.CASCADE)
-    nurse_hcc = models.OneToOneField(Nurse, on_delete=models.CASCADE)
+    is_disposable = models.BooleanField(default=True)
+    supplier_name = models.OneToOneField(PpeSupplier, on_delete=models.CASCADE, verbose_name='Supplier')
+    nurse_hcc = models.OneToOneField(Nurse, on_delete=models.CASCADE, verbose_name='Assigned Nurse')
 
     def __str__(self):
         return "PPE ID: " + str(self.ppe_id) + " - Manufactured by: " + str(self.supplier_name) + " - Used by: " + str(self.nurse_hcc)

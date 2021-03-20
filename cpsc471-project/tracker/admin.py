@@ -52,6 +52,18 @@ class AppointmentAdmin(admin.ModelAdmin):
 class StoredAtAdmin(admin.ModelAdmin):
     list_display = ('DIN_no', 'vaccination_site_address', 'temperature', 'humidity', 'lighting')
 
+class DisposalSiteAdmin(admin.ModelAdmin):
+    list_display = ('address', 'name', 'disposal_method')
+
+class DisposedAtAdmin(admin.ModelAdmin):
+    list_display = ('DIN_no', 'disposal_site_address', 'sharp', 'biohazard_leakage')
+
+class PpeAdmin(admin.ModelAdmin):
+    list_display = ('ppe_id', 'is_disposable', 'supplier_name', 'nurse_hcc')
+
+class PpeSupplierAdmin(admin.ModelAdmin):
+    list_display = ('name', 'website', 'contact_name', 'contact_phone')
+
 # Registering all models under the admin user (so the admin user can edit them from the admin site)
 admin.site.register(Vaccine, VaccineAdmin)
 admin.site.register(Civilian, CivilianAdmin)
@@ -60,16 +72,13 @@ admin.site.register(Doctor, DoctorAdmin)
 admin.site.register(Appointment, AppointmentAdmin)
 admin.site.register(VaccinationSite, VaccinationSiteAdmin)
 admin.site.register(StoredAt, StoredAtAdmin)
-
-# These models do not have rich admin pages yet
-admin.site.register(DisposalSite)
-admin.site.register(DisposedAt)
-admin.site.register(HealthCondition)
-
-admin.site.register(PpeSupplier)
-admin.site.register(Ppe)
+admin.site.register(DisposalSite, DisposalSiteAdmin)
+admin.site.register(DisposedAt, DisposedAtAdmin)
+admin.site.register(PpeSupplier, PpeSupplierAdmin)
+admin.site.register(Ppe, PpeAdmin)
 
 # The entities should not be directly editable
+# admin.site.register(HealthCondition)
 # admin.site.register(VaccineSideEffect)
 # admin.site.register(DoctorCertification)
 # admin.site.register(RiskFactor)
