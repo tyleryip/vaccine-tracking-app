@@ -20,9 +20,9 @@ class Vaccine(models.Model):
         return "DIN: " + str(self.DIN_no) + " - " + self.disease_treated
 
 class VaccineSideEffect(models.Model):
-    vaccine_side_effect_id = models.IntegerField(primary_key=True)
-    vaccine_DIN_no = models.OneToOneField("DIN (Drug Identification Number)", Vaccine, on_delete=models.CASCADE)
-    side_effect_name = models.CharField(max_length=200)
+    vaccine_side_effect_id = models.IntegerField("ID", primary_key=True)
+    vaccine_DIN_no = models.OneToOneField(Vaccine, on_delete=models.CASCADE)
+    side_effect_name = models.CharField("Side Effect", max_length=200)
 
     # This internal meta class provides meta data to the model
     class Meta:
@@ -31,7 +31,7 @@ class VaccineSideEffect(models.Model):
         ]
 
     def __str__(self):
-        return "DIN: " + str(self.DIN_no) + " - " +  self.side_effect_name
+        return "DIN: " + str(self.vaccine_DIN_no) + " - " +  self.side_effect_name
 
 class VaccinationSite(models.Model):
     address = models.CharField(max_length=200, primary_key=True)
@@ -43,20 +43,22 @@ class VaccinationSite(models.Model):
         return "Address: " + self.address
 
 class StoredAt(models.Model):
-    stored_at_id= models.IntegerField(primary_key=True)
-    DIN_no = models.OneToOneField("DIN (Drug Identification Number)", Vaccine, on_delete=models.CASCADE)
+    stored_at_id = models.AutoField(primary_key=True)
+    DIN_no = models.OneToOneField(Vaccine, on_delete=models.CASCADE, verbose_name='Vaccine')
     vaccination_site_address = models.OneToOneField(VaccinationSite, on_delete=models.CASCADE)
-    temperature = models.FloatField(default=20)
-    humidity = models.FloatField(default=60)
-    lighting = models.FloatField(default=0)
+    temperature = models.FloatField("Storage Temp (°C)", default=20)
+    humidity = models.FloatField('Humidity (%)', default=60)
+    lighting = models.FloatField('Light Level (Lumens)', default=0)
 
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['DIN_no', 'vaccination_site_address'], name='StoredAt PK')
         ]
+        verbose_name = 'Vaccine Stockpile (StoredAt)'
+        verbose_name_plural = 'Vaccine Stockpiles (StoredAt)'
 
     def __str__(self):
-        return "DIN: " + str(self.din_no) + " - " + self.site_address
+        return "DIN: " + str(self.DIN_no) + " - " + str(self.vaccination_site_address)
 
 class DisposalSite(models.Model):
     address = models.CharField(max_length=200, primary_key=True)
@@ -67,8 +69,8 @@ class DisposalSite(models.Model):
         return "Address: " + self.address
 
 class DisposedAt(models.Model):
-    disposed_at_id = models.IntegerField(primary_key=True)
-    DIN_no = models.OneToOneField("DIN (Drug Identification Number)", Vaccine, on_delete=models.CASCADE)
+    disposed_at_id = models.AutoField(primary_key=True)
+    DIN_no = models.OneToOneField(Vaccine, on_delete=models.CASCADE)
     disposal_site_address = models.OneToOneField(DisposalSite, on_delete=models.CASCADE)
     sharp = models.BooleanField(default=True)
     biohazard_leakage = models.BooleanField(default=True)
@@ -93,6 +95,13 @@ class Doctor(models.Model):
 
     def __str__(self):
         return "Doctor HCC: " + str(self.hcc_no) + " - " + str(self.first_name) + " " + str(self.last_name)
+    
+    # This method returns the full name of the nurse
+    def get_fullname(self):
+        return self.first_name + " " + self.last_name
+
+    # This is used to describe the method, primarily so that the admin site can call the method and display the result under a proper title
+    get_fullname.short_description = 'Full Name'
 
 class Civilian(models.Model):
     # The first field is the human readable name used for displaying, not used to access the data internally
@@ -114,6 +123,7 @@ class Civilian(models.Model):
 
     # This is used to describe the method, primarily so that the admin site can call the method and display the result under a proper title
     get_fullname.short_description = 'Full Name'
+
 
 class RiskFactor(models.Model):
     hcc_no = models.OneToOneField(Civilian, on_delete=models.CASCADE, primary_key=True)
@@ -145,17 +155,24 @@ class Nurse(models.Model):
     def __str__(self):
         return "Nurse HCC: " + str(self.hcc_no) + " - " + self.first_name + " " + self.last_name
 
+    # This method returns the full name of the nurse
+    def get_fullname(self):
+        return self.first_name + " " + self.last_name
+
+    # This is used to describe the method, primarily so that the admin site can call the method and display the result under a proper title
+    get_fullname.short_description = 'Full Name'
+
 class Appointment(models.Model):
-    appointment_id = models.IntegerField(primary_key=True)
+    appointment_id = models.AutoField(primary_key=True)
     time = models.DateTimeField()
-    vaccine_DIN_no = models.OneToOneField("DIN (Drug Identification Number)", Vaccine, on_delete=models.CASCADE)
+    vaccine_DIN_no = models.OneToOneField(Vaccine, on_delete=models.CASCADE, verbose_name='Vaccine')
     nurse_hcc_no = models.OneToOneField(Nurse, on_delete=models.CASCADE)
     civilian_hcc_no = models.OneToOneField(Civilian, on_delete=models.CASCADE)
-    vaccination_site_address = models.OneToOneField(VaccinationSite, on_delete=models.CASCADE)
+    vaccination_site_address = models.OneToOneField(VaccinationSite, on_delete=models.CASCADE, verbose_name='Location')
 
 class DoctorCertification(models.Model):
     doctor_certification_id = models.IntegerField(primary_key=True)
-    doctor_hcc_no = models.OneToOneField("Doctor's Healthcare Card Number", Doctor, on_delete=models.CASCADE)
+    doctor_hcc_no = models.OneToOneField(Doctor, on_delete=models.CASCADE)
     certification = models.CharField(max_length=200)
 
     def __str__(self):
@@ -171,10 +188,10 @@ class PpeSupplier(models.Model):
         return "Supplier Name: " + str(self.name) + " - contact info: " + str(self.contact_phone)
 
 class Ppe(models.Model):
-    ppe_id = models.IntegerField(primary_key=True)
+    ppe_id = models.AutoField(primary_key=True)
     is_disposable = models.BooleanField()
     supplier_name = models.OneToOneField(PpeSupplier, on_delete=models.CASCADE)
-    nurse_hcc = models.OneToOneField("Nurse's Healthcare Card Number", Nurse, on_delete=models.CASCADE)
+    nurse_hcc = models.OneToOneField(Nurse, on_delete=models.CASCADE)
 
     def __str__(self):
         return "PPE ID: " + str(self.ppe_id) + " - Manufactured by: " + str(self.supplier_name) + " - Used by: " + str(self.nurse_hcc)
