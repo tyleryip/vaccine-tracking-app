@@ -20,8 +20,8 @@ class Vaccine(models.Model):
         return "DIN: " + str(self.DIN_no) + " - " + self.disease_treated
 
 class VaccineSideEffect(models.Model):
-    vaccine_side_effect_id = models.IntegerField("ID", primary_key=True)
-    vaccine_DIN_no = models.OneToOneField(Vaccine, on_delete=models.CASCADE)
+    vaccine_side_effect_id = models.AutoField("ID", primary_key=True)
+    vaccine_DIN_no = models.OneToOneField(Vaccine, on_delete=models.CASCADE, verbose_name='Vaccine')
     side_effect_name = models.CharField("Side Effect", max_length=200)
 
     # This internal meta class provides meta data to the model
@@ -129,9 +129,9 @@ class Civilian(models.Model):
 
 class RiskFactor(models.Model):
     hcc_no = models.OneToOneField(Civilian, on_delete=models.CASCADE, primary_key=True)
-    location = models.CharField(max_length=200)
-    occupation = models.CharField(max_length=200)
-    at_risk_age = models.BooleanField()
+    location = models.BooleanField("High-Risk Location", default=False)
+    occupation = models.BooleanField("High-Risk Occupation (Health Care)", default=False)
+    at_risk_age = models.BooleanField("High-Risk Age Bracket (>70)", default=False)
 
     def __str__(self):
         return "HCC: " + str(self.hcc_no)
@@ -171,6 +171,9 @@ class Appointment(models.Model):
     nurse_hcc_no = models.OneToOneField(Nurse, on_delete=models.CASCADE)
     civilian_hcc_no = models.OneToOneField(Civilian, on_delete=models.CASCADE)
     vaccination_site_address = models.OneToOneField(VaccinationSite, on_delete=models.CASCADE, verbose_name='Location')
+
+    def __str__(self):
+        return "ID: " + str(self.appointment_id) + " - Time: " + str(self.time) + " - Client: " + str(self.civilian_hcc_no)
 
 class DoctorCertification(models.Model):
     doctor_certification_id = models.IntegerField(primary_key=True)
