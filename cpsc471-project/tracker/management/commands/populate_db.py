@@ -335,10 +335,13 @@ create_function = {
 class Command(BaseCommand):
     help = "Create model objects with the file path specified"
 
+    def add_arguments(self, parser):
+        parser.add_argument('path', type=str, help='the relative path for the .csv file')
+        
     # Business logic for the command, this is what gets executed when the command is called
     def handle(self, *args, **options):
         # Open the csv file
-        with open("tracker/data/sampledata.csv") as f:
+        with open("tracker/data/" + options['path']) as f:
             reader = csv.reader(f, delimiter=',')
             self.stdout.write("Populating database from provided CSV file...\n--------------------------------------------------------------------")
             # Iterate through the rows
