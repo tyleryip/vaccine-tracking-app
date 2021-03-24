@@ -13,7 +13,7 @@ class Vaccine(models.Model):
     DIN_no = models.IntegerField("DIN (Drug Identification Number)", primary_key=True)
     disease_treated = models.CharField(max_length=200)
     recommended_dose = models.CharField(max_length=200)
-    expiry_date = models.DateTimeField()
+    expiry_date = models.DateField()
     manufacturer_name = models.CharField(max_length=200)
 
     def __str__(self):
