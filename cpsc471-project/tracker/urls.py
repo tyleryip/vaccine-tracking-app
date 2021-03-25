@@ -15,5 +15,7 @@ urlpatterns = [
     # Ex. civilian/1/
     path('civilian/<int:hcc_no>/', views.civilian_homepage, name='civilian_homepage'),
 
+    # After logging in, nurse will be able to access their homepage
+    # Ex. nurse/1/
     path('nurse/<int:hcc_no>/', views.nurse_homepage, name='nurse_homepage')
 ]
