@@ -133,6 +133,8 @@ class RiskFactor(models.Model):
     occupation = models.BooleanField("High-Risk Occupation (Health Care)", default=False)
     at_risk_age = models.BooleanField("High-Risk Age Bracket (>70)", default=False)
 
+    # TODO: Write a function to give a risk factor score
+
     def __str__(self):
         return "HCC: " + str(self.hcc_no)
 

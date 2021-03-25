@@ -1,10 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
-
 # Import all (*) from tracker.models
 from .models import Vaccine, VaccineSideEffect, VaccinationSite, StoredAt, DisposalSite, DisposedAt, Doctor, Civilian, RiskFactor, HealthCondition, Nurse, Appointment, DoctorCertification, PpeSupplier, Ppe
-
 
 class VaccineSideEffectInline(admin.TabularInline):
     model = VaccineSideEffect
