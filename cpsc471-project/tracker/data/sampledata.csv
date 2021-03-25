@@ -4,3 +4,6 @@ Vaccine,1,AIDS,10mg,2021-04-01,Nurullo,
 VaccineSideEffect,1,2,Bleeding,
 Vaccine,2,StinkDink,69mg,2021-04-20,Trevor,
 VaccineSideEffect,1,2,Dying,
+
+Civilian,785521144,4035528530,M,3640 Poplar St. SW,58,Nick,Logan,22222222,
+RiskFactor,785521144,FALSE,TRUE,FALSE,
