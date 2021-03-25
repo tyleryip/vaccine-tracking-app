@@ -145,7 +145,7 @@ def create_Doctor(*args):
 
 def create_Civilian(*args):
     try:  
-        doctor_ref = Doctor.objects.get(hcc = args[7])
+        doctor_ref = Doctor.objects.get(hcc_no = args[7])
 
         model, created = Civilian.objects.get_or_create(
             hcc_no = args[0],
@@ -169,7 +169,7 @@ def create_Civilian(*args):
 
 def create_RiskFactor(*args):
     try:  
-        civilian_ref = Civilian.objects.get(hcc = args[0])
+        civilian_ref = Civilian.objects.get(hcc_no = args[0])
 
         model, created = RiskFactor.objects.get_or_create(
             hcc_no = civilian_ref,
@@ -208,7 +208,7 @@ def create_HealthCondition(*args):
 
 def create_Nurse(*args):
     try:  
-        vaccination_site_ref = VaccinationSite.objects.get(hcc = args[1])
+        vaccination_site_ref = VaccinationSite.objects.get(hcc_no = args[1])
 
         model, created = RiskFactor.objects.get_or_create(
             hcc_no = args[0],
@@ -232,10 +232,10 @@ def create_Nurse(*args):
 
 def create_Appointment(*args):
     try:  
-        vaccine_ref = Vaccine.objects.get(DINO_no = args[2])
-        nurse_ref = Nurse.objects.get(hcc = args[3])
-        civilian_ref = Civilian.objects.get(hcc = args[4])
-        vaccination_site_ref = VaccinationSite.objects.get(hcc = args[5])
+        vaccine_ref = Vaccine.objects.get(DIN_no = args[2])
+        nurse_ref = Nurse.objects.get(hcc_no = args[3])
+        civilian_ref = Civilian.objects.get(hcc_no = args[4])
+        vaccination_site_ref = VaccinationSite.objects.get(hcc_no = args[5])
 
         model, created = RiskFactor.objects.get_or_create(
             appointment_id = args[0],
@@ -257,7 +257,7 @@ def create_Appointment(*args):
 
 def create_DoctorCertification(*args):
     try:  
-        doctor_ref = Doctor.objects.get(hcc = args[1])
+        doctor_ref = Doctor.objects.get(hcc_no = args[1])
 
         model, created = DoctorCertification.objects.get_or_create(
             doctor_certification_id = args[0],
@@ -293,7 +293,7 @@ def create_PpeSupplier(*args):
 def create_Ppe(*args):
     try:  
         ppe_supplier_ref = PpeSupplier.objects.get(name = args[2])
-        nurse_ref = Nurse.objects.get(hcc = args[3])
+        nurse_ref = Nurse.objects.get(hcc_no = args[3])
 
         model, created = DoctorCertification.objects.get_or_create(
             ppe_id = args[0],
