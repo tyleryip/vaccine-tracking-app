@@ -83,7 +83,7 @@ class DisposedAt(models.Model):
         verbose_name_plural = 'Vaccine Disposals (DisposedAt)'
 
     def __str__(self):
-        return "Din: " + str(self.DIN_no) + " - Address: " + str(self.site_address)
+        return "Din: " + str(self.DIN_no) + " - Address: " + str(self.disposal_site_address)
 
 class Doctor(models.Model): 
     hcc_no = models.IntegerField("Healthcare Card Number", primary_key=True)
