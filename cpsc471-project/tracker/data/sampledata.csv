@@ -1,3 +1,4 @@
 VaccinationSite,101 Main Street NW,200,Dr. Smith,1234567899,
 Vaccine,1,AIDS,10mg,2021-04-01,Nurullo,
 VaccineSideEffect,1,2,Bleeding,
+VaccineSideEffect,1,2,Dying,
