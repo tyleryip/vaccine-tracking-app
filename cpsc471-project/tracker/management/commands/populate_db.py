@@ -347,6 +347,10 @@ class Command(BaseCommand):
             # Iterate through the rows
             for index, row in enumerate(reader):
                 try:
+                    # Skip empty rows
+                    if not row:
+                        continue    
+
                     # Try to get a model that corresponds to the first column in this row
                     apps.get_model('tracker', row[0])
 
