@@ -6,5 +6,5 @@ Vaccine,2,StinkDink,69mg,2021-04-20,Trevor,
 VaccineSideEffect,1,2,Dying,
 
 Doctor,111111111,4031111111,M,11 Westcove Rd. NW,40,George,Greens,West Calgary Hospital,
-Civilian,785521144,4035528530,M,3640 Poplar St. SW,58,Nick,Logan,22222222,
-RiskFactor,785521144,FALSE,TRUE,FALSE,
+Civilian,785521144,4035528530,M,3640 Poplar St. SW,58,Nick,Logan,111111111,
+RiskFactor,785521144,False,True,False,

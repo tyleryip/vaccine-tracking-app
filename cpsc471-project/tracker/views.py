@@ -25,6 +25,16 @@ def civilian_homepage(request, hcc_no):
         raise Http404("Civilian does not exist")
     return HttpResponse("This is your information %s" % my_civilian)
 
+def new_civilian(request):
+    return HttpResponse("This endpoint will contain the field you need to fill out to create a new civilian")
+
+def edit_civilian(request, hcc_no):
+    try:
+        my_civilian = Civilian.objects.get(hcc_no = hcc_no)
+    except Civilian.DoesNotExist:
+        raise Http404("Civilian does not exist")
+    return HttpResponse("This will let you edit this civilian: %s" % my_civilian)
+
 
 # Nurse Views: #########################################################
 def nurse_homepage(request, hcc_no):
@@ -33,3 +43,13 @@ def nurse_homepage(request, hcc_no):
     except Nurse.DoesNotExist:
         raise Http404("Nurse does not exist")
     return HttpResponse("This is your information %s" % my_nurse)
+
+def new_nurse(request):
+    return HttpResponse("This endpoint will contain the field you need to fill out to create a new nurse")
+
+def edit_nurse(request, hcc_no):
+    try:
+        my_nurse = Nurse.objects.get(hcc_no = hcc_no)
+    except Nurse.DoesNotExist:
+        raise Http404("Nurse does not exist")
+    return HttpResponse("This will let you edit this nurse: %s" % my_nurse)
