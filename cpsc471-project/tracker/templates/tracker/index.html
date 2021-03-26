@@ -4,9 +4,16 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Select User Type</title>
+    <title>Vaccine Management App</title>
+    {% load static %}
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'tracker/index.css' %}"
+    />
   </head>
   <body>
+    <p>Please select a user type</p>
     <a href="{% url 'tracker:civilian_login' %}">Civilian</a>
     <a href="{% url 'tracker:nurse_login' %}">Nurse</a>
   </body>
