@@ -1,13 +1,17 @@
 from django.http.response import Http404
 from django.shortcuts import render # Required for the views page to make use of the render() method
+from django.views import generic
+from django.views.generic.base import TemplateView
+
 from .models import * # Import all models from the tracker app to use in the views
 
 # Create your views here.
 from django.http import HttpResponse
 
 # Main page to pick which user type you are, also display information about the website
-def index(request):
-    return HttpResponse("This is the index page, we will implement the login selection page here. (Choose civilian or nurse and get sent to the login pages)")
+
+class IndexView(TemplateView):
+    template_name = 'tracker/index.html'
 
 # Login screen for nurses
 def nurse_login(request):
@@ -25,15 +29,24 @@ def civilian_homepage(request, hcc_no):
         raise Http404("Civilian does not exist")
     return HttpResponse("This is your information %s" % my_civilian)
 
+# This endpoint will have to handle a GET and POST request
 def new_civilian(request):
     return HttpResponse("This endpoint will contain the field you need to fill out to create a new civilian")
 
+# This endpoint will have to handle a GET and POST request
 def edit_civilian(request, hcc_no):
     try:
         my_civilian = Civilian.objects.get(hcc_no = hcc_no)
     except Civilian.DoesNotExist:
         raise Http404("Civilian does not exist")
     return HttpResponse("This will let you edit this civilian: %s" % my_civilian)
+
+def civilian_riskfactor(request, hcc_no):
+    try:
+        my_riskfactor = RiskFactor.objects.get(hcc_no = hcc_no)
+    except RiskFactor.DoesNotExist:
+        raise Http404("Risk factor does not exist for this civilian")
+    return HttpResponse("This will let you view the risk factor: %s" % my_riskfactor)
 
 
 # Nurse Views: #########################################################
@@ -44,9 +57,15 @@ def nurse_homepage(request, hcc_no):
         raise Http404("Nurse does not exist")
     return HttpResponse("This is your information %s" % my_nurse)
 
+# This endpoint will have to handle a GET and POST request
+# GET - display the fields that the user needs to fill it
+# POST - upon button click, validate the fields and save the new item to the database
 def new_nurse(request):
     return HttpResponse("This endpoint will contain the field you need to fill out to create a new nurse")
 
+# This endpoint will have to handle a GET and POST request
+# GET - get the current values of the nurse and display in editable fields
+# POST - upon button click, validate fields and update if correct
 def edit_nurse(request, hcc_no):
     try:
         my_nurse = Nurse.objects.get(hcc_no = hcc_no)
