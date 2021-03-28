@@ -1,9 +1,9 @@
 VaccinationSite,101 Main Street NW,200,Dr. Smith,1234567899,
 Vaccine,1,AIDS,10mg,2021-04-01,Nurullo,
 
-VaccineSideEffect,1,2,Bleeding,
 Vaccine,2,StinkDink,69mg,2021-04-20,Trevor,
 VaccineSideEffect,1,2,Dying,
+VaccineSideEffect,2,2,Bleeding,
 
 Doctor,111111111,4031111111,M,11 Westcove Rd. NW,40,George,Greens,West Calgary Hospital,
 Civilian,785521144,4035528530,M,3640 Poplar St. SW,58,Nick,Logan,111111111,
