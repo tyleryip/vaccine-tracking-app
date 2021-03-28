@@ -32,7 +32,7 @@ def civilian_homepage(request, hcc_no):
 
 # This endpoint will have to handle a GET and POST request
 def new_civilian(request):
-    return HttpResponse("This endpoint will contain the field you need to fill out to create a new civilian")
+    return render(request, "tracker/civilianregistration.html")
 
 # This endpoint will have to handle a GET and POST request
 def edit_civilian(request, hcc_no):
@@ -62,7 +62,7 @@ def nurse_homepage(request, hcc_no):
 # GET - display the fields that the user needs to fill it
 # POST - upon button click, validate the fields and save the new item to the database
 def new_nurse(request):
-    return HttpResponse("This endpoint will contain the field you need to fill out to create a new nurse")
+    return render(request, "tracker/nurseregistration.html")
 
 # This endpoint will have to handle a GET and POST request
 # GET - get the current values of the nurse and display in editable fields
