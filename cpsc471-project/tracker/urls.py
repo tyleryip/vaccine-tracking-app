@@ -10,8 +10,8 @@ urlpatterns = [
 
     # These pages are for the civilian and nurse login, you'll be presented with a textbox to fill in your HCC and then click a button
     # We will also have to implement a new user section
-    path('nurse', views.nurse_login, name='nurse_login'),
-    path('civilian', views.civilian_login, name='civilian_login'),
+    path('nurse/', views.nurse_login, name='nurse_login'),
+    path('civilian/', views.civilian_login, name='civilian_login'),
 
     # After logging in, civilians will be able to access their homepage
     # Ex. civilian/1/
