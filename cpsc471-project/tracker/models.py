@@ -24,12 +24,6 @@ class VaccineSideEffect(models.Model):
     vaccine_DIN_no = models.OneToOneField(Vaccine, on_delete=models.CASCADE, verbose_name='Vaccine')
     side_effect_name = models.CharField("Side Effect", max_length=200)
 
-    # This internal meta class provides meta data to the model
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['vaccine_DIN_no', 'side_effect_name'], name='VaccineSideEffect PK')
-        ]
-
     def __str__(self):
         return "DIN: " + str(self.vaccine_DIN_no) + " - " +  self.side_effect_name
 
@@ -51,9 +45,6 @@ class StoredAt(models.Model):
     lighting = models.FloatField('Light Level (Lumens)', default=0)
 
     class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['DIN_no', 'vaccination_site_address'], name='StoredAt PK')
-        ]
         verbose_name = 'Vaccine Stockpile (StoredAt)'
         verbose_name_plural = 'Vaccine Stockpiles (StoredAt)'
 
@@ -76,9 +67,6 @@ class DisposedAt(models.Model):
     biohazard_leakage = models.BooleanField(default=True, verbose_name='Biohazard Leakage Risk')
 
     class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['DIN_no', 'disposal_site_address'], name='DisposedAt PK')
-        ]
         verbose_name = 'Vaccine Disposal (DisposedAt)'
         verbose_name_plural = 'Vaccine Disposals (DisposedAt)'
 
