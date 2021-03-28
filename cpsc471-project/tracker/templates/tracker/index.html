@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -5,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vaccine Management App</title>
-    {% load static %}
     <link
       rel="stylesheet"
       type="text/css"
@@ -15,6 +16,6 @@
   <body>
     <a href="{% url 'tracker:civilian_login' %}">Civilian</a>
     <a href="{% url 'tracker:nurse_login' %}">Nurse</a>
-    <p>Please select a user type</p>
+    <p className="paragraph">Please select a user type</p>
   </body>
 </html>

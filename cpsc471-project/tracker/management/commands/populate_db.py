@@ -64,6 +64,7 @@ def create_VaccinationSite(*args):
         return(-1) # Invalid with status code -1 (Invalid parameters or not enough parameters)
 
 def create_StoredAt(*args):
+
     try:  
         vaccine_ref = Vaccine.objects.get(DIN_no = int(args[1]))
         vaccination_site_ref = VaccinationSite.objects.get(address = args[2])

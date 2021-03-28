@@ -2,6 +2,7 @@ from django.http.response import Http404
 from django.shortcuts import render # Required for the views page to make use of the render() method
 from django.views import generic
 from django.views.generic.base import TemplateView
+from django.template import Context, Template
 
 from .models import * # Import all models from the tracker app to use in the views
 
@@ -10,8 +11,8 @@ from django.http import HttpResponse
 
 # Main page to pick which user type you are, also display information about the website
 
-class IndexView(TemplateView):
-    template_name = 'tracker/index.html'
+def index_view(request):
+    return render(request, 'tracker/index.html')
 
 # Login screen for nurses
 def nurse_login(request):
