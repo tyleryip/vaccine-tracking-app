@@ -64,17 +64,18 @@ def create_VaccinationSite(*args):
         return(-1) # Invalid with status code -1 (Invalid parameters or not enough parameters)
 
 def create_StoredAt(*args):
+
     try:  
-        vaccine_ref = Vaccine.objects.get(DIN_no = args[1])
-        vaccination_site_ref = VaccinationSite.objects.get(args[2])
+        vaccine_ref = Vaccine.objects.get(DIN_no = int(args[1]))
+        vaccination_site_ref = VaccinationSite.objects.get(address = args[2])
 
         model, created = StoredAt.objects.get_or_create(
             stored_at_id = args[0],
             DIN_no = vaccine_ref,
             vaccination_site_address = vaccination_site_ref,
-            temperature = args[3],
-            humidity = args[4],
-            lighting = args[5],
+            temperature = float(args[3]),
+            humidity = float(args[4]),
+            lighting = float(args[5]),
         )
         if(created):
             return(0) # Valid with status code 0 (Object created)
@@ -104,7 +105,7 @@ def create_DisposalSite(*args):
 def create_DisposedAt(*args):
     try:  
         vaccine_ref = Vaccine.objects.get(DIN_no = args[1])
-        disposal_site_ref = DisposalSite.objects.get(args[2])
+        disposal_site_ref = DisposalSite.objects.get(address = args[2])
 
         model, created = DisposedAt.objects.get_or_create(
             disposed_at_id = args[0],
@@ -208,7 +209,7 @@ def create_HealthCondition(*args):
 
 def create_Nurse(*args):
     try:  
-        vaccination_site_ref = VaccinationSite.objects.get(address = args[1])
+        vaccination_site_ref = VaccinationSite.objects.get(address = args[7])
 
         model, created = Nurse.objects.get_or_create(
             hcc_no = args[0],
@@ -235,8 +236,7 @@ def create_Appointment(*args):
         vaccine_ref = Vaccine.objects.get(DIN_no = args[2])
         nurse_ref = Nurse.objects.get(hcc_no = args[3])
         civilian_ref = Civilian.objects.get(hcc_no = args[4])
-        vaccination_site_ref = VaccinationSite.objects.get(hcc_no = args[5])
-
+        vaccination_site_ref = VaccinationSite.objects.get(address = args[5])
         model, created = Appointment.objects.get_or_create(
             appointment_id = args[0],
             time = args[1],
@@ -295,7 +295,7 @@ def create_Ppe(*args):
         ppe_supplier_ref = PpeSupplier.objects.get(name = args[2])
         nurse_ref = Nurse.objects.get(hcc_no = args[3])
 
-        model, created = DoctorCertification.objects.get_or_create(
+        model, created = Ppe.objects.get_or_create(
             ppe_id = args[0],
             is_disposable = args[1],
             supplier_name = ppe_supplier_ref,
