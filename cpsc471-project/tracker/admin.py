@@ -75,8 +75,8 @@ admin.site.register(PpeSupplier, PpeSupplierAdmin)
 admin.site.register(Ppe, PpeAdmin)
 
 # TODO: Ensure all these fields are commented out
-# The entities should not be directly editable
-# admin.site.register(HealthCondition)
-# admin.site.register(VaccineSideEffect)
-# admin.site.register(DoctorCertification)
-# admin.site.register(RiskFactor)
+#The entities should not be directly editable
+admin.site.register(HealthCondition)
+admin.site.register(VaccineSideEffect)
+admin.site.register(DoctorCertification)
+admin.site.register(RiskFactor)

@@ -157,10 +157,10 @@ class Nurse(models.Model):
 class Appointment(models.Model):
     appointment_id = models.IntegerField(primary_key=True)
     time = models.DateTimeField()
-    vaccine_DIN_no = models.OneToOneField(Vaccine, on_delete=models.CASCADE, verbose_name='Vaccine')
-    nurse_hcc_no = models.OneToOneField(Nurse, on_delete=models.CASCADE)
-    civilian_hcc_no = models.OneToOneField(Civilian, on_delete=models.CASCADE)
-    vaccination_site_address = models.OneToOneField(VaccinationSite, on_delete=models.CASCADE, verbose_name='Location')
+    vaccine_DIN_no = models.ForeignKey(Vaccine, on_delete=models.CASCADE, verbose_name='Vaccine')
+    nurse_hcc_no = models.ForeignKey(Nurse, on_delete=models.CASCADE)
+    civilian_hcc_no = models.ForeignKey(Civilian, on_delete=models.CASCADE)
+    vaccination_site_address = models.ForeignKey(VaccinationSite, on_delete=models.CASCADE, verbose_name='Location')
 
     def __str__(self):
         return "ID: " + str(self.appointment_id) + " - Time: " + str(self.time) + " - Client: " + str(self.civilian_hcc_no)
