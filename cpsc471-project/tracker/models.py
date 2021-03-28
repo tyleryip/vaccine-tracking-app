@@ -21,7 +21,7 @@ class Vaccine(models.Model):
 
 class VaccineSideEffect(models.Model):
     vaccine_side_effect_id = models.AutoField("ID", primary_key=True)
-    vaccine_DIN_no = models.OneToOneField(Vaccine, on_delete=models.CASCADE, verbose_name='Vaccine')
+    vaccine_DIN_no = models.ForeignKey(Vaccine, on_delete=models.CASCADE, verbose_name='Vaccine')
     side_effect_name = models.CharField("Side Effect", max_length=200)
 
     def __str__(self):
@@ -38,8 +38,8 @@ class VaccinationSite(models.Model):
 
 class StoredAt(models.Model):
     stored_at_id = models.AutoField(primary_key=True)
-    DIN_no = models.OneToOneField(Vaccine, on_delete=models.CASCADE, verbose_name='Vaccine')
-    vaccination_site_address = models.OneToOneField(VaccinationSite, on_delete=models.CASCADE)
+    DIN_no = models.ForeignKey(Vaccine, on_delete=models.CASCADE, verbose_name='Vaccine')
+    vaccination_site_address = models.ForeignKey(VaccinationSite, on_delete=models.CASCADE)
     temperature = models.FloatField("Storage Temp (°C)", default=20)
     humidity = models.FloatField('Humidity (%)', default=60)
     lighting = models.FloatField('Light Level (Lumens)', default=0)
@@ -61,8 +61,8 @@ class DisposalSite(models.Model):
 
 class DisposedAt(models.Model):
     disposed_at_id = models.AutoField(primary_key=True)
-    DIN_no = models.OneToOneField(Vaccine, on_delete=models.CASCADE, verbose_name='Vaccine')
-    disposal_site_address = models.OneToOneField(DisposalSite, on_delete=models.CASCADE)
+    DIN_no = models.ForeignKey(Vaccine, on_delete=models.CASCADE, verbose_name='Vaccine')
+    disposal_site_address = models.ForeignKey(DisposalSite, on_delete=models.CASCADE)
     sharp = models.BooleanField(default=True, verbose_name='Sharp Risk')
     biohazard_leakage = models.BooleanField(default=True, verbose_name='Biohazard Leakage Risk')
 
@@ -102,7 +102,7 @@ class Civilian(models.Model):
     age = models.IntegerField()
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
-    doctor_hcc = models.OneToOneField(Doctor, on_delete=models.CASCADE)
+    doctor_hcc = models.ForeignKey(Doctor, on_delete=models.CASCADE)
 
     def __str__(self):
         return "Civilian HCC: " + str(self.hcc_no) + " - " + self.first_name + " " + self.last_name
@@ -116,7 +116,7 @@ class Civilian(models.Model):
 
 
 class RiskFactor(models.Model):
-    hcc_no = models.OneToOneField(Civilian, on_delete=models.CASCADE, primary_key=True)
+    hcc_no = models.ForeignKey(Civilian, on_delete=models.CASCADE, primary_key=True)
     location = models.BooleanField("High-Risk Location", default=False)
     occupation = models.BooleanField("High-Risk Occupation (Health Care)", default=False)
     at_risk_age = models.BooleanField("High-Risk Age Bracket (>70)", default=False)
@@ -128,7 +128,7 @@ class RiskFactor(models.Model):
 
 class HealthCondition(models.Model):
     health_condition_id = models.IntegerField(primary_key=True)
-    hcc_no = models.OneToOneField(Civilian, on_delete=models.CASCADE)
+    hcc_no = models.ForeignKey(Civilian, on_delete=models.CASCADE)
     condition = models.CharField(max_length=200)
 
     def __str__(self):
@@ -142,7 +142,7 @@ class Nurse(models.Model):
     age = models.IntegerField()
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
-    site_address = models.OneToOneField(VaccinationSite, on_delete=models.CASCADE)
+    site_address = models.ForeignKey(VaccinationSite, on_delete=models.CASCADE)
 
     def __str__(self):
         return "Nurse HCC: " + str(self.hcc_no) + " - " + self.first_name + " " + self.last_name
@@ -167,7 +167,7 @@ class Appointment(models.Model):
 
 class DoctorCertification(models.Model):
     doctor_certification_id = models.IntegerField(primary_key=True)
-    doctor_hcc_no = models.OneToOneField(Doctor, on_delete=models.CASCADE)
+    doctor_hcc_no = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     certification = models.CharField(max_length=200)
 
     def __str__(self):
@@ -185,8 +185,8 @@ class PpeSupplier(models.Model):
 class Ppe(models.Model):
     ppe_id = models.AutoField(primary_key=True)
     is_disposable = models.BooleanField(default=True)
-    supplier_name = models.OneToOneField(PpeSupplier, on_delete=models.CASCADE, verbose_name='Supplier')
-    nurse_hcc = models.OneToOneField(Nurse, on_delete=models.CASCADE, verbose_name='Assigned Nurse')
+    supplier_name = models.ForeignKey(PpeSupplier, on_delete=models.CASCADE, verbose_name='Supplier')
+    nurse_hcc = models.ForeignKey(Nurse, on_delete=models.CASCADE, verbose_name='Assigned Nurse')
 
     def __str__(self):
         return "PPE ID: " + str(self.ppe_id) + " - Manufactured by: " + str(self.supplier_name) + " - Used by: " + str(self.nurse_hcc)
