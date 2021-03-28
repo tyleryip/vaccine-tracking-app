@@ -7,4 +7,15 @@ VaccineSideEffect,2,2,Bleeding,
 
 Doctor,111111111,4031111111,M,11 Westcove Rd. NW,40,George,Greens,West Calgary Hospital,
 Civilian,785521144,4035528530,M,3640 Poplar St. SW,58,Nick,Logan,111111111,
+
+VaccinationSite,101 Main St. NW,200,Dr. Smith,1234567890,
+
+VaccinationSite,109 Cove Way SE,200,Dr. Smith,1234567890,
+
+Nurse,121212121,4037274511,F,3962 Whitmore Rd. SE,25,Jeanette,French,101 Main St. NW,
+
+Nurse,909090909,4032241265,F,3205 Nixon Rd. SW,36,Aria,Charlton,109 Cove Way SE,
+
+Appointment,1,2021-03-25,1,121212121,785521144,101 Main St. NW,
+
 RiskFactor,785521144,False,True,False,
