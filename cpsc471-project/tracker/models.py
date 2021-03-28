@@ -20,7 +20,7 @@ class Vaccine(models.Model):
         return "DIN: " + str(self.DIN_no) + " - " + self.disease_treated
 
 class VaccineSideEffect(models.Model):
-    vaccine_side_effect_id = models.AutoField("ID", primary_key=True)
+    vaccine_side_effect_id = models.IntegerField("ID", primary_key=True)
     vaccine_DIN_no = models.ForeignKey(Vaccine, on_delete=models.CASCADE, verbose_name='Vaccine')
     side_effect_name = models.CharField("Side Effect", max_length=200)
 
@@ -37,7 +37,7 @@ class VaccinationSite(models.Model):
         return "Address: " + self.address
 
 class StoredAt(models.Model):
-    stored_at_id = models.AutoField(primary_key=True)
+    stored_at_id = models.IntegerField(primary_key=True)
     DIN_no = models.ForeignKey(Vaccine, on_delete=models.CASCADE, verbose_name='Vaccine')
     vaccination_site_address = models.ForeignKey(VaccinationSite, on_delete=models.CASCADE)
     temperature = models.FloatField("Storage Temp (°C)", default=20)
@@ -60,7 +60,7 @@ class DisposalSite(models.Model):
         return "Address: " + self.address
 
 class DisposedAt(models.Model):
-    disposed_at_id = models.AutoField(primary_key=True)
+    disposed_at_id = models.IntegerField(primary_key=True)
     DIN_no = models.ForeignKey(Vaccine, on_delete=models.CASCADE, verbose_name='Vaccine')
     disposal_site_address = models.ForeignKey(DisposalSite, on_delete=models.CASCADE)
     sharp = models.BooleanField(default=True, verbose_name='Sharp Risk')
@@ -155,7 +155,7 @@ class Nurse(models.Model):
     get_fullname.short_description = 'Full Name'
 
 class Appointment(models.Model):
-    appointment_id = models.AutoField(primary_key=True)
+    appointment_id = models.IntegerField(primary_key=True)
     time = models.DateTimeField()
     vaccine_DIN_no = models.OneToOneField(Vaccine, on_delete=models.CASCADE, verbose_name='Vaccine')
     nurse_hcc_no = models.OneToOneField(Nurse, on_delete=models.CASCADE)
@@ -183,7 +183,7 @@ class PpeSupplier(models.Model):
         return "Supplier Name: " + str(self.name) + " - contact info: " + str(self.contact_phone)
 
 class Ppe(models.Model):
-    ppe_id = models.AutoField(primary_key=True)
+    ppe_id = models.IntegerField(primary_key=True)
     is_disposable = models.BooleanField(default=True)
     supplier_name = models.ForeignKey(PpeSupplier, on_delete=models.CASCADE, verbose_name='Supplier')
     nurse_hcc = models.ForeignKey(Nurse, on_delete=models.CASCADE, verbose_name='Assigned Nurse')

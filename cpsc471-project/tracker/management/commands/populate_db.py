@@ -189,9 +189,9 @@ def create_RiskFactor(*args):
 
 def create_HealthCondition(*args):
     try:  
-        civilian_ref = Civilian.objects.get(hcc = args[1])
+        civilian_ref = Civilian.objects.get(hcc_no = args[1])
 
-        model, created = RiskFactor.objects.get_or_create(
+        model, created = HealthCondition.objects.get_or_create(
             health_condition_id = args[0],
             hcc_no = civilian_ref,
             condition = args[2]
@@ -208,9 +208,9 @@ def create_HealthCondition(*args):
 
 def create_Nurse(*args):
     try:  
-        vaccination_site_ref = VaccinationSite.objects.get(hcc_no = args[1])
+        vaccination_site_ref = VaccinationSite.objects.get(address = args[1])
 
-        model, created = RiskFactor.objects.get_or_create(
+        model, created = Nurse.objects.get_or_create(
             hcc_no = args[0],
             phone_no = args[1],
             sex = args[2],
@@ -237,7 +237,7 @@ def create_Appointment(*args):
         civilian_ref = Civilian.objects.get(hcc_no = args[4])
         vaccination_site_ref = VaccinationSite.objects.get(hcc_no = args[5])
 
-        model, created = RiskFactor.objects.get_or_create(
+        model, created = Appointment.objects.get_or_create(
             appointment_id = args[0],
             time = args[1],
             vaccine_DIN_no = vaccine_ref,
@@ -261,7 +261,7 @@ def create_DoctorCertification(*args):
 
         model, created = DoctorCertification.objects.get_or_create(
             doctor_certification_id = args[0],
-            doctor_hcc = doctor_ref,
+            doctor_hcc_no = doctor_ref,
             certification = args[2]
         )
         if(created):
