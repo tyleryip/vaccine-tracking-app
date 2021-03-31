@@ -47,12 +47,6 @@ def civilian_homepage(request, hcc_no):
         return render(request, "tracker/civilian_homepage.html", context)
     except Civilian.DoesNotExist:
         raise Http404("Civilian does not exist")
-    except HealthCondition.DoesNotExist:
-        context = {
-            "my_civilian": my_civilian,
-        }
-        
-        return render(request, "tracker/civilian_homepage.html", context)
 
 # This endpoint will have to handle a GET and POST request
 def new_civilian(request):
