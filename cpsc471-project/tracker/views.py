@@ -1,13 +1,17 @@
 from django.http.response import Http404
 from django.shortcuts import render # Required for the views page to make use of the render() method
+from django.shortcuts import redirect
 from django.views import generic
 from django.views.generic.base import TemplateView
 from django.template import Context, Template
 
 from .models import * # Import all models from the tracker app to use in the views
-
+from .forms import hcc_form
 # Create your views here.
 from django.http import HttpResponse
+
+from django.contrib.auth import login
+
 
 # Main page to pick which user type you are, also display information about the website
 
@@ -16,11 +20,19 @@ def index_view(request):
 
 # Login screen for nurses
 def nurse_login(request):
-    return HttpResponse("This is the login site for the nurse. (You will be able to enter your nurse HCC and press login)")
+    return render(request, 'tracker/civilianlogin.html')
 
 # Login screen for civilian
 def civilian_login(request):
-    return HttpResponse("This is the login site for the civilian. (You will be able to enter your civilian HCC and press login)")
+    if request.method == 'POST':
+        form = hcc_form(request.POST)
+
+        if form.is_valid():
+            return redirect('785521144/')
+    else:
+        form = hcc_form()
+
+    return render(request, 'tracker/civilianlogin.html', {'form':form})
 
 # Civilian Views: #########################################################
 def civilian_homepage(request, hcc_no):
