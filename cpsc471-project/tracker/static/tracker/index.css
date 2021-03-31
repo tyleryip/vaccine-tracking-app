@@ -1,5 +1,32 @@
-a {
+body {
+  background-color: #b3cde0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.content {
   text-align: center;
-  font-size: 100px;
-  color: red;
+}
+
+.title {
+}
+
+.button-div {
+  margin-top: 5vh;
+}
+
+.button {
+  background-color: #6497b1;
+  color: aliceblue;
+  text-decoration: none;
+  font-size: 24px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 10px;
+  margin: 3vw;
+}
+
+.select-user {
+  margin-top: 5vh;
 }
