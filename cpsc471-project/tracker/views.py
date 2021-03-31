@@ -26,9 +26,21 @@ def civilian_login(request):
 def civilian_homepage(request, hcc_no):
     try:
         my_civilian = Civilian.objects.get(hcc_no = hcc_no)
+        my_health_conditions = HealthCondition.objects.filter(hcc_no = hcc_no)
+        context = {
+            "my_civilian": my_civilian,
+            "my_health_conditions": my_health_conditions
+        }
+
+        return render(request, "tracker/civilian_homepage.html", context)
     except Civilian.DoesNotExist:
         raise Http404("Civilian does not exist")
-    return HttpResponse("This is your information %s" % my_civilian)
+    except HealthCondition.DoesNotExist:
+        context = {
+            "my_civilian": my_civilian,
+        }
+        
+        return render(request, "tracker/civilian_homepage.html", context)
 
 # This endpoint will have to handle a GET and POST request
 def new_civilian(request):
