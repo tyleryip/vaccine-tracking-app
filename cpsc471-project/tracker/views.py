@@ -189,21 +189,21 @@ def nurse_homepage(request, hcc_no):
     context_dict = {
         "nurse_obj": my_nurse
     }
-    return render(request, 'tracker/nurseHomepage.html', context_dict)
+    return render(request, 'tracker/nurse_homepage.html', context_dict)
 
 def nurse_appointments(request, hcc_no):
     my_nurse_appointments = Appointment.objects.filter(nurse_hcc_no=hcc_no)
     context_dict = {
         "nurse_obj": my_nurse_appointments
     }
-    return render(request, 'tracker/nurseAppointments.html', context_dict)
+    return render(request, 'tracker/nurse_appointments.html', context_dict)
 
 def nurse_vaccines(request):
     my_vaccines = Vaccine.objects.filter()
     context_dict = {
         "vaccine_obj": my_vaccines
     }
-    return render(request, 'tracker/nurseVaccines.html', context_dict)
+    return render(request, 'tracker/nurse_vaccines.html', context_dict)
 
 def nurse_vaccine_details(request, DIN_no):
     my_vaccine = Vaccine.objects.get(DIN_no=DIN_no)
@@ -216,14 +216,14 @@ def nurse_vaccine_details(request, DIN_no):
         "stored_at_obj": my_stored_at,
         "disposed_at_obj": my_disposed_at
     }
-    return render(request, 'tracker/nurseVaccineDetails.html', context_dict)
+    return render(request, 'tracker/nurse_vaccine_details.html', context_dict)
 
 def nurse_ppe(request, hcc_no):
     my_nurse_ppe = Ppe.objects.filter(nurse_hcc=hcc_no)
     context_dict = {
         "nurse_obj": my_nurse_ppe
     }
-    return render(request, 'tracker/nursePpe.html', context_dict)
+    return render(request, 'tracker/nurse_ppe.html', context_dict)
 
 
 # This endpoint will have to handle a GET and POST request
