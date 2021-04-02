@@ -17,8 +17,10 @@ urlpatterns = [
     # Ex. civilian/1/
     path('civilian/<int:hcc_no>/', views.civilian_homepage, name='civilian_homepage'),
     path('civilian/add/', views.new_civilian, name='new_civilian'),
-    path('civilian/<int:hcc_no>/edit', views.edit_civilian, name='edit_civilian'),
-    path('civilian/<int:hcc_no>/riskfactor', views.civilian_riskfactor, name='civilian_riskfactor'),
+    path('civilian/<int:hcc_no>/edit/', views.edit_civilian, name='edit_civilian'),
+    path('civilian/<int:hcc_no>/riskfactor/', views.civilian_riskfactor, name='civilian_riskfactor'),
+    path('civilian/<int:hcc_no>/appointments/', views.civilian_appointments, name='civilian_appointments'),
+    path('civilian/<int:hcc_no>/doctor/', views.civilian_doctor, name='civilian_doctor'),
 
     # After logging in, nurse will be able to access their homepage
     # Ex. nurse/1/
@@ -30,5 +32,5 @@ urlpatterns = [
     path('nurse/vaccines/<int:DIN_no>', views.nurse_vaccine_details, name='nurse_vaccine_details'),
     path('nurse/<int:hcc_no>/ppe', views.nurse_ppe, name='nurse_ppe'),
     path('nurse/add/', views.new_nurse, name='new_nurse'),
-    path('nurse/<int:hcc_no>/edit', views.edit_nurse, name='edit_nurse'),
+    path('nurse/<int:hcc_no>/edit/', views.edit_nurse, name='edit_nurse'),
 ]
