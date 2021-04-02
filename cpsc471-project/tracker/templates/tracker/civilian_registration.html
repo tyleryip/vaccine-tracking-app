@@ -16,7 +16,7 @@
 <body>
 
     <div> 
-        <h2> Please enter your credentials, Citizen. </h2>
+        <h2 Class = "please-enter"> Please enter your credentials, Citizen. </h2>
     </div>
 
     <!-- Entering Credentials to become a Citizen in the Database. -->
@@ -58,13 +58,15 @@
             <input type="submit" value="Submit">
 
         </form>
-
-        <br/>
-        Already Registered?
-        <a class="button" href="{% url 'tracker:civilian_login' %}"> Login </a>
-
-
     </div>
+        
+        <div Class = "login-section">
+            <br/>
+             Already Registered?
+            <a class="button" href="{% url 'tracker:civilian_login' %}"> Login </a>
+        </div>
+
+    
 
 
 
