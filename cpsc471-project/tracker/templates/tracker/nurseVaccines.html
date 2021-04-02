@@ -1,33 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nurse Vaccines List</title>
     {% load static %}
     <link
       rel="stylesheet"
       type="text/css"
-      href="{% static 'tracker/nurseVaaccines.css' %}"
+      href="{% static 'tracker/nurse_vaccines.css' %}"
     />
-</head>
-<body>
+  </head>
+  <body>
     <p>List of All Available Vaccines</p>
-    <p>{% for vaccine in vaccine_obj %}
-        <li>
-            <a href="{% url 'tracker:nurse_vaccine_details' DIN_no=vaccine.DIN_no %}">DIN_no: {{ vaccine.DIN_no }}</a> 
-            <br>
-            Disease Treated: {{ vaccine.disease_treated}}
-            <br>
-            Recommended Dose: {{ vaccine.recommended_dose}}
-            <br>
-            Expiry Date: {{ vaccine.expiry_date}}
-            <br>
-            Manufacturer Name: {{ vaccine.manufacturer_name}}
-            <br>
-            <br>
-        </li>
-    {% endfor %}
-</body>
+    <p>
+      {% for vaccine in vaccine_obj %}
+      <li>
+        <a
+          href="{% url 'tracker:nurse_vaccine_details' DIN_no=vaccine.DIN_no %}"
+          >DIN_no: {{ vaccine.DIN_no }}</a
+        >
+        <br />
+        Disease Treated: {{ vaccine.disease_treated}}
+        <br />
+        Recommended Dose: {{ vaccine.recommended_dose}}
+        <br />
+        Expiry Date: {{ vaccine.expiry_date}}
+        <br />
+        Manufacturer Name: {{ vaccine.manufacturer_name}}
+        <br />
+        <br />
+      </li>
+      {% endfor %}
+    </p>
+  </body>
 </html>
