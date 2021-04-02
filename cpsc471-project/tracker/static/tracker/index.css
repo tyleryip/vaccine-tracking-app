@@ -25,6 +25,12 @@ body {
   padding-right: 5px;
   border-radius: 10px;
   margin: 3vw;
+  transition-duration: 0.5s;
+}
+
+.button:hover {
+  background-colour: aliceblue;
+  colour: #6497b1;
 }
 
 .select-user {

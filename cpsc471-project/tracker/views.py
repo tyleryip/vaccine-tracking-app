@@ -70,7 +70,7 @@ def civilian_riskfactor(request, hcc_no):
         return render(request, "tracker/civilian_riskfactor.html", context)
     except RiskFactor.DoesNotExist:
         raise Http404("Risk factor does not exist for this civilian")
-    
+
 
 def civilian_appointments(request, hcc_no):
     my_appointments = Appointment.objects.filter(civilian_hcc_no = hcc_no)
@@ -78,6 +78,20 @@ def civilian_appointments(request, hcc_no):
         "my_appointments": my_appointments
     }
     return render(request, "tracker/civilian_appointments.html", context)
+
+def civilian_doctor(request, hcc_no):
+    try:
+        my_civilian = Civilian.objects.get(hcc_no = hcc_no)
+        my_doctor = Doctor.objects.get(hcc_no = my_civilian.doctor_hcc.hcc_no)
+        my_doctor_certifications = DoctorCertification.objects.filter(doctor_hcc_no = my_doctor.hcc_no)
+        context = {
+            "my_doctor": my_doctor,
+            "my_doctor_certifications": my_doctor_certifications,
+        }
+
+        return render(request, "tracker/civilian_doctor.html", context)
+    except (Civilian.DoesNotExist, Doctor.DoesNotExist):
+        raise Http404("Queried objects do not exist")
 
 # Nurse Views: #########################################################
 def nurse_homepage(request, hcc_no):

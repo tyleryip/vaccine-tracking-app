@@ -47,7 +47,11 @@
         href="{% url 'tracker:civilian_riskfactor' hcc_no=my_civilian.hcc_no %}"
         >Risk Factor</a
       >
-      <a class="button">My Doctor</a>
+      <a
+        class="button"
+        href="{% url 'tracker:civilian_doctor' hcc_no=my_civilian.hcc_no %}"
+        >My Doctor</a
+      >
     </div>
   </body>
 </html>

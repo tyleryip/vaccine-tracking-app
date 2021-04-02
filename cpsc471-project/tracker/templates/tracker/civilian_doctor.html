@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Doctor</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'tracker/civilian_doctor.css' %}"
+    />
+  </head>
+  <body>
+    <div>
+      <p class="subheading">Dr. {{my_doctor.get_fullname}}</p>
+      <ul>
+        <li>Phone: {{my_doctor.phone_no}}</li>
+        <li>Address: {{my_doctor.address}}</li>
+        <li>Place of Practice: {{my_doctor.place_of_practice}}</li>
+      </ul>
+    </div>
+    {% if my_doctor_certifications %}
+    <div>
+      <p class="subheading">Certifications</p>
+      <ul>
+        {% for certification in my_doctor_certifications %}
+        <li>{{certification.certification}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+  </body>
+</html>
