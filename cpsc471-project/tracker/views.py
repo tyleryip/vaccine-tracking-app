@@ -12,6 +12,7 @@ from django.http import HttpResponse
 
 from django.contrib.auth import login
 
+import time
 
 # Main page to pick which user type you are, also display information about the website
 
@@ -50,7 +51,29 @@ def civilian_homepage(request, hcc_no):
 
 # This endpoint will have to handle a GET and POST request
 def new_civilian(request):
-    return render(request, "tracker/civilianregistration.html")
+    if request.method == 'POST':
+
+        #future to do: check if they exist in db and return to the registration page. 
+        if (request.POST.get('hcc_no') and request.POST.get('phone_no') and request.POST.get('sex') and
+            request.POST.get('address') and request.POST.get('age') and request.POST.get('first_name') and
+            request.POST.get('last_name') and request.POST.get('doctor_hcc')):
+                saverecord = Civilian()
+                saverecord.hcc_no = int(request.POST.get('hcc_no'))
+                saverecord.phone_no = int(request.POST.get('phone_no')) 
+                saverecord.sex = request.POST.get('sex')
+                saverecord.address = request.POST.get('address')
+                saverecord.age = int(request.POST.get('age'))
+                saverecord.first_name = request.POST.get('first_name')
+                saverecord.first_name = request.POST.get('last_name')
+                saverecord.doctor_hcc = Doctor.objects.get(hcc_no = int (request.POST.get('doctor_hcc')))
+                saverecord.save()
+
+        siteRedirect = '/civilian/' + request.POST.get('hcc_no') + '/'
+        return redirect(siteRedirect)
+
+    else: 
+        return render(request, "tracker/civilian_registration.html")
+
 
 # This endpoint will have to handle a GET and POST request
 def edit_civilian(request, hcc_no):

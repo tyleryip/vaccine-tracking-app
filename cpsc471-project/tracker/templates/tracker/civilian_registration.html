@@ -21,33 +21,26 @@
 
     <!-- Entering Credentials to become a Citizen in the Database. -->
     <div>
-        <form>
-            <label for="civ-hcc">HealthCare Number: </label>
-            <input type="number" id="civ-hcc" name="civ-hcc">
+        <form method = "POST">
+            {% csrf_token %}
+            Health Care Number: <input type="text" id="civ_hcc" name="hcc_no" required autocomplete = off><br/>
+            
+            Phone Number: <input type = "text" id = "phone_no" name = "phone_no" required autocomplete = off><br/>
 
-            <label for = "phone-no">Phone Number</label>
-            <input type = "number" id = "phone-no" name = "phone-no"> 
-
-            <label for = "sex">Biological Sex</label>
-            <select id="sex" name="sex">
+            Biological Sex: <select id="sex" name="sex" required >
                 <option value="M">M</option>
                 <option value="F">F</option>
-            </select>
+            </select><br/>
 
-            <label for = "address">Address</label>
-            <input type = "text" id = "address" name = "address">
+            Address: <input type = "text" id = "address" name = "address" required autocomplete = off><br/>
 
-            <label for = "age">Age</label>
-            <input type = "number" id = "age" name = "age">
+            Age: <input type = "text" id = "age" name = "age" required autocomplete = off><br/>
             
-            <label for = "first-name">First Name</label>
-            <input type = "text" id = "first-name" name = "first-name">
+            First Name: <input type = "text" id = "first_name" name = "first_name" required autocomplete = off><br/>
 
-            <label for = "last-name">Last Name</label>
-            <input type = "text" id = "last-name" name = "last-name">
+            Last Name: <input type = "text" id = "last_name" name = "last_name" required autocomplete = off><br/>
 
-            <label for = "doctor-hcc">Doctor Hcc</label>
-            <input type = "number" id = "doctor-hcc" name = "doctor-hcc">
+            Doctor Health Care Number: <input type = "text" id = "doctor_hcc" name = "doctor_hcc" required autocomplete = off><br/>
 
             <input type="submit" value="Submit">
 
@@ -55,6 +48,7 @@
     </div>
 
 <!-- TODO: add db functionality, link css so it isnt ugly. -->
+<!-- borrowed functionality concepts from: https://www.youtube.com/watch?v=d9fx8qrJyCY&ab_channel=HarithaComputers%26Technology-->
 
 </body>
 </html>
