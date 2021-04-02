@@ -10,36 +10,37 @@
     <link
       rel="stylesheet"
       type="text/css"
-      href="{% static 'tracker/index.css' %}"
+      href="{% static 'tracker/login_page.css' %}"
     />
   </head>
   <body>
-    <div>
+    <div class="header">
         <h2> Please enter your login information, Citizen. </h2>
     </div>
 
     <!-- Enter Login information for the citizen to access their information -->
-    <div>
+    <div class="login">
 
-
-        <h2> Login: </h2>
-        <form method="POST">
+        <form class="box" method="POST">
+          <h2> Login: </h2>
             {% csrf_token %}
             <label for="civ-hcc"> HealthCare Number: </label>
             <input type="number" id="civ-hcc" name="civ-hcc" required>
-            <button type="submit">Login</button>
-            <a href="/civilian/add">Register</a>
+            <button type="submit">Login</button><br/>
         </form>
-        
-    </div>
 
-    {% if messages %}
-    <ul>
-      {% for message in messages %}
-        {{ message }}
-      {% endfor %}
-    </ul>
-    {% endif %}
+        <div class="error">
+          {% if messages %}
+            {% for message in messages %}
+              {{ message }}
+            {% endfor %}
+          {% endif %}
+        </div>
+        
+        Don't have an account? 
+        <a class ="reg_but" href="/civilian/add">Register</a>
+
+    </div>
 
   </body>
 </html>
