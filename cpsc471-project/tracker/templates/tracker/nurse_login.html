@@ -1,0 +1,44 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nurse Login</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'tracker/index.css' %}"
+    />
+  </head>
+  <body>
+    <div>
+        <h2> Please enter your login information, Nurse. </h2>
+    </div>
+
+    <!-- Enter Login information for the citizen to access their information -->
+    <div>
+
+
+        <h2> Login: </h2>
+        <form method="POST">
+            {% csrf_token %}
+            <label for="nurse-hcc"> HealthCare Number: </label>
+            <input type="number" id="nurse-hcc" name="nurse-hcc" required>
+            <button type="submit">Login</button>
+        </form>
+        
+    </div>
+
+    {% if messages %}
+    <ul>
+      {% for message in messages %}
+        {{ message }}
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+  </body>
+</html>

@@ -11,6 +11,7 @@ from .forms import hcc_form
 from django.http import HttpResponse
 
 from django.contrib.auth import login
+from django.contrib import messages
 
 
 # Main page to pick which user type you are, also display information about the website
@@ -20,19 +21,52 @@ def index_view(request):
 
 # Login screen for nurses
 def nurse_login(request):
-    return render(request, 'tracker/civilianlogin.html')
+    error = False
+    if request.method == 'POST':
+        form = hcc_form(request.POST)
+        if form.is_valid():
+            hcc_no = int(request.POST.get('nurse-hcc'))
+            print('Number in form is: ' + str(hcc_no))
+
+            #Now that we got the information, find the corresponding
+            try:
+                my_nurse = Nurse.objects.get(hcc_no = hcc_no)
+            except Nurse.DoesNotExist:
+                #if Nurse does not exist, then return error screen but let them login
+                error = True
+                messages.error(request, "Specified HealthCare Number does not exist! Please Register or Login with a valid HealthCare Number.")
+            if error == False:
+                return redirect(str(hcc_no)+'/')
+
+    else:
+        form = hcc_form()
+
+    return render(request, 'tracker/nurse_login.html')
 
 # Login screen for civilian
 def civilian_login(request):
+    error = False
     if request.method == 'POST':
         form = hcc_form(request.POST)
 
         if form.is_valid():
-            return redirect('785521144/')
+            hcc_no = int(request.POST.get('civ-hcc'))
+            print('Number in form is: ' + str(hcc_no))
+
+            #Now that we got the information, find the corresponding
+            try:
+                my_civilian = Civilian.objects.get(hcc_no = hcc_no)
+            except Civilian.DoesNotExist:
+                #if civilian does not exist, then return error screen but let them login
+                error = True
+                messages.error(request, "Specified HealthCare Number does not exist! Please Register or Login with a valid HealthCare Number.")
+            if error == False:
+                return redirect(str(hcc_no)+'/')
+
     else:
         form = hcc_form()
 
-    return render(request, 'tracker/civilianlogin.html', {'form':form})
+    return render(request, 'tracker/civilian_login.html')
 
 # Civilian Views: #########################################################
 def civilian_homepage(request, hcc_no):
