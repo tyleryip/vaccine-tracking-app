@@ -98,12 +98,12 @@ def new_civilian(request):
                 saverecord.address = request.POST.get('address')
                 saverecord.age = int(request.POST.get('age'))
                 saverecord.first_name = request.POST.get('first_name')
-                saverecord.first_name = request.POST.get('last_name')
+                saverecord.last_name = request.POST.get('last_name')
                 saverecord.doctor_hcc = Doctor.objects.get(hcc_no = int (request.POST.get('doctor_hcc')))
                 saverecord.save()
 
                 saverecord2 = RiskFactor()
-                saverecord2.hcc_no = int(request.POST.get('hcc_no'))
+                saverecord2.hcc_no = Civilian.objects.get(hcc_no = int(request.POST.get('hcc_no')))
                 if(request.POST.get('location') == 'Yes'): 
                     saverecord2.location = True
                 else:
@@ -114,9 +114,10 @@ def new_civilian(request):
                 else:
                     saverecord2.occupation = False
 
-                if(request.POST.get('age') >=70):
+                if(int (request.POST.get('age')) >=70):
                     saverecord2.at_risk_age = True
 
+                saverecord2.save()
 
 
         siteRedirect = '/civilian/' + request.POST.get('hcc_no') + '/'
@@ -162,7 +163,7 @@ def nurse_homepage(request, hcc_no):
 # GET - display the fields that the user needs to fill it
 # POST - upon button click, validate the fields and save the new item to the database
 def new_nurse(request):
-    return render(request, "tracker/nurseregistration.html")
+    return render(request, "tracker/nurse_registration.html")
 
 # This endpoint will have to handle a GET and POST request
 # GET - get the current values of the nurse and display in editable fields
