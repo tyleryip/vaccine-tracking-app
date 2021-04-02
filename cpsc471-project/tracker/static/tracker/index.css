@@ -15,8 +15,6 @@ body {
 }
 
 .form {
-
-  
 }
 
 .button {
@@ -34,8 +32,10 @@ body {
 }
 
 .button:hover {
-  background-colour: aliceblue;
-  colour: #6497b1;
+  background-color: aliceblue;
+  color: #6497b1;
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
 
 .select-user {
