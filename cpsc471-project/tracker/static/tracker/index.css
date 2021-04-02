@@ -34,8 +34,8 @@ body {
 }
 
 .button:hover {
-  background-colour: aliceblue;
-  colour: #6497b1;
+  background-color: aliceblue;
+  color: #6497b1;
 }
 
 .select-user {
