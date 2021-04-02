@@ -68,12 +68,37 @@ def new_civilian(request):
                 saverecord.doctor_hcc = Doctor.objects.get(hcc_no = int (request.POST.get('doctor_hcc')))
                 saverecord.save()
 
+                saverecord2 = RiskFactor()
+                saverecord2.hcc_no = int(request.POST.get('hcc_no'))
+                if(request.POST.get('location') == 'Yes'): 
+                    saverecord2.location = True
+                else:
+                    saverecord2.location = False
+
+                if(request.POST.get('occupation') == 'Yes'): 
+                    saverecord2.occupation = True
+                else:
+                    saverecord2.occupation = False
+
+                if(request.POST.get('age') >=70):
+                    saverecord2.at_risk_age = True
+
+
+
         siteRedirect = '/civilian/' + request.POST.get('hcc_no') + '/'
         return redirect(siteRedirect)
 
     else: 
         return render(request, "tracker/civilian_registration.html")
 
+
+
+def newCivilianIntError():
+    errorMSG = "Please enter valid INTEGER values into Health Care Number, Phone Number, and Doctor HealthCare Number."
+    #send this back to the civilian registration screen 
+
+def civilianAlreadyExists():
+    newErrorMSG = "Error, your information already exists in the database. Please login." 
 
 # This endpoint will have to handle a GET and POST request
 def edit_civilian(request, hcc_no):

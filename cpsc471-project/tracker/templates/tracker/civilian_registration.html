@@ -9,7 +9,7 @@
     <link
       rel="stylesheet"
       type="text/css"
-      href="{% static 'tracker/registercivilian.css' %}"
+      href="{% static 'tracker/register_civilian.css' %}"
     />
 
 </head>
@@ -42,13 +42,37 @@
 
             Doctor Health Care Number: <input type = "text" id = "doctor_hcc" name = "doctor_hcc" required autocomplete = off><br/>
 
+            <p><strong>A few questions about you: </strong></p>
+
+            Do you live in a high risk area? (Seniors home, hospices, etc.) <select id="location" name="location" required >
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br/>
+
+            Do you work in a high risk industry? (Healthcare, service industry, etc.) <select id="occupation" name="occupation" required >
+                <option value="No">No</option>
+                <option value="Yes">F</option>
+            </select><br/>
+
+            <br/>
             <input type="submit" value="Submit">
 
         </form>
+
+        <br/>
+        Already Registered?
+        <a class="button" href="{% url 'tracker:civilian_login' %}"> Login </a>
+
+
     </div>
 
-<!-- TODO: add db functionality, link css so it isnt ugly. -->
+
+
+<!-- TODO: Link css so it isnt ugly. -->
 <!-- borrowed functionality concepts from: https://www.youtube.com/watch?v=d9fx8qrJyCY&ab_channel=HarithaComputers%26Technology-->
+<!-- create an anchor that links back to the login site. -->
+
+
 
 </body>
 </html>
