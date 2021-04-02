@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nurse Appointments</title>
+    {% load static %}
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'tracker/nurseAppointments.css' %}"
+    />
+</head>
+<body>
+    <h2 class = "header">List of All Appointments</h2>
+    <p>{% for appointment in nurse_obj %}
+        <li>
+            Appointment_id: {{ appointment.appointment_id }}
+            <br>
+            {{ appointment.vaccine_DIN_no}}
+            <br>
+            {{ appointment.nurse_hcc_no}}
+            <br>
+            {{ appointment.civilian_hcc_no}}
+            <br>
+            {{ appointment.vaccination_site_address}}
+            <br>
+            <br>
+        </li>
+    {% endfor %}
+    </p>
+</body>
+</html>

@@ -23,6 +23,12 @@ urlpatterns = [
     # After logging in, nurse will be able to access their homepage
     # Ex. nurse/1/
     path('nurse/<int:hcc_no>/', views.nurse_homepage, name='nurse_homepage'),
+    path('nurse/<int:hcc_no>/appointments', views.nurse_appointments, name='nurse_appointments'),
+    #path('nurse/<int:hcc_no>/vaccines', views.nurse_vaccines, name='nurse_vaccines'),
+    #path('nurse/<int:hcc_no>/vaccines/<int:DIN_no>', views.nurse_vaccine_details, name='nurse_vaccine_details'),
+    path('nurse/vaccines', views.nurse_vaccines, name='nurse_vaccines'),
+    path('nurse/vaccines/<int:DIN_no>', views.nurse_vaccine_details, name='nurse_vaccine_details'),
+    path('nurse/<int:hcc_no>/ppe', views.nurse_ppe, name='nurse_ppe'),
     path('nurse/add/', views.new_nurse, name='new_nurse'),
     path('nurse/<int:hcc_no>/edit', views.edit_nurse, name='edit_nurse'),
 ]

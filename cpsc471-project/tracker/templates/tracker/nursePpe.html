@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nurse PPE</title>
+    {% load static %}
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'tracker/nursePpe.css' %}"
+    />
+</head>
+<body>
+    <h2 class = "header">List of My PPE</h2>
+    <p>{% for ppe in nurse_obj %}
+        <li>
+            ppe_id: {{ ppe.ppe_id }}
+            <br>
+            {{ ppe.is_disposable}}
+            <br>
+            {{ ppe.supplier_name}}
+            <br>
+            {{ ppe.nurse_hcc}}
+            <br>
+            <br>
+        </li>
+    {% endfor %}
+</body>
+</html>
