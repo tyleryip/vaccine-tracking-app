@@ -13,8 +13,56 @@
     />
 </head>
 <body>
-    <p>Vaccine Details</p>
-    <a href="{% url 'tracker:civilian_login' %}">Civilian</a> 
-    <a href="{% url 'tracker:nurse_login' %}">Nurse</a>    
+    <p>
+        Vaccine Details:
+        <br>
+        <br>
+        DIN_no: {{ vaccine_obj.DIN_no }}
+        <br>
+        Disease Treated: {{ vaccine_obj.disease_treated}}
+        <br>
+        Recommended Dose: {{ vaccine_obj.recommended_dose}}
+        <br>
+        Expiry Date: {{ vaccine_obj.expiry_date}}
+        <br>
+        Manufacturer Name: {{ vaccine_obj.manufacturer_name}}
+        <br>
+        <br>
+        <br>
+        Possible Vaccine Side Effect(s):
+        {% for side_effect in vaccine_side_effect_obj %}
+        <li>
+            {{ side_effect.side_effect_name }}
+        </li>
+        {% endfor %}
+        <br>
+        <br>
+        Vaccine Storage Facility Information:
+        {% for stored_at in stored_at_obj %}
+        <br>
+        <br>
+        {{ stored_at.vaccination_site_address }}
+        <br>
+        Temperature (°C): {{ stored_at.temperature }}
+        <br>
+        Humidity (%): {{ stored_at.humidity }}
+        <br>
+        Light Level (Lumens): {{ stored_at.lighting }}
+        <br>
+        {% endfor %}
+        <br>
+        <br>
+        Vaccine Disposal Site Information:
+        <br>
+        {% for disposed_at in disposed_at_obj %}
+        <br>
+        {{ disposed_at.disposal_site_address }}
+        <br>
+        Sharp Object: {{ disposed_at.sharp }}
+        <br>
+        Biohazard Leakage: {{ disposed_at.biohazard_leakage }}
+        {% endfor %}
+        <br>
+    </p> 
 </body>
 </html>

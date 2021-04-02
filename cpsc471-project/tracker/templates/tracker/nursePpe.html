@@ -13,7 +13,19 @@
     />
 </head>
 <body>
-    <p>List of PPE for Nurse</p>
-   <!-- <a href="{% url 'tracker:nurse_ppe' %}">Nurse</a> -->
+    <h2 class = "header">List of My PPE</h2>
+    <p>{% for ppe in nurse_obj %}
+        <li>
+            ppe_id: {{ ppe.ppe_id }}
+            <br>
+            {{ ppe.is_disposable}}
+            <br>
+            {{ ppe.supplier_name}}
+            <br>
+            {{ ppe.nurse_hcc}}
+            <br>
+            <br>
+        </li>
+    {% endfor %}
 </body>
 </html>

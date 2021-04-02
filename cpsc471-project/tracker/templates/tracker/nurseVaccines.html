@@ -14,7 +14,20 @@
 </head>
 <body>
     <p>List of All Available Vaccines</p>
-    <a href="{% url 'tracker:civilian_login' %}">Civilian</a> 
-    <a href="{% url 'tracker:nurse_login' %}">Nurse</a>  
+    <p>{% for vaccine in vaccine_obj %}
+        <li>
+            <a href="{% url 'tracker:nurse_vaccine_details' DIN_no=vaccine.DIN_no %}">DIN_no: {{ vaccine.DIN_no }}</a> 
+            <br>
+            Disease Treated: {{ vaccine.disease_treated}}
+            <br>
+            Recommended Dose: {{ vaccine.recommended_dose}}
+            <br>
+            Expiry Date: {{ vaccine.expiry_date}}
+            <br>
+            Manufacturer Name: {{ vaccine.manufacturer_name}}
+            <br>
+            <br>
+        </li>
+    {% endfor %}
 </body>
 </html>

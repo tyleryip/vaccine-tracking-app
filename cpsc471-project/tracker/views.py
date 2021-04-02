@@ -51,12 +51,54 @@ def civilian_riskfactor(request, hcc_no):
 
 
 # Nurse Views: #########################################################
+#def nurse_homepage(request, hcc_no):
+#    try:
+#        my_nurse = Nurse.objects.get(hcc_no = hcc_no)
+#    except Nurse.DoesNotExist:
+#        raise Http404("Nurse does not exist")
+#    return HttpResponse("This is your information %s" % my_nurse)
+
 def nurse_homepage(request, hcc_no):
-    try:
-        my_nurse = Nurse.objects.get(hcc_no = hcc_no)
-    except Nurse.DoesNotExist:
-        raise Http404("Nurse does not exist")
-    return HttpResponse("This is your information %s" % my_nurse)
+    my_nurse = Nurse.objects.get(hcc_no=hcc_no)
+    context_dict = {
+        "nurse_obj": my_nurse
+    }
+    return render(request, 'tracker/nurseHomepage.html', context_dict)
+
+def nurse_appointments(request, hcc_no):
+    my_nurse_appointments = Appointment.objects.filter(nurse_hcc_no=hcc_no)
+    context_dict = {
+        "nurse_obj": my_nurse_appointments
+    }
+    return render(request, 'tracker/nurseAppointments.html', context_dict)
+
+def nurse_vaccines(request):
+    my_vaccines = Vaccine.objects.filter()
+    context_dict = {
+        "vaccine_obj": my_vaccines
+    }
+    return render(request, 'tracker/nurseVaccines.html', context_dict)
+
+def nurse_vaccine_details(request, DIN_no):
+    my_vaccine = Vaccine.objects.get(DIN_no=DIN_no)
+    my_vaccine_details = VaccineSideEffect.objects.filter(vaccine_DIN_no=DIN_no)
+    my_stored_at = StoredAt.objects.filter(DIN_no=DIN_no)
+    my_disposed_at = DisposedAt.objects.filter(DIN_no=DIN_no)
+    context_dict = {
+        "vaccine_obj": my_vaccine,
+        "vaccine_side_effect_obj": my_vaccine_details,
+        "stored_at_obj": my_stored_at,
+        "disposed_at_obj": my_disposed_at
+    }
+    return render(request, 'tracker/nurseVaccineDetails.html', context_dict)
+
+def nurse_ppe(request, hcc_no):
+    my_nurse_ppe = Ppe.objects.filter(nurse_hcc=hcc_no)
+    context_dict = {
+        "nurse_obj": my_nurse_ppe
+    }
+    return render(request, 'tracker/nursePpe.html', context_dict)
+
 
 # This endpoint will have to handle a GET and POST request
 # GET - display the fields that the user needs to fill it
