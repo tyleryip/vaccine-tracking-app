@@ -29,8 +29,9 @@
       </form>
 
       <div class="error">
-        {% if messages %} {% for message in messages %} {{ message }} {% endfor
-        %} {% endif %}
+        {% if messages %}
+        <div>{% for message in messages %} {{ message }} {% endfor %}</div>
+        {% endif %}
       </div>
 
       Don't have an account?
