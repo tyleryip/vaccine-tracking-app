@@ -44,7 +44,25 @@ def civilian_homepage(request, hcc_no):
 
 # This endpoint will have to handle a GET and POST request
 def new_civilian(request):
-    return render(request, "tracker/civilianregistration.html")
+    if request.method == 'POST':
+        if (request.POST.get('hcc_no') and request.POST.get('phone_no') and request.POST.get('sex') and
+            request.POST.get('address') and request.POST.get('age') and request.POST.get('first_name') and
+            request.POST.get('last_name') and request.POST.get('doctor_hcc')):
+                saverecord = Civilian()
+                saverecord.hcc_no = request.POST.get('hcc_no')
+                saverecord.phone_no = request.POST.get('phone_no') 
+                saverecord.sex = request.POST.get('sex')
+                saverecord.address = request.POST.get('address')
+                saverecord.age = request.POST.get('age')
+                saverecord.first_name = request.POST.get('first_name')
+                saverecord.first_name = request.POST.get('last_name')
+                saverecord.doctor_hcc = request.POST.get('doctor_hcc')
+                saverecord.save()
+        return render(request, 'index.html') ##placeholder - if succeessful will redirect to home.
+
+    else: 
+        return render(request, "tracker/civilianregistration.html")
+
 
 # This endpoint will have to handle a GET and POST request
 def edit_civilian(request, hcc_no):
