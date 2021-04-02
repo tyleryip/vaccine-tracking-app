@@ -163,7 +163,30 @@ def nurse_homepage(request, hcc_no):
 # GET - display the fields that the user needs to fill it
 # POST - upon button click, validate the fields and save the new item to the database
 def new_nurse(request):
-    return render(request, "tracker/nurse_registration.html")
+    if request.method == 'POST':
+
+        #future to do: check if they exist in db and return to the registration page. 
+        if (request.POST.get('hcc_no') and request.POST.get('phone_no') and request.POST.get('sex') and
+            request.POST.get('address') and request.POST.get('age') and request.POST.get('first_name') and
+            request.POST.get('last_name') and request.POST.get('site_address')):
+                saverecord = Nurse()
+                saverecord.hcc_no = int(request.POST.get('hcc_no'))
+                saverecord.phone_no = int(request.POST.get('phone_no')) 
+                saverecord.sex = request.POST.get('sex')
+                saverecord.address = request.POST.get('address')
+                saverecord.age = int(request.POST.get('age'))
+                saverecord.first_name = request.POST.get('first_name')
+                saverecord.last_name = request.POST.get('last_name')
+                saverecord.site_address = VaccinationSite.objects.get(address = request.POST.get('site_address'))
+                
+                
+                saverecord.save()
+
+        siteRedirect = '/nurse/' + request.POST.get('hcc_no') + '/'
+        return redirect(siteRedirect)
+
+    else: 
+        return render(request, "tracker/nurse_registration.html")
 
 # This endpoint will have to handle a GET and POST request
 # GET - get the current values of the nurse and display in editable fields
