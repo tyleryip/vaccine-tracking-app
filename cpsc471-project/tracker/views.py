@@ -63,10 +63,21 @@ def edit_civilian(request, hcc_no):
 def civilian_riskfactor(request, hcc_no):
     try:
         my_riskfactor = RiskFactor.objects.get(hcc_no = hcc_no)
+        context = {
+            "my_riskfactor": my_riskfactor,
+        }
+
+        return render(request, "tracker/civilian_riskfactor.html", context)
     except RiskFactor.DoesNotExist:
         raise Http404("Risk factor does not exist for this civilian")
-    return HttpResponse("This will let you view the risk factor: %s" % my_riskfactor)
+    
 
+def civilian_appointments(request, hcc_no):
+    my_appointments = Appointment.objects.filter(civilian_hcc_no = hcc_no)
+    context = {
+        "my_appointments": my_appointments
+    }
+    return render(request, "tracker/civilian_appointments.html", context)
 
 # Nurse Views: #########################################################
 def nurse_homepage(request, hcc_no):

@@ -121,7 +121,26 @@ class RiskFactor(models.Model):
     occupation = models.BooleanField("High-Risk Occupation (Health Care)", default=False)
     at_risk_age = models.BooleanField("High-Risk Age Bracket (>70)", default=False)
 
-    # TODO: Write a function to give a risk factor score
+    # Return the risk factor for this civilian based on health conditions and 
+    def calculate_riskfactor_score(self):
+        conditions = HealthCondition.objects.filter(hcc_no = self.hcc_no)
+        score = 0
+        # Geometric increase for each additional condition
+        for i, condition in enumerate(conditions):
+            score += (5 * i)
+
+        score += (self.occupation * 1000) + (self.location * 25) + (self.at_risk_age * 75)
+        return score
+
+    def get_score(self):
+        score = self.calculate_riskfactor_score()
+
+        if score > 100:
+            return"high"
+        elif score > 50:
+            return "medium"
+        else: 
+            return "low"
 
     def __str__(self):
         return "HCC: " + str(self.hcc_no)

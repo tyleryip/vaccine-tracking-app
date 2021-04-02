@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Risk Factor</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'tracker/civilian_riskfactor.css' %}"
+    />
+  </head>
+  <body>
+    <div>
+      <p class="subheading">My Risk Factor Assessment</p>
+      {% if my_riskfactor %}
+      <span> According to your survey answers, your risk is: </span>
+      <span> {{my_riskfactor.get_score}} </span>
+      <p class="riskfactor-information">
+        Risk factor assessment is generated based on the details you provide to
+        the system upon registration. Our risk factor equation takes your
+        location, occupation, age, and any health conditions you may have and
+        calculates a score. This score is used to determine your vaccination
+        priority.
+      </p>
+      {% endif %}
+    </div>
+  </body>
+</html>
