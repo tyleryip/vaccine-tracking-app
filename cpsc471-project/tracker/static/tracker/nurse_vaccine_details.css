@@ -1,7 +1,61 @@
 a {
-    text-align: center;
+  text-align: center;
 }
 body {
-    background-color: #b3cde0;
-    font-family: Arial, Helvetica, sans-serif;
+  background-color: #b3cde0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+  font-size: 24px;
+}
+
+.subheading {
+  font-size: 16px;
+  margin-left: 2vh;
+}
+
+.basics {
+  background-color: aliceblue;
+  padding: 15px;
+  border-radius: 15px;
+  margin-left: 3vh;
+  margin-right: 3vh;
+}
+
+.basics p {
+  margin: 0;
+}
+
+.side-effects {
+  background-color: aliceblue;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  border-radius: 15px;
+  margin-left: 3vh;
+  margin-right: 3vh;
+}
+
+.storage-facility-info p {
+  margin: 0;
+}
+
+.storage-facility-info {
+  background-color: aliceblue;
+  padding: 15px;
+  border-radius: 15px;
+  margin-left: 3vh;
+  margin-right: 3vh;
+}
+
+.disposal-site-info p {
+  margin: 0;
+}
+
+.disposal-site-info {
+  background-color: aliceblue;
+  padding: 15px;
+  border-radius: 15px;
+  margin-left: 3vh;
+  margin-right: 3vh;
 }

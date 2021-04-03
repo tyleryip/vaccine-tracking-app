@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nurse Vaccine Details</title>
     {% load static %}
     <link
@@ -11,58 +11,51 @@
       type="text/css"
       href="{% static 'tracker/nurse_vaccine_details.css' %}"
     />
-</head>
-<body>
-    <p>
-        Vaccine Details:
-        <br>
-        <br>
-        DIN_no: {{ vaccine_obj.DIN_no }}
-        <br>
-        Disease Treated: {{ vaccine_obj.disease_treated}}
-        <br>
-        Recommended Dose: {{ vaccine_obj.recommended_dose}}
-        <br>
-        Expiry Date: {{ vaccine_obj.expiry_date}}
-        <br>
-        Manufacturer Name: {{ vaccine_obj.manufacturer_name}}
-        <br>
-        <br>
-        <br>
-        Possible Vaccine Side Effect(s):
-        {% for side_effect in vaccine_side_effect_obj %}
-        <li>
-            {{ side_effect.side_effect_name }}
-        </li>
-        {% endfor %}
-        <br>
-        <br>
-        Vaccine Storage Facility Information:
-        {% for stored_at in stored_at_obj %}
-        <br>
-        <br>
-        {{ stored_at.vaccination_site_address }}
-        <br>
-        Temperature (°C): {{ stored_at.temperature }}
-        <br>
-        Humidity (%): {{ stored_at.humidity }}
-        <br>
-        Light Level (Lumens): {{ stored_at.lighting }}
-        <br>
-        {% endfor %}
-        <br>
-        <br>
-        Vaccine Disposal Site Information:
-        <br>
-        {% for disposed_at in disposed_at_obj %}
-        <br>
-        {{ disposed_at.disposal_site_address }}
-        <br>
-        Sharp Object: {{ disposed_at.sharp }}
-        <br>
-        Biohazard Leakage: {{ disposed_at.biohazard_leakage }}
-        {% endfor %}
-        <br>
-    </p> 
-</body>
+  </head>
+  <body>
+    <div>
+      <p class="header">Vaccine Details:</p>
+      <p class="subheading">Basics:</p>
+      <div class="basics">
+        <p>DIN_no: {{ vaccine_obj.DIN_no }}</p>
+        <p>Disease Treated: {{ vaccine_obj.disease_treated}}</p>
+        <p>Recommended Dose: {{ vaccine_obj.recommended_dose}}</p>
+        <p>Expiry Date: {{ vaccine_obj.expiry_date}}</p>
+        <p>Manufacturer Name: {{ vaccine_obj.manufacturer_name}}</p>
+      </div>
+      <p class="subheading">Possible Vaccine Side Effect(s):</p>
+      <div class="side-effects">
+        {% if vaccine_side_effect_obj %}
+        <ul>
+          {% for side_effect in vaccine_side_effect_obj %}
+          <li>{{ side_effect.side_effect_name }}</li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p>No known side effects</p>
+        {% endif %}
+      </div>
+      <p class="subheading">Vaccine Storage Facility Information:</p>
+      <div class="storage-facility-info">
+        {% if stored_at_obj %} {% for stored_at in stored_at_obj %}
+        <p>{{ stored_at.vaccination_site_address }}</p>
+        <p>Temperature (°C): {{ stored_at.temperature }}</p>
+        <p>Humidity (%): {{ stored_at.humidity }}</p>
+        <p>Light Level (Lumens): {{ stored_at.lighting }}</p>
+        {% endfor %} {% else %}
+        <p>No storage information available.</p>
+        {% endif %}
+      </div>
+      <p class="subheading">Vaccine Disposal Site Information:</p>
+      <div class="disposal-site-info">
+        {% if disposed_at_obj %} {% for disposed_at in disposed_at_obj %}
+        <p>{{ disposed_at.disposal_site_address }}</p>
+        <p>Sharp Object: {{ disposed_at.sharp }}</p>
+        <p>Biohazard Leakage: {{ disposed_at.biohazard_leakage }}</p>
+        {% endfor %} {% else %}
+        <p>No disposal information available.</p>
+        {% endif %}
+      </div>
+    </div>
+  </body>
 </html>
