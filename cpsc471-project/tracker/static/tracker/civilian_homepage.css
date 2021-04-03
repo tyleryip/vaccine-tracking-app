@@ -4,7 +4,29 @@ body {
 }
 
 .subheading {
-  font-size: 24px;
+  font-size: 20px;
+}
+.information {
+  border-radius: 15px;
+  background-color: aliceblue;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  padding: 15px;
+}
+
+.information p {
+  margin: 0;
+}
+
+.health-conditions {
+  border-radius: 15px;
+  background-color: aliceblue;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .buttons {
@@ -23,4 +45,11 @@ body {
   padding-right: 5px;
   border-radius: 10px;
   margin: 3vw;
+}
+
+.button:hover {
+  background-color: aliceblue;
+  color: #6497b1;
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }

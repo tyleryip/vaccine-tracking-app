@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nurse PPE</title>
     {% load static %}
     <link
@@ -11,21 +11,23 @@
       type="text/css"
       href="{% static 'tracker/nurse_ppe.css' %}"
     />
-</head>
-<body>
-    <h2 class = "header">List of My PPE</h2>
-    <p>{% for ppe in nurse_obj %}
-        <li>
-            ppe_id: {{ ppe.ppe_id }}
-            <br>
-            {{ ppe.is_disposable}}
-            <br>
-            {{ ppe.supplier_name}}
-            <br>
-            {{ ppe.nurse_hcc}}
-            <br>
-            <br>
-        </li>
-    {% endfor %}
-</body>
+  </head>
+  <body>
+    <h2 class="header">List of My PPE</h2>
+    <div>
+      {% for ppe in nurse_obj %}
+      <div class="ppe">
+        <img
+          class="face-mask"
+          src="{% static 'tracker/graphics/face-mask.svg' %}"
+          alt="face-mask"
+        />
+        <p>PPE ID: {{ppe.ppe_id}}</p>
+        <p>Disposable: {{ppe.is_disposable}}</p>
+        <p>{{ppe.supplier_name}}</p>
+        <p>{{ppe.nurse_hcc}}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </body>
 </html>

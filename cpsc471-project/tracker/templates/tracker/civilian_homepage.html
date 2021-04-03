@@ -14,25 +14,25 @@
     />
   </head>
   <body>
+    <h2 class="header">My Information</h2>
     <div class="information">
-      <p class="subheading">My Information</p>
-      <ul>
-        <li>Name: {{my_civilian.get_fullname}}</li>
-        <li>Age: {{my_civilian.age}}</li>
-        <li>Sex: {{my_civilian.sex}}</li>
-        <li>Address: {{my_civilian.address}}</li>
-        <li>Phone Number: {{my_civilian.phone_no}}</li>
-        <li>Family Doctor: Dr. {{my_civilian.doctor_hcc.get_fullname}}</li>
-      </ul>
+      <p>Name: {{my_civilian.get_fullname}}</p>
+      <p>Age: {{my_civilian.age}}</p>
+      <p>Sex: {{my_civilian.sex}}</p>
+      <p>Address: {{my_civilian.address}}</p>
+      <p>Phone Number: {{my_civilian.phone_no}}</p>
+      <p>Family Doctor: Dr. {{my_civilian.doctor_hcc.get_fullname}}</p>
     </div>
+    <p class="subheading">Health Conditions</p>
     <div class="health-conditions">
       {% if my_health_conditions %}
-      <p class="subheading">Health Conditions</p>
       <ul>
         {% for condition in my_health_conditions %}
         <li>{{condition.condition}}</li>
         {% endfor %}
       </ul>
+      {% else %}
+      <p>No health conditions on file.</p>
       {% endif %}
     </div>
     <div class="buttons">

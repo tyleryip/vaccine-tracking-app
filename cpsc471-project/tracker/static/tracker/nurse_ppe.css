@@ -1,7 +1,25 @@
-a {
-    text-align: center;
-}
 body {
-    background-color: #b3cde0;
-    font-family: Arial, Helvetica, sans-serif;
+  background-color: #b3cde0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.ppe {
+  border-radius: 15px;
+  background-color: aliceblue;
+  margin-top: 2vh;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  padding: 15px;
+}
+
+.ppe p {
+  margin: 0;
+}
+
+.face-mask {
+  width: 100%;
+  height: auto;
+  display: block;
+  float: right;
+  max-width: 70px;
 }

@@ -13,12 +13,12 @@
     />
   </head>
   <body>
-    <p class="header">List of All Available Vaccines</p>
+    <h2 class="header">List of All Available Vaccines</h2>
       {% for vaccine in vaccine_obj %}
       <p class="vaccine">
         <img
           class="vaccine-graphic"
-          src="{% static 'tracker/vaccine.svg' %}"
+          src="{% static 'tracker/graphics/vaccine.svg' %}"
           alt="vaccine"
         />
         DIN: {{ vaccine.DIN_no }}

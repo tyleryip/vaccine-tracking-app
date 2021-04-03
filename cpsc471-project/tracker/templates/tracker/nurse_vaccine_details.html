@@ -14,10 +14,10 @@
   </head>
   <body>
     <div>
-      <p class="header">Vaccine Details:</p>
+      <h2 class="header">Vaccine Details:</h2>
       <p class="subheading">Basics:</p>
       <div class="basics">
-        <p>DIN_no: {{ vaccine_obj.DIN_no }}</p>
+        <p>DIN: {{ vaccine_obj.DIN_no }}</p>
         <p>Disease Treated: {{ vaccine_obj.disease_treated}}</p>
         <p>Recommended Dose: {{ vaccine_obj.recommended_dose}}</p>
         <p>Expiry Date: {{ vaccine_obj.expiry_date}}</p>
@@ -50,8 +50,8 @@
       <div class="disposal-site-info">
         {% if disposed_at_obj %} {% for disposed_at in disposed_at_obj %}
         <p>{{ disposed_at.disposal_site_address }}</p>
-        <p>Sharp Object: {{ disposed_at.sharp }}</p>
-        <p>Biohazard Leakage: {{ disposed_at.biohazard_leakage }}</p>
+        <p>Sharp Object Risk: {{ disposed_at.sharp }}</p>
+        <p>Biohazard Leakage Risk: {{ disposed_at.biohazard_leakage }}</p>
         {% endfor %} {% else %}
         <p>No disposal information available.</p>
         {% endif %}

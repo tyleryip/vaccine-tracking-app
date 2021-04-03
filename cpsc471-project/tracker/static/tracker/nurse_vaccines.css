@@ -25,10 +25,11 @@ li {
 }
 
 .vaccine-graphic {
-  width: 10vw;
-  height: 10vh;
+  width: 100%;
+  height: auto;
   float: right;
   display: block;
+  max-width: 150px;
 }
 
 .button {
