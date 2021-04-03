@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nurse Homepage</title>
     {% load static %}
     <link
@@ -11,15 +11,27 @@
       type="text/css"
       href="{% static 'tracker/nurse_homepage.css' %}"
     />
-</head>
-<body>
-    <h2 class = "header"> {{nurse_obj.first_name}} {{nurse_obj.last_name}} (hcc_no: {{nurse_obj.hcc_no}}) - Nurse Homepage </h2>
-    <a class="button" href="{% url 'tracker:nurse_appointments' hcc_no=nurse_obj.hcc_no %}">View All Appointments Today</a>
-    <br>
-    <br>
-    <a class="button" href="{% url 'tracker:nurse_vaccines' %}">View a List of All Available Vaccines</a>
-    <br>
-    <br>
-    <a class="button" href="{% url 'tracker:nurse_ppe' hcc_no=nurse_obj.hcc_no %}">View My PPE</a>
-</body>
+  </head>
+  <body>
+    <h2 class="header">
+      {{nurse_obj.first_name}} {{nurse_obj.last_name}} - Nurse Homepage
+    </h2>
+    <a
+      class="button"
+      href="{% url 'tracker:nurse_appointments' hcc_no=nurse_obj.hcc_no %}"
+      >View All Appointments Today</a
+    >
+    <br />
+    <br />
+    <a class="button" href="{% url 'tracker:nurse_vaccines' %}"
+      >View a List of All Available Vaccines</a
+    >
+    <br />
+    <br />
+    <a
+      class="button"
+      href="{% url 'tracker:nurse_ppe' hcc_no=nurse_obj.hcc_no %}"
+      >View My PPE</a
+    >
+  </body>
 </html>

@@ -13,14 +13,15 @@
     />
   </head>
   <body>
-    <p>List of All Available Vaccines</p>
-    <p>
+    <p class="header">List of All Available Vaccines</p>
       {% for vaccine in vaccine_obj %}
-      <li>
-        <a
-          href="{% url 'tracker:nurse_vaccine_details' DIN_no=vaccine.DIN_no %}"
-          >DIN_no: {{ vaccine.DIN_no }}</a
-        >
+      <p class="vaccine">
+        <img
+          class="vaccine-graphic"
+          src="{% static 'tracker/vaccine.svg' %}"
+          alt="vaccine"
+        />
+        DIN: {{ vaccine.DIN_no }}
         <br />
         Disease Treated: {{ vaccine.disease_treated}}
         <br />
@@ -31,8 +32,13 @@
         Manufacturer Name: {{ vaccine.manufacturer_name}}
         <br />
         <br />
-      </li>
+        <a
+          class="button"
+          href="{% url 'tracker:nurse_vaccine_details' DIN_no=vaccine.DIN_no %}"
+          >More Info</a
+        >
+      </p>
       {% endfor %}
-    </p>
+    </ul>
   </body>
 </html>

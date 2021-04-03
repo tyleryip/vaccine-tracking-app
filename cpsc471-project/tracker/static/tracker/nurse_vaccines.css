@@ -1,7 +1,51 @@
 a {
-    text-align: center;
+  text-align: center;
+  text-decoration: none;
 }
+
 body {
-    background-color: #b3cde0;
-    font-family: Arial, Helvetica, sans-serif;
+  background-color: #b3cde0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+li {
+  list-style-type: none;
+}
+.header {
+  font-size: 24px;
+}
+
+.vaccine {
+  border-radius: 15px;
+  background-color: aliceblue;
+  margin-top: 2vh;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  padding: 15px;
+}
+
+.vaccine-graphic {
+  width: 10vw;
+  height: 10vh;
+  float: right;
+  display: block;
+}
+
+.button {
+  background-color: #6497b1;
+  color: aliceblue;
+  text-decoration: none;
+  font-size: 16px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 10px;
+}
+
+.button:hover {
+  background-color: aliceblue;
+  color: #6497b1;
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
