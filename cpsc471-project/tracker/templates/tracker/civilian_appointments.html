@@ -14,19 +14,29 @@
     />
   </head>
   <body>
-    <p class="subheading">My Appointments</p>
+    <h2 class="heading">My Appointments</h2>
     {% if my_appointments %}
-    <ul>
+    <div class="appointment-info">
       {% for appointment in my_appointments %}
-      <li>
-        {{appointment.time}}
+      <div class="appointment">
+        <img
+          class="appointment-icon"
+          src="{% static 'tracker/graphics/appointment.png' %}"
+          alt="appointment"
+        />
+        <p>Time: {{appointment.time}}</p>
+        <p>Location: {{appointment.vaccination_site_address}}</p>
         <br />
-        {{appointment.vaccination_site_address}}
-      </li>
+        <p>Vaccine: {{appointment.vaccine_DIN_no}}</p>
+        <p>Nurse: {{appointment.nurse_hcc_no.get_fullname}}</p>
+      </div>
       {% endfor %}
-    </ul>
+    </div>
     {% else %}
     <p class="no-appointments">You do not currently have any appointments.</p>
     {% endif %}
+    <div class="buttons">
+      <a class="button" href="">Add Appointment</a>
+    </div>
   </body>
 </html>

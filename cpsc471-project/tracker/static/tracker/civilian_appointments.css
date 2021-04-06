@@ -3,10 +3,55 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.subheading {
+.heading {
   font-size: 24px;
+}
+
+.appointment {
+  background-color: aliceblue;
+  padding: 15px;
+  border-radius: 15px;
+  margin-left: 3vw;
+  margin-right: 3vw;
+  margin-top: 2vh;
+}
+
+.appointment p {
+  margin: 0;
+}
+
+.appointment-icon {
+  width: 100%;
+  height: auto;
+  max-width: 100px;
+  float: right;
+  display: block;
 }
 
 .no-appointments {
   font-style: italic;
+}
+
+.buttons {
+  margin-top: 5vh;
+  margin-left: 3vw;
+}
+
+.button {
+  background-color: #6497b1;
+  color: aliceblue;
+  text-decoration: none;
+  font-size: 16px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 10px;
+}
+
+.button:hover {
+  background-color: aliceblue;
+  color: #6497b1;
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }

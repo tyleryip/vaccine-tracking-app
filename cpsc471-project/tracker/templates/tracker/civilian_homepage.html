@@ -16,6 +16,11 @@
   <body>
     <h2 class="header">My Information</h2>
     <div class="information">
+      <img
+        class="profile-icon"
+        src="{% static 'tracker/graphics/user-profile.svg' %}"
+        alt="profile"
+      />
       <p>Name: {{my_civilian.get_fullname}}</p>
       <p>Age: {{my_civilian.age}}</p>
       <p>Sex: {{my_civilian.sex}}</p>

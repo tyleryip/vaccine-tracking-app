@@ -18,6 +18,14 @@ body {
   margin: 0;
 }
 
+.profile-icon {
+  width: 100%;
+  height: auto;
+  max-width: 100px;
+  float: right;
+  display: block;
+}
+
 .health-conditions {
   border-radius: 15px;
   background-color: aliceblue;

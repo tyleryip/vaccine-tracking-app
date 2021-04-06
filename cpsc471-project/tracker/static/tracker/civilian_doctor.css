@@ -3,6 +3,30 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.subheading {
+.heading {
   font-size: 24px;
+}
+
+.doctor-info {
+  border-radius: 15px;
+  background-color: aliceblue;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  padding: 15px;
+}
+
+.doctor-info p {
+  margin: 0;
+}
+
+.certifications {
+  border-radius: 15px;
+  background-color: aliceblue;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  padding: 15px;
+}
+
+.certification {
+  margin-left: 1vw;
 }

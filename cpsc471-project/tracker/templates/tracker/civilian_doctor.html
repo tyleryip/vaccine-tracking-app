@@ -15,19 +15,19 @@
   </head>
   <body>
     <div>
-      <p class="subheading">Dr. {{my_doctor.get_fullname}}</p>
-      <ul>
-        <li>Phone: {{my_doctor.phone_no}}</li>
-        <li>Address: {{my_doctor.address}}</li>
-        <li>Place of Practice: {{my_doctor.place_of_practice}}</li>
-      </ul>
+      <h2 class="heading">Dr. {{my_doctor.get_fullname}}</h2>
+      <div class="doctor-info">
+        <p>Phone: {{my_doctor.phone_no}}</p>
+        <p>Address: {{my_doctor.address}}</p>
+        <p>Place of Practice: {{my_doctor.place_of_practice}}</p>
+      </div>
     </div>
     {% if my_doctor_certifications %}
     <div>
-      <p class="subheading">Certifications</p>
-      <ul>
+      <h2 class="heading">Certifications</h2>
+      <ul class='certifications'>
         {% for certification in my_doctor_certifications %}
-        <li>{{certification.certification}}</li>
+        <li class='certification'>{{certification.certification}}</li>
         {% endfor %}
       </ul>
     </div>
