@@ -136,7 +136,7 @@ class RiskFactor(models.Model):
         score = self.calculate_riskfactor_score()
 
         if score > 100:
-            return"high"
+            return "high"
         elif score > 50:
             return "medium"
         else: 

@@ -1,19 +1,17 @@
 from django.http.response import Http404
 from django.shortcuts import render # Required for the views page to make use of the render() method
 from django.shortcuts import redirect
-from django.views import generic
-from django.views.generic.base import TemplateView
-from django.template import Context, Template
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie # Used to silence CORS issues with postman
 
 from .models import * # Import all models from the tracker app to use in the views
 from .forms import hcc_form
-# Create your views here.
+
 from django.http import HttpResponse
 
 from django.contrib.auth import login
 from django.contrib import messages
 
-import time
+
 
 # Main page to pick which user type you are, also display information about the website
 
@@ -21,6 +19,7 @@ def index_view(request):
     return render(request, 'tracker/index.html')
 
 # Login screen for nurses
+@ensure_csrf_cookie
 def nurse_login(request):
     error = False
     if request.method == 'POST':
@@ -45,6 +44,7 @@ def nurse_login(request):
     return render(request, 'tracker/nurse_login.html')
 
 # Login screen for civilian
+@ensure_csrf_cookie
 def civilian_login(request):
     error = False
     if request.method == 'POST':
@@ -127,7 +127,6 @@ def new_civilian(request):
         return render(request, "tracker/civilian_registration.html")
 
 
-
 def newCivilianIntError():
     errorMSG = "Please enter valid INTEGER values into Health Care Number, Phone Number, and Doctor HealthCare Number."
     #send this back to the civilian registration screen 
@@ -177,7 +176,7 @@ def civilian_doctor(request, hcc_no):
         raise Http404("Queried objects do not exist")
 
 # Nurse Views: #########################################################
-#def nurse_homepage(request, hcc_no):
+# def nurse_homepage(request, hcc_no):
 #    try:
 #        my_nurse = Nurse.objects.get(hcc_no = hcc_no)
 #    except Nurse.DoesNotExist:
