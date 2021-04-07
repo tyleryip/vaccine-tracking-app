@@ -17,8 +17,10 @@
     <div>
       <h2 class="heading">My Risk Factor Assessment</h2>
       {% if my_riskfactor %}
-      <span> According to your survey answers, your risk is: </span>
-      <span> {{my_riskfactor.get_score}} </span>
+      <div class="risk-factor">
+        <span> According to your survey answers, your risk is: </span>
+        <span class="rating"> {{my_riskfactor.get_score}} </span>
+      </div>
       <p class="riskfactor-information">
         Risk factor assessment is generated based on the details you provide to
         the system upon registration. Our risk factor equation takes your

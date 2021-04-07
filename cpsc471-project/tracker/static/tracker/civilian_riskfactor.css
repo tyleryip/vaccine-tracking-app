@@ -7,6 +7,14 @@ body {
   font-size: 24px;
 }
 
+.risk-factor {
+  text-align: center;
+}
+
+.rating {
+  text-decoration: bold;
+}
+
 .riskfactor-information {
   margin-top: 10vh;
   text-align: center;
