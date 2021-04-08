@@ -47,13 +47,13 @@ class AppointmentAdmin(admin.ModelAdmin):
     list_display = ('civilian_hcc_no', 'time', 'vaccine_DIN_no', 'vaccination_site_address')
 
 class StoredAtAdmin(admin.ModelAdmin):
-    list_display = ('DIN_no', 'vaccination_site_address', 'temperature', 'humidity', 'lighting')
+    list_display = ('stored_at_id', 'DIN_no', 'vaccination_site_address', 'temperature', 'humidity', 'lighting')
 
 class DisposalSiteAdmin(admin.ModelAdmin):
     list_display = ('address', 'name', 'disposal_method')
 
 class DisposedAtAdmin(admin.ModelAdmin):
-    list_display = ('DIN_no', 'disposal_site_address', 'sharp', 'biohazard_leakage')
+    list_display = ('disposed_at_id', 'DIN_no', 'disposal_site_address', 'sharp', 'biohazard_leakage')
 
 class PpeAdmin(admin.ModelAdmin):
     list_display = ('ppe_id', 'is_disposable', 'supplier_name', 'nurse_hcc')
