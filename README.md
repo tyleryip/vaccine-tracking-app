@@ -6,6 +6,8 @@ A vaccine tracking app, designed and implemented for our CPSC 471 - Database Man
 
 Ensure that you have a Django-compatible version of Python installed on your machine. Django 3.0 currently supports Python 3.6, 3.7, 3.8, and 3.9. For more information on Django-Python compatibility, see [Django compatibility](https://docs.djangoproject.com/en/3.1/releases/3.0/)
 
+Use
+
 Use pip to install the required dependencies for this project.
 
 ```bash
@@ -22,7 +24,15 @@ To run the development server, run the following command:
 python manage.py runserver
 ```
 
-Since the database is local to each machine, you will need to create an admin user to be able to access to administration site. To do this, run the following command and follow the prompts to create an admin user:
+You must initialize the database the first time you run the application. To do this, run the following commands:
+
+```bash
+python manage.py makemigrations
+
+python manage.py migrate
+```
+
+Since the database is local to each machine, you will need to create an admin user to be able to access to the administration site. To do this, run the following command and follow the prompts to create an admin user:
 
 ```bash
 python manage.py createsuperuser
@@ -49,7 +59,7 @@ Administrators can:
 - [x] view and edit any entities within the database
 - [x] create additional administrators
 
-Within the user site, we have two user types, civilian users and nurse users.
+Within the user site, we have two user subtypes, civilian users and nurse users.
 
 Civilian users can:
 
