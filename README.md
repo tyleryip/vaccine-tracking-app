@@ -28,7 +28,6 @@ You must initialize the database the first time you run the application. To do t
 
 ```bash
 python manage.py makemigrations
-
 python manage.py migrate
 ```
 
