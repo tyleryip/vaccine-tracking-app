@@ -288,7 +288,6 @@ def new_nurse(request):
                 saverecord.last_name = request.POST.get('last_name')
                 saverecord.site_address = VaccinationSite.objects.get(address = request.POST.get('site_address'))
                 
-                
                 saverecord.save()
 
         siteRedirect = '/nurse/' + request.POST.get('hcc_no') + '/'
@@ -306,3 +305,23 @@ def edit_nurse(request, hcc_no):
     except Nurse.DoesNotExist:
         raise Http404("Nurse does not exist")
     return HttpResponse("This will let you edit this nurse: %s" % my_nurse)
+
+# This endpoint will show all disposal sites in the database
+def nurse_disposal_sites(request):
+    my_disposal_sites = DisposalSite.objects.filter()
+
+    context = {
+        "my_disposal_sites": my_disposal_sites
+    }
+
+    return render(request, "tracker/nurse_disposal_sites.html", context)
+
+# This endpoint will show all vaccination sites in the database
+def nurse_vaccination_sites(request):
+    my_vaccination_sites = VaccinationSite.objects.filter()
+
+    context = {
+        "my_vaccination_sites": my_vaccination_sites
+    }
+    
+    return render(request, "tracker/nurse_vaccination_sites.html", context)

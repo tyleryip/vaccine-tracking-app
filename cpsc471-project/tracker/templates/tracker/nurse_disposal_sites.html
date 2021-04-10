@@ -1,0 +1,33 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nurse Disposal Site List</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'tracker/nurse_disposal_sites.css' %}"
+    />
+  </head>
+  <body>
+    <h2 class="header">Disposal Sites</h2>
+    <div>
+      {% if my_disposal_sites %}
+      <div class="disposal-sites">
+        {% for site in my_disposal_sites %}
+        <div class="disposal-site">
+          <p>{{site.name}}</p>
+          <p>Address: {{site.address}}</p>
+          <p>Disposal Method: {{site.disposal_method}}</p>
+          <p></p>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>
