@@ -11,7 +11,7 @@ from django.http import HttpResponse
 from django.contrib.auth import login
 from django.contrib import messages
 
-
+import sys
 
 # Main page to pick which user type you are, also display information about the website
 
@@ -27,14 +27,23 @@ def nurse_login(request):
         if form.is_valid():
             hcc_no = int(request.POST.get('nurse-hcc'))
             print('Number in form is: ' + str(hcc_no))
+            str_hcc = str(hcc_no)
+            length = len(str_hcc)
 
-            #Now that we got the information, find the corresponding
-            try:
-                my_nurse = Nurse.objects.get(hcc_no = hcc_no)
-            except Nurse.DoesNotExist:
-                #if Nurse does not exist, then return error screen but let them login
+            if length <= 9:
+                #print('yoooo the length of the hcc no is: ' + str(length))
+                try:
+                    my_nurse = Nurse.objects.get(hcc_no = hcc_no)
+                except Nurse.DoesNotExist:
+                #if nurse does not exist, then return error screen but let them login
+                    error = True
+                    messages.error(request, "Specified HealthCare Number does not exist! Please Register or Login with a valid HealthCare Number.")
+            else:
                 error = True
+             #   print('sadge')
                 messages.error(request, "Specified HealthCare Number does not exist! Please Register or Login with a valid HealthCare Number.")
+            #Now that we got the information, find the corresponding
+            
             if error == False:
                 return redirect(str(hcc_no)+'/')
 
@@ -51,16 +60,26 @@ def civilian_login(request):
         form = hcc_form(request.POST)
 
         if form.is_valid():
+
             hcc_no = int(request.POST.get('civ-hcc'))
             print('Number in form is: ' + str(hcc_no))
+            str_hcc = str(hcc_no)
+            length = len(str_hcc)
 
-            #Now that we got the information, find the corresponding
-            try:
-                my_civilian = Civilian.objects.get(hcc_no = hcc_no)
-            except Civilian.DoesNotExist:
+            if length <= 9:
+                #print('yoooo the length of the hcc no is: ' + str(length))
+                try:
+                    my_civilian = Civilian.objects.get(hcc_no = hcc_no)
+                except Civilian.DoesNotExist:
                 #if civilian does not exist, then return error screen but let them login
+                    error = True
+                    messages.error(request, "Specified HealthCare Number does not exist! Please Register or Login with a valid HealthCare Number.")
+            else:
                 error = True
+             #   print('sadge')
                 messages.error(request, "Specified HealthCare Number does not exist! Please Register or Login with a valid HealthCare Number.")
+            #Now that we got the information, find the corresponding
+            
             if error == False:
                 return redirect(str(hcc_no)+'/')
 
@@ -81,7 +100,7 @@ def civilian_homepage(request, hcc_no):
 
         return render(request, "tracker/civilian_homepage.html", context)
     except Civilian.DoesNotExist:
-        raise Http404("Civilian does not exist")
+        return redirect('/civilian/')
 
 # This endpoint will have to handle a GET and POST request
 def new_civilian(request):
@@ -201,10 +220,13 @@ def civilian_doctor(request, hcc_no):
 #    return HttpResponse("This is your information %s" % my_nurse)
 
 def nurse_homepage(request, hcc_no):
-    my_nurse = Nurse.objects.get(hcc_no=hcc_no)
-    context_dict = {
-        "nurse_obj": my_nurse
-    }
+    try:
+        my_nurse = Nurse.objects.get(hcc_no=hcc_no)
+        context_dict = {
+            "nurse_obj": my_nurse
+        }
+    except:
+        return redirect('/nurse/')
     return render(request, 'tracker/nurse_homepage.html', context_dict)
 
 def nurse_appointments(request, hcc_no):
