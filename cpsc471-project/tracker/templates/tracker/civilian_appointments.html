@@ -36,7 +36,7 @@
     <p class="no-appointments">You do not currently have any appointments.</p>
     {% endif %}
     <div class="buttons">
-      <a class="button" href="">Add Appointment</a> 
+      <a class="button" href="{% url 'tracker:add_appointment' hcc_no=my_civilian.hcc_no %}">Add Appointment</a> 
     </div>
   </body>
 </html>

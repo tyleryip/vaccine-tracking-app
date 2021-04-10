@@ -219,6 +219,39 @@ def civilian_appointments(request, hcc_no):
     }
     return render(request, "tracker/civilian_appointments.html", context)
 
+
+
+def book_appointment(request, hcc_no):
+
+    my_civilian = Civilian(hcc_no = hcc_no)
+
+
+
+
+    if request.method == 'POST':
+        if (request.POST.get('manufacturer_name') and
+            request.POST.get('site_address') and request.POST.get('date')):
+        
+            my_appointment = Appointment()
+            my_appointment.appointment_id = random.randint(0,10000)
+            my_appointment.civilian_hcc_no = Civilian.objects.get(hcc_no = hcc_no)
+            my_appointment.vaccine_DIN_no = Vaccine.objects.get(manufacturer_name = request.POST.get('manufacturer_name')) ##here 
+            my_appointment.vaccination_site_address = VaccinationSite.objects.get(address = request.POST.get('site_address'))
+            
+            my_appointment.time = request.POST.get('date')
+            #need to add a nurse to the appointment, figure out how to assign vaccine DIN NO to this.  
+
+
+
+            siteRedirect = '/civilian/' + str(my_civilian.hcc_no) + '/'
+            return redirect(siteRedirect)
+
+    else: 
+        return render(request, "tracker/add_appointment.html")
+
+
+
+
 def civilian_doctor(request, hcc_no):
     try:
         my_civilian = Civilian.objects.get(hcc_no = hcc_no)
@@ -290,6 +323,12 @@ def nurse_ppe(request, hcc_no):
 # GET - display the fields that the user needs to fill it
 # POST - upon button click, validate the fields and save the new item to the database
 def new_nurse(request):
+
+    context_dict = {
+        "vaccine_Sites": VaccinationSite.objects.all()
+    }
+
+
     if request.method == 'POST':
 
         #future to do: check if they exist in db and return to the registration page. 
@@ -312,7 +351,7 @@ def new_nurse(request):
         return redirect(siteRedirect)
 
     else: 
-        return render(request, "tracker/nurse_registration.html")
+        return render(request, "tracker/nurse_registration.html", context_dict)
 
 # This endpoint will have to handle a GET and POST request
 # GET - get the current values of the nurse and display in editable fields
@@ -343,7 +382,7 @@ def edit_nurse(request, hcc_no):
         return redirect(siteRedirect)
 
     else:    
-        return render(request, "tracker/edit_nurse.html", context_dict)
+        return render(request, "tracker/edit_nurse.html")
 
 
   

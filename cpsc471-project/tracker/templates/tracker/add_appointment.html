@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register as Civilian</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'tracker/register_civilian.css' %}"
+      />
+
+    </head>
+        <body>
+            <div>
+                <h2 class="please-enter">Please fill out the following criteria to book an appointment, {{civilian_obj.get_fullname}} </h2>
+            </div>
+
+            <div>
+                <form method="POST">
+                    {% csrf_token %} 
+                    <!--Note: The below is implemented for the data currently in the db. ideally a loop should dynamically add more data into the list, but this works for demo purposes.-->
+                    Vaccine Preference
+                    <select id="manufacturer_name" name="manufacturer_name" required>
+                        <option value="Pfizer">Pfizer</option>
+                        <option value="Moderna">Moderna</option>
+                        <option value="AstraZeneca">AstraZeneca</option>
+                        </select>
+                    <br/>
+
+                   Vaccination Site Address
+                   <select id="site_address" name="site_address" required>
+                    <option value="addr_1">109 Cove Way SE</option>
+                    <option value="addr_2">101 Main St. NW</option>
+                    <option value="addr_3">10 Street St. SW</option>
+                    </select>
+                    <br/>
+
+                    Time
+                    <input 
+                    type="date" 
+                    id="appointment_date" 
+                    name="appointment_date" 
+                    placeholder="YYYY-MM-DD"
+                    min = '' 
+                    max = >
+                    <br/>
+                    
+                    <input type="submit" value="Submit" />
+                   
+                </form>
+
+                <br/>
+                <br/>
+
+            </div>
+            
+
+
+        </body>
+</html>
