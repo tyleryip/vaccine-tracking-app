@@ -15,7 +15,7 @@
     <body>
 
         <div>
-            <h2 class="please-enter">Please make your changes, {{civilian_obj.get_fullname}} </h2>
+            <h2 class="please-enter">Please make your changes, {{nurse_obj.get_fullname}} </h2>
         </div>
 
         <div>
@@ -28,7 +28,7 @@
                 id="phone_no"
                 name="phone_no"
                 required
-                value = "{{civilian_obj.phone_no}}" 
+                value = "{{nurse_obj.phone_no}}" 
                 autocomplete="off"
               /><br />
       
@@ -38,7 +38,7 @@
                 id="address"
                 name="address"
                 required
-                value = "{{civilian_obj.address}}" 
+                value = "{{nurse_obj.address}}" 
                 autocomplete="off"
               /><br />
       
@@ -48,7 +48,7 @@
                 id="age"
                 name="age"
                 required
-                value = "{{civilian_obj.age}}" 
+                value = "{{nurse_obj.age}}" 
                 autocomplete="off"
               /><br />
       
@@ -58,7 +58,7 @@
                 id="first_name"
                 name="first_name"
                 required
-                value = "{{civilian_obj.first_name}}" 
+                value = "{{nurse_obj.first_name}}" 
                 autocomplete="off"
               /><br />
       
@@ -68,19 +68,18 @@
                 id="last_name"
                 name="last_name"
                 required
-                value = "{{civilian_obj.last_name}}" 
+                value = "{{nurse_obj.last_name}}" 
                 autocomplete="off"
               /><br />
       
-              Doctor Health Care Number:
+              Site Address: 
               <input
-                type="text"
-                id="doctor_hcc"
-                name="doctor_hcc"
-                required
-                value = "{{doctor_obj.hcc_no}}" 
-                autocomplete="off"
-              /><br/>
+               type = "text" 
+               id = "site_address" 
+               name = "site_address" 
+               value = "{{site_obj.address}}" 
+               required autocomplete = "off"
+               /><br/>
 
               <input type="submit" value="Submit" />
 

@@ -303,11 +303,35 @@ def new_nurse(request):
 # GET - get the current values of the nurse and display in editable fields
 # POST - upon button click, validate fields and update if correct
 def edit_nurse(request, hcc_no):
-    try:
-        my_nurse = Nurse.objects.get(hcc_no = hcc_no)
-    except Nurse.DoesNotExist:
-        raise Http404("Nurse does not exist")
-    return HttpResponse("This will let you edit this nurse: %s" % my_nurse)
+    my_nurse = Nurse.objects.get(hcc_no = hcc_no)
+    my_site = VaccinationSite.objects.get(address = my_nurse.site_address.address)
+
+    context_dict = {
+        "nurse_obj": my_nurse,
+        "site_obj": my_site
+    }
+
+    if request.method == 'POST':
+        if (request.POST.get('phone_no') and
+            request.POST.get('address') and request.POST.get('age') and request.POST.get('first_name') and
+            request.POST.get('last_name') and request.POST.get('site_address')):
+
+            my_nurse.phone_no = int(request.POST.get('phone_no')) 
+            my_nurse.address = request.POST.get('address')
+            my_nurse.age = int(request.POST.get('age'))
+            my_nurse.first_name = request.POST.get('first_name')
+            my_nurse.last_name = request.POST.get('last_name')
+            my_nurse.site_address = VaccinationSite.objects.get(address = request.POST.get('site_address'))
+            my_nurse.save()     
+
+        siteRedirect = '/nurse/' + str(my_nurse.hcc_no) + '/'
+        return redirect(siteRedirect)
+
+    else:    
+        return render(request, "tracker/edit_nurse.html", context_dict)
+
+
+  
 
 # This endpoint will show all disposal sites in the database
 def nurse_disposal_sites(request):

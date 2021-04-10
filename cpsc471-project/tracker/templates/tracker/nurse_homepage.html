@@ -43,5 +43,14 @@
     <a class="button" href="{% url 'tracker:nurse_disposal_sites' %}">
       Disposal Site Information
     </a>
+    
+    <br />
+    <br />
+    <a
+      class="button"
+      href="{% url 'tracker:edit_nurse' hcc_no=nurse_obj.hcc_no %}"
+      >Edit My Info</a
+    >
+
   </body>
 </html>
