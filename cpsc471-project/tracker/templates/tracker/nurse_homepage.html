@@ -19,19 +19,29 @@
     <a
       class="button"
       href="{% url 'tracker:nurse_appointments' hcc_no=nurse_obj.hcc_no %}"
-      >View All Appointments Today</a
-    >
-    <br />
-    <br />
-    <a class="button" href="{% url 'tracker:nurse_vaccines' %}"
-      >View a List of All Available Vaccines</a
+      >My Appointments</a
     >
     <br />
     <br />
     <a
       class="button"
       href="{% url 'tracker:nurse_ppe' hcc_no=nurse_obj.hcc_no %}"
-      >View My PPE</a
+      >My PPE</a
     >
+    <br />
+    <br />
+    <a class="button" href="{% url 'tracker:nurse_vaccines' %}"
+      >Vaccine Information</a
+    >
+    <br />
+    <br />
+    <a class="button" href="{% url 'tracker:nurse_vaccination_sites' %}">
+      Vaccination Site Information
+    </a>
+    <br />
+    <br />
+    <a class="button" href="{% url 'tracker:nurse_disposal_sites' %}">
+      Disposal Site Information
+    </a>
   </body>
 </html>

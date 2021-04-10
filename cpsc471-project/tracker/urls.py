@@ -30,6 +30,10 @@ urlpatterns = [
     #path('nurse/<int:hcc_no>/vaccines/<int:DIN_no>', views.nurse_vaccine_details, name='nurse_vaccine_details'),
     path('nurse/vaccines', views.nurse_vaccines, name='nurse_vaccines'),
     path('nurse/vaccines/<int:DIN_no>', views.nurse_vaccine_details, name='nurse_vaccine_details'),
+
+    path('nurse/disposal_sites/', views.nurse_disposal_sites, name='nurse_disposal_sites'),
+    path('nurse/vaccination_sites/', views.nurse_vaccination_sites, name='nurse_vaccination_sites'),
+
     path('nurse/<int:hcc_no>/ppe', views.nurse_ppe, name='nurse_ppe'),
     path('nurse/add/', views.new_nurse, name='new_nurse'),
     path('nurse/<int:hcc_no>/edit/', views.edit_nurse, name='edit_nurse'),

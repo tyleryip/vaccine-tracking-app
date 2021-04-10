@@ -1,0 +1,33 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nurse Vaccination Sites List</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'tracker/nurse_vaccination_sites.css' %}"
+    />
+  </head>
+  <body>
+    <h2 class="header">Vaccination Sites</h2>
+    <div>
+      {% if my_vaccination_sites %}
+      <div class="vaccination-sites">
+        {% for site in my_vaccination_sites %}
+        <div class="vaccination-site">
+          <p>{{site.address}}</p>
+          <p>Site Capacity: {{site.capacity}}</p>
+          <p>Primary Contact: {{site.contact_name}}</p>
+          <p>Primary Contact Phone Number: {{site.contact_phone_no}}</p>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>
