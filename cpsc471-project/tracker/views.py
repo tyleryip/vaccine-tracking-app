@@ -158,12 +158,15 @@ def edit_civilian(request, hcc_no):
     
     my_civilian = Civilian.objects.get(hcc_no = hcc_no)
 
+    my_doctor = Doctor.objects.get(hcc_no = my_civilian.doctor_hcc.hcc_no)
+
     context_dict = {
-        "civilian_obj": my_civilian
+        "civilian_obj": my_civilian,
+        "doctor_obj": my_doctor
     }
 
     if request.method == 'POST':
-        if (request.POST.get('phone_no') and request.POST.get('sex') and
+        if (request.POST.get('phone_no') and
             request.POST.get('address') and request.POST.get('age') and request.POST.get('first_name') and
             request.POST.get('last_name') and request.POST.get('doctor_hcc')):
 
@@ -175,7 +178,7 @@ def edit_civilian(request, hcc_no):
             my_civilian.doctor_hcc = Doctor.objects.get(hcc_no = int (request.POST.get('doctor_hcc')))
             my_civilian.save()     
 
-        siteRedirect = '/civilian/' + request.POST.get('hcc_no') + '/'
+        siteRedirect = '/civilian/' + str(my_civilian.hcc_no) + '/'
         return redirect(siteRedirect)
 
     else:    
