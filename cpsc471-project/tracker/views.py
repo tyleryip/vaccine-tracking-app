@@ -12,6 +12,7 @@ from django.contrib.auth import login
 from django.contrib import messages
 
 import sys
+import random
 
 # Main page to pick which user type you are, also display information about the website
 
@@ -110,7 +111,7 @@ def new_civilian(request):
         if (request.POST.get('hcc_no') and request.POST.get('phone_no') and request.POST.get('sex') and
             request.POST.get('address') and request.POST.get('age') and request.POST.get('first_name') and
             request.POST.get('last_name') and request.POST.get('doctor_hcc')):
-                saveRecord = Civilian()
+                saverecord = Civilian()
                 saverecord.hcc_no = int(request.POST.get('hcc_no'))
                 saverecord.phone_no = int(request.POST.get('phone_no')) 
                 saverecord.sex = request.POST.get('sex')
@@ -137,6 +138,20 @@ def new_civilian(request):
                     saverecord2.at_risk_age = True
 
                 saverecord2.save()
+
+                if(request.POST.get('health_condition1')):
+                    saverecord3 = HealthCondition()
+                    saverecord3.hcc_no = Civilian.objects.get(hcc_no = int(request.POST.get('hcc_no')))
+                    saverecord3.condition = request.POST.get('health_condition1')
+                    saverecord3.health_condition_id = random.randint(0,10000) #placeholder for now, since I am unsure if the key is automatically generated. 
+                    saverecord3.save()
+
+                if(request.POST.get('health_condition2')):
+                    saverecord4 = HealthCondition()
+                    saverecord4.hcc_no = Civilian.objects.get(hcc_no = int(request.POST.get('hcc_no')))
+                    saverecord4.condition = request.POST.get('health_condition2')
+                    saverecord4.health_condition_id = random.randint(0,10000) #placeholder for now, since I am unsure if the key is automatically generated. 
+                    saverecord4.save()
 
 
         siteRedirect = '/civilian/' + request.POST.get('hcc_no') + '/'
