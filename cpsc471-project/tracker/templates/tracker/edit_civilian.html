@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register as Civilian</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'tracker/register_civilian.css' %}"
+    />
+
+    <body>
+
+        <div>
+            <h2 class="please-enter">Please make your changes, {{civilian_obj.get_fullname}} </h2>
+        </div>
+
+        <div>
+            <form method="POST"> 
+              {% csrf_token %} 
+
+              Phone Number:
+              <input
+                type="text"
+                id="phone_no"
+                name="phone_no"
+                required
+                placeholder = "{{civilian_obj.phone_no}}" 
+                autocomplete="off"
+              /><br />
+      
+              Address:
+              <input
+                type="text"
+                id="address"
+                name="address"
+                required
+                placeholder = "{{civilian_obj.address}}" 
+                autocomplete="off"
+              /><br />
+      
+              Age:
+              <input
+                type="text"
+                id="age"
+                name="age"
+                required
+                placeholder = "{{civilian_obj.age}}" 
+                autocomplete="off"
+              /><br />
+      
+              First Name:
+              <input
+                type="text"
+                id="first_name"
+                name="first_name"
+                required
+                placeholder = "{{civilian_obj.first_name}}" 
+                autocomplete="off"
+              /><br />
+      
+              Last Name:
+              <input
+                type="text"
+                id="last_name"
+                name="last_name"
+                required
+                placeholder = "{{civilian_obj.lastname}}" 
+                autocomplete="off"
+              /><br />
+      
+              Doctor Health Care Number:
+              <input
+                type="text"
+                id="doctor_hcc"
+                name="doctor_hcc"
+                required
+                placeholder = "{{civilian_obj.doctor_hcc}}" 
+                autocomplete="off"
+              /><br/>
+
+              <input type="submit" value="Submit" />
+
+            </form>
+
+    </body>
+
+</html> 
+

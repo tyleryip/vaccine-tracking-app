@@ -110,7 +110,7 @@ def new_civilian(request):
         if (request.POST.get('hcc_no') and request.POST.get('phone_no') and request.POST.get('sex') and
             request.POST.get('address') and request.POST.get('age') and request.POST.get('first_name') and
             request.POST.get('last_name') and request.POST.get('doctor_hcc')):
-                saverecord = Civilian()
+                saveRecord = Civilian()
                 saverecord.hcc_no = int(request.POST.get('hcc_no'))
                 saverecord.phone_no = int(request.POST.get('phone_no')) 
                 saverecord.sex = request.POST.get('sex')
@@ -155,11 +155,28 @@ def civilianAlreadyExists():
 
 # This endpoint will have to handle a GET and POST request
 def edit_civilian(request, hcc_no):
-    try:
-        my_civilian = Civilian.objects.get(hcc_no = hcc_no)
-    except Civilian.DoesNotExist:
-        raise Http404("Civilian does not exist")
-    return HttpResponse("This will let you edit this civilian: %s" % my_civilian)
+    
+    my_civilian = Civilian.objects.get(hcc_no = hcc_no)
+
+    if request.method == 'POST':
+        if (request.POST.get('phone_no') and request.POST.get('sex') and
+            request.POST.get('address') and request.POST.get('age') and request.POST.get('first_name') and
+            request.POST.get('last_name') and request.POST.get('doctor_hcc')):
+
+            my_civilian.phone_no = int(request.POST.get('phone_no')) 
+            my_civilian.address = request.POST.get('address')
+            my_civilian.age = int(request.POST.get('age'))
+            my_civilian.first_name = request.POST.get('first_name')
+            my_civilian.last_name = request.POST.get('last_name')
+            my_civilian.doctor_hcc = Doctor.objects.get(hcc_no = int (request.POST.get('doctor_hcc')))
+            my_civilian.save()     
+
+        siteRedirect = '/civilian/' + request.POST.get('hcc_no') + '/'
+        return redirect(siteRedirect)
+
+    else:    
+        return render(request, "tracker/edit_civilian.html")
+    
 
 def civilian_riskfactor(request, hcc_no):
     try:

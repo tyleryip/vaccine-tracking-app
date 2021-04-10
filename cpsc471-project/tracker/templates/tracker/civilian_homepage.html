@@ -41,7 +41,9 @@
       {% endif %}
     </div>
     <div class="buttons">
-      <a class="button">Edit Information</a>
+      <a class="button"
+      href="{% url 'tracker:edit_civilian' hcc_no=my_civilian.hcc_no %}"
+      >Edit Information</a>
       <a
         class="button"
         href="{% url 'tracker:civilian_appointments' hcc_no=my_civilian.hcc_no %}"
