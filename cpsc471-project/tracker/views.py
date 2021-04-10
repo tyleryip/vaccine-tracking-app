@@ -158,6 +158,10 @@ def edit_civilian(request, hcc_no):
     
     my_civilian = Civilian.objects.get(hcc_no = hcc_no)
 
+    context_dict = {
+        "civilian_obj": my_civilian
+    }
+
     if request.method == 'POST':
         if (request.POST.get('phone_no') and request.POST.get('sex') and
             request.POST.get('address') and request.POST.get('age') and request.POST.get('first_name') and
@@ -175,7 +179,7 @@ def edit_civilian(request, hcc_no):
         return redirect(siteRedirect)
 
     else:    
-        return render(request, "tracker/edit_civilian.html")
+        return render(request, "tracker/edit_civilian.html", context_dict)
     
 
 def civilian_riskfactor(request, hcc_no):
