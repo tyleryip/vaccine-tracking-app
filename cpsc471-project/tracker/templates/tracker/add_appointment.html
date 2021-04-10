@@ -32,10 +32,13 @@
 
                    Vaccination Site Address
                    <select id="site_address" name="site_address" required>
-                    <option value="addr_1">109 Cove Way SE</option>
-                    <option value="addr_2">101 Main St. NW</option>
-                    <option value="addr_3">10 Street St. SW</option>
-                    </select>
+                    
+                   {% for data in vaccine_Sites %} 
+                   
+                   <option value="{{data.address}}">{{data.address}}</option>
+       
+                   {{appointment.vaccine_DIN_no}}
+                   {% endfor %}
                     <br/>
 
                     Time

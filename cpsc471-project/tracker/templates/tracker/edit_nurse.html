@@ -73,13 +73,17 @@
               /><br />
       
               Site Address: 
-              <input
-               type = "text" 
-               id = "site_address" 
-               name = "site_address" 
-               value = "{{site_obj.address}}" 
-               required autocomplete = "off"
-               /><br/>
+              <select id="site_address" name="site_address" required>
+               
+              {% for data in vaccine_Sites %} 
+              
+              <option value="{{data.address}}">{{data.address}}</option>
+  
+              {{appointment.vaccine_DIN_no}}
+              {% endfor %}
+  
+               </select>
+               <br/>
 
               <input type="submit" value="Submit" />
 

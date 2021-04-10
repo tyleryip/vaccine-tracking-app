@@ -362,7 +362,7 @@ def edit_nurse(request, hcc_no):
 
     context_dict = {
         "nurse_obj": my_nurse,
-        "site_obj": my_site
+        "vaccine_Sites": VaccinationSite.objects.all()
     }
 
     if request.method == 'POST':
@@ -382,7 +382,7 @@ def edit_nurse(request, hcc_no):
         return redirect(siteRedirect)
 
     else:    
-        return render(request, "tracker/edit_nurse.html")
+        return render(request, "tracker/edit_nurse.html", context_dict)
 
 
   
