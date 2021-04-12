@@ -157,8 +157,7 @@ class SQLFormatter(logging.Formatter):
             sql = pygments.highlight(
                 sql,
                 SqlLexer(),
-                #TerminalTrueColorFormatter(style='monokai')
-                TerminalTrueColorFormatter()
+                TerminalTrueColorFormatter(style='monokai')
             )
 
         # Set the records statement to the formatted query
