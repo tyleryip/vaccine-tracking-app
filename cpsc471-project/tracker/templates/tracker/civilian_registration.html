@@ -18,7 +18,7 @@
     </div>
 
     <!-- Entering Credentials to become a Citizen in the Database. -->
-    <div>
+    <div class="reg_form">
       <form method="POST">
         {% csrf_token %} Health Care Number:
         <input
@@ -80,14 +80,22 @@
           autocomplete="off"
         /><br />
 
-        Doctor Health Care Number:
-        <input
-          type="text"
-          id="doctor_hcc"
-          name="doctor_hcc"
-          required
-          autocomplete="off"
-        /><br />
+        Doctor Name: 
+        <select id="doctor_hcc" name="doctor_hcc" required>
+          {% for data in doctor_obj %}
+          <option value="{{data.hcc_no}}">{{data.first_name }} {{data.last_name}}</option>
+          {% endfor %}
+        </select>
+        <br />
+
+
+        <div class="error">
+          {% if messages %} 
+          {% for message in messages %} 
+          {{ message }} 
+          {% endfor%} 
+          {% endif %}
+        </div>
 
         <p><strong>A few questions about you: </strong></p>
 
