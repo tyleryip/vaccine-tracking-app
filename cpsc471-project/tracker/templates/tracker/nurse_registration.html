@@ -1,80 +1,108 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register as Nurse</title>
     <link
       rel="stylesheet"
       type="text/css"
       href="{% static 'tracker/register_civilian.css' %}"
     />
-
-</head>
-<body>
-
-    <div> 
-        <h2 Class = "please-enter"> Please enter your credentials, Nurse. </h2>
+  </head>
+  <body>
+    <div>
+      <h2 class="please-enter">Please enter your credentials, Nurse.</h2>
     </div>
 
     <!-- Entering Credentials to become a Citizen in the Database. -->
     <div>
-        <form method = "POST">
-            {% csrf_token %}
-            Health Care Number: <input type="text" id="civ_hcc" name="hcc_no" required autocomplete = off><br/>
-            
-            Phone Number: <input type = "text" id = "phone_no" name = "phone_no" required autocomplete = off><br/>
+      <form method="POST">
+        {% csrf_token %} Health Care Number:
+        <input
+          type="text"
+          id="civ_hcc"
+          name="hcc_no"
+          required
+          autocomplete="off"
+        /><br />
 
-            Biological Sex: <select id="sex" name="sex" required >
-                <option value="M">M</option>
-                <option value="F">F</option>
-            </select><br/>
+        Phone Number:
+        <input
+          type="text"
+          id="phone_no"
+          name="phone_no"
+          required
+          autocomplete="off"
+        /><br />
 
-            Address: <input type = "text" id = "address" name = "address" required autocomplete = off><br/>
+        Biological Sex:
+        <select id="sex" name="sex" required>
+          <option value="M">M</option>
+          <option value="F">F</option></select
+        ><br />
 
-            Age: <input type = "text" id = "age" name = "age" required autocomplete = off><br/>
-            
-            First Name: <input type = "text" id = "first_name" name = "first_name" required autocomplete = off><br/>
+        Address:
+        <input
+          type="text"
+          id="address"
+          name="address"
+          required
+          autocomplete="off"
+        /><br />
 
-            Last Name: <input type = "text" id = "last_name" name = "last_name" required autocomplete = off><br/>
+        Age:
+        <input
+          type="text"
+          id="age"
+          name="age"
+          required
+          autocomplete="off"
+        /><br />
 
-            Site Address: 
-            <select id="site_address" name="site_address" required>
-             
-            {% for data in vaccine_Sites %} 
-            
-            <option value="{{data.address}}">{{data.address}}</option>
+        First Name:
+        <input
+          type="text"
+          id="first_name"
+          name="first_name"
+          required
+          autocomplete="off"
+        /><br />
 
-            {{appointment.vaccine_DIN_no}}
-            {% endfor %}
+        Last Name:
+        <input
+          type="text"
+          id="last_name"
+          name="last_name"
+          required
+          autocomplete="off"
+        /><br />
 
-             </select>
-             <br/>
+        Site Address:
+        <select id="site_address" name="site_address" required>
+          {% for data in vaccine_Sites %}
 
-            <br/>
-            <input type="submit" value="Submit">
+          <option value="{{data.address}}">{{data.address}}</option>
 
-        </form>
+          {{appointment.vaccine_DIN_no}} {% endfor %}
+        </select>
+        <br />
+
+        <br />
+        <input type="submit" value="Submit" />
+      </form>
     </div>
-        
-        <div Class = "login-section">
-            <br/>
-             Already Registered?
-            <a class="button" href="{% url 'tracker:nurse_login' %}"> Login </a>
-        </div>
 
-    
+    <div class="login-section">
+      <br />
+      Already Registered?
+      <a class="button" href="{% url 'tracker:nurse_login' %}"> Login </a>
+    </div>
 
-
-
-<!-- TODO: Link css so it isnt ugly. -->
-<!-- borrowed functionality concepts from: https://www.youtube.com/watch?v=d9fx8qrJyCY&ab_channel=HarithaComputers%26Technology-->
-<!-- create an anchor that links back to the login site. -->
-
-
-
-</body>
+    <!-- TODO: Link css so it isnt ugly. -->
+    <!-- borrowed functionality concepts from: https://www.youtube.com/watch?v=d9fx8qrJyCY&ab_channel=HarithaComputers%26Technology-->
+    <!-- create an anchor that links back to the login site. -->
+  </body>
 </html>
-

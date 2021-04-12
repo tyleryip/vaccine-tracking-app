@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-      
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,51 +12,49 @@
       type="text/css"
       href="{% static 'tracker/register_civilian.css' %}"
     />
-    </head>
+  </head>
 
-    <body>
-        <div>
-            <h2 class="please-enter">Please fill out the following criteria to book an appointment, {{civilian_obj.get_fullname}} </h2>
-        </div>
+  <body>
+    <div>
+      <h2 class="please-enter">
+        Please fill out the following criteria to book an appointment,
+        {{civilian_obj.get_fullname}}
+      </h2>
+    </div>
 
-        <div>
-            <form method="POST">
-                {% csrf_token %} 
-                   
-                    Vaccine Preference
-                    
-                    <select id="DIN_no" name="DIN_no" required>
-                    {% for data in vaccine_obj %}
-                        <option value="{{data.DIN_no}}">{{data.manufacturer_name}}</option>
-                    {% endfor %}
-                     </select>
-                    <br/>
+    <div>
+      <form method="POST">
+        {% csrf_token %} Vaccine Preference
 
-                   Vaccination Site Address
-                   <select id="site_address" name="site_address" required>
-                    
-                     {% for data in vaccine_Sites %} 
-                    <option value="{{data.address}}">{{data.address}}</option>
-                     {% endfor %}
-                    </select>
-                    <br/>
+        <select id="DIN_no" name="DIN_no" required>
+          {% for data in vaccine_obj %}
+          <option value="{{data.DIN_no}}">{{data.manufacturer_name}}</option>
+          {% endfor %}
+        </select>
+        <br />
 
-                    Time
-                    <input 
-                    type="date"
-                    id="appointment_date" 
-                    name="appointment_date" 
-                    placeholder="YYYY-MM-DD"
-                    min = "{{date_Str}}" >
-                    
-                    <br/>
-                    
-                    <input type="submit" value="Submit" />
-                   
-            </form>
+        Vaccination Site Address
+        <select id="site_address" name="site_address" required>
+          {% for data in vaccine_Sites %}
+          <option value="{{data.address}}">{{data.address}}</option>
+          {% endfor %}
+        </select>
+        <br />
 
-        </div>
+        Time
+        <input
+          type="date"
+          id="appointment_date"
+          name="appointment_date"
+          placeholder="YYYY-MM-DD"
+          min="{{date_Str}}"
+          required
+        />
 
-    </body>
+        <br />
 
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  </body>
 </html>
