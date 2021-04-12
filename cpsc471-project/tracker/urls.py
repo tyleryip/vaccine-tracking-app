@@ -22,6 +22,9 @@ urlpatterns = [
     path('civilian/<int:hcc_no>/appointments/', views.civilian_appointments, name='civilian_appointments'),
     path('civilian/<int:hcc_no>/doctor/', views.civilian_doctor, name='civilian_doctor'),
 
+    #Civilians can add an appointment 
+    path('civilian/<int:hcc_no>/add_appointment/', views.add_appointment, name='add_appointment'),
+
     # After logging in, nurse will be able to access their homepage
     # Ex. nurse/1/
     path('nurse/<int:hcc_no>/', views.nurse_homepage, name='nurse_homepage'),

@@ -14,6 +14,10 @@ from django.contrib import messages
 import sys
 import random
 
+import datetime 
+from datetime import timedelta
+
+
 # Main page to pick which user type you are, also display information about the website
 
 def index_view(request):
@@ -214,42 +218,86 @@ def civilian_riskfactor(request, hcc_no):
 
 def civilian_appointments(request, hcc_no):
     my_appointments = Appointment.objects.filter(civilian_hcc_no = hcc_no)
+    my_civilian = Civilian.objects.get(hcc_no = hcc_no)
+    
     context = {
-        "my_appointments": my_appointments
+        "my_appointments": my_appointments,
+        "my_civilian": my_civilian
     }
     return render(request, "tracker/civilian_appointments.html", context)
 
 
 
-def book_appointment(request, hcc_no):
+def add_appointment(request, hcc_no):
 
-    my_civilian = Civilian(hcc_no = hcc_no)
+    my_civilian = Civilian.objects.get(hcc_no = hcc_no)
 
+    ##if it exists continue
+    my_riskfactor = RiskFactor.objects.get(hcc_no = hcc_no)
+    ##else default risk factor is 'low'
+    
+
+    risk_score = my_riskfactor.get_score()
+
+    datetime_object = datetime.datetime.today()
+
+    three_month = datetime_object + timedelta(days=90) 
+    six_month = datetime_object + timedelta(days=180) 
+
+    if(risk_score == 'medium'):
+        datetime_object = three_month
+        print(datetime_object)
+    if(risk_score == 'low'):
+        datetime_object = six_month
+        print(datetime_object)
+
+
+    dateStr = datetime_object.strftime("%Y-%m-%d")
+    print("Printing the formatted string")
+    print(dateStr)
+
+    context_dict = {
+        "civilian_obj": my_civilian,
+        "vaccine_Sites": VaccinationSite.objects.all(),
+        "vaccine_obj" : Vaccine.objects.all(),
+        "date_Str": dateStr
+    }
 
 
 
     if request.method == 'POST':
-        if (request.POST.get('manufacturer_name') and
-            request.POST.get('site_address') and request.POST.get('date')):
+        if (request.POST.get('DIN_no') and
+            request.POST.get('site_address') and request.POST.get('appointment_date')):
         
+
             my_appointment = Appointment()
+            ##placeholder logic for nurse adding until I can figure out how to handle not null following for loop
+            my_appointment.nurse_hcc_no = Nurse.objects.get(hcc_no = 343434343)
+
             my_appointment.appointment_id = random.randint(0,10000)
             my_appointment.civilian_hcc_no = Civilian.objects.get(hcc_no = hcc_no)
-            my_appointment.vaccine_DIN_no = Vaccine.objects.get(manufacturer_name = request.POST.get('manufacturer_name')) ##here 
+            my_appointment.vaccine_DIN_no = Vaccine.objects.get(DIN_no = request.POST.get('DIN_no')) ##here 
             my_appointment.vaccination_site_address = VaccinationSite.objects.get(address = request.POST.get('site_address'))
             
-            my_appointment.time = request.POST.get('date')
-            #need to add a nurse to the appointment, figure out how to assign vaccine DIN NO to this.  
+            my_appointment.time = request.POST.get('appointment_date')
+            
+            #Later to do - randomly select a nurse in each site rather than the first result in the foor loop
+            nurse_obj = Nurse.objects.all()
 
+            for data in nurse_obj: 
+                
+                if(data.site_address == request.POST.get('site_address')):
+                    my_appointment.nurse_hcc_no = Nurse.objects.get(hcc_no = data.hcc_no)
+            
 
+            my_appointment.save()
+             
 
-            siteRedirect = '/civilian/' + str(my_civilian.hcc_no) + '/'
-            return redirect(siteRedirect)
+        siteRedirect = '/civilian/' + str(my_civilian.hcc_no) + '/'
+        return redirect(siteRedirect)
 
     else: 
-        return render(request, "tracker/add_appointment.html")
-
-
+        return render(request, "tracker/add_appointment.html", context_dict)
 
 
 def civilian_doctor(request, hcc_no):
