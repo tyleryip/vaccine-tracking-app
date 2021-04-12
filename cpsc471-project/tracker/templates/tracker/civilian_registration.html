@@ -18,7 +18,7 @@
     </div>
 
     <!-- Entering Credentials to become a Citizen in the Database. -->
-    <div>
+    <div class="reg_form">
       <form method="POST">
         {% csrf_token %} Health Care Number:
         <input
@@ -88,6 +88,14 @@
           required
           autocomplete="off"
         /><br />
+
+        <div class="error">
+          {% if messages %} 
+          {% for message in messages %} 
+          {{ message }} 
+          {% endfor%} 
+          {% endif %}
+        </div>
 
         <p><strong>A few questions about you: </strong></p>
 

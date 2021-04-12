@@ -108,61 +108,79 @@ def civilian_homepage(request, hcc_no):
         return redirect('/civilian/')
 
 # This endpoint will have to handle a GET and POST request
+@ensure_csrf_cookie
 def new_civilian(request):
+    error = False
     if request.method == 'POST':
-
+    
         #future to do: check if they exist in db and return to the registration page. 
         if (request.POST.get('hcc_no') and request.POST.get('phone_no') and request.POST.get('sex') and
             request.POST.get('address') and request.POST.get('age') and request.POST.get('first_name') and
             request.POST.get('last_name') and request.POST.get('doctor_hcc')):
-                saverecord = Civilian()
-                saverecord.hcc_no = int(request.POST.get('hcc_no'))
-                saverecord.phone_no = int(request.POST.get('phone_no')) 
-                saverecord.sex = request.POST.get('sex')
-                saverecord.address = request.POST.get('address')
-                saverecord.age = int(request.POST.get('age'))
-                saverecord.first_name = request.POST.get('first_name')
-                saverecord.last_name = request.POST.get('last_name')
-                saverecord.doctor_hcc = Doctor.objects.get(hcc_no = int (request.POST.get('doctor_hcc')))
-                saverecord.save()
+                #Check if the civilian already exists, since we don't want to replace existing data
+                try:
+                    my_civie = Civilian.objects.get(hcc_no = int(request.POST.get('hcc_no')))
 
-                saverecord2 = RiskFactor()
-                saverecord2.hcc_no = Civilian.objects.get(hcc_no = int(request.POST.get('hcc_no')))
-                if(request.POST.get('location') == 'Yes'): 
-                    saverecord2.location = True
-                else:
-                    saverecord2.location = False
+                    error = True
+                    messages.error(request, "Account already exists! Please Login with your HealthCard Number.")
+                except Civilian.DoesNotExist:
+                    saverecord = Civilian()
+                    saverecord.hcc_no = int(request.POST.get('hcc_no'))
+                    saverecord.phone_no = int(request.POST.get('phone_no')) 
+                    saverecord.sex = request.POST.get('sex')
+                    saverecord.address = request.POST.get('address')
+                    saverecord.age = int(request.POST.get('age'))
+                    saverecord.first_name = request.POST.get('first_name')
+                    saverecord.last_name = request.POST.get('last_name')
+                    #attempt to find doctor, return error message to webpage if he doesn't exist
+                    saverecord.doctor_hcc = Doctor.objects.get(hcc_no = int (request.POST.get('doctor_hcc')))
+                    str_hcc = str(saverecord.hcc_no)
+                    length = len(str_hcc)
+                    #check for proper length of Hcc_no
+                    if length != 9:
+                        error = True
+                        print('wrong length sadge')
+                        messages.error(request, "Specified Healthcard Number is invalid! Please enter a valid Healthcard Number.")
+                    else:
+                        saverecord.save()
+                        #Risk Factor checks
+                        saverecord2 = RiskFactor()
+                        saverecord2.hcc_no = Civilian.objects.get(hcc_no = int(request.POST.get('hcc_no')))
+                        if(request.POST.get('location') == 'Yes'): 
+                            saverecord2.location = True
+                        else:
+                            saverecord2.location = False
 
-                if(request.POST.get('occupation') == 'Yes'): 
-                    saverecord2.occupation = True
-                else:
-                    saverecord2.occupation = False
+                        if(request.POST.get('occupation') == 'Yes'): 
+                            saverecord2.occupation = True
+                        else:
+                            saverecord2.occupation = False
 
-                if(int (request.POST.get('age')) >=70):
-                    saverecord2.at_risk_age = True
+                        if(int (request.POST.get('age')) >=70):
+                            saverecord2.at_risk_age = True
 
-                saverecord2.save()
+                        saverecord2.save()
 
-                if(request.POST.get('health_condition1')):
-                    saverecord3 = HealthCondition()
-                    saverecord3.hcc_no = Civilian.objects.get(hcc_no = int(request.POST.get('hcc_no')))
-                    saverecord3.condition = request.POST.get('health_condition1')
-                    saverecord3.health_condition_id = random.randint(0,10000) #placeholder for now, since I am unsure if the key is automatically generated. 
-                    saverecord3.save()
+                        if(request.POST.get('health_condition1')):
+                            saverecord3 = HealthCondition()
+                            saverecord3.hcc_no = Civilian.objects.get(hcc_no = int(request.POST.get('hcc_no')))
+                            saverecord3.condition = request.POST.get('health_condition1')
+                            saverecord3.health_condition_id = random.randint(0,10000) #placeholder for now, since I am unsure if the key is automatically generated. 
+                            saverecord3.save()
 
-                if(request.POST.get('health_condition2')):
-                    saverecord4 = HealthCondition()
-                    saverecord4.hcc_no = Civilian.objects.get(hcc_no = int(request.POST.get('hcc_no')))
-                    saverecord4.condition = request.POST.get('health_condition2')
-                    saverecord4.health_condition_id = random.randint(0,10000) #placeholder for now, since I am unsure if the key is automatically generated. 
-                    saverecord4.save()
+                        if(request.POST.get('health_condition2')):
+                            saverecord4 = HealthCondition()
+                            saverecord4.hcc_no = Civilian.objects.get(hcc_no = int(request.POST.get('hcc_no')))
+                            saverecord4.condition = request.POST.get('health_condition2')
+                            saverecord4.health_condition_id = random.randint(0,10000) #placeholder for now, since I am unsure if the key is automatically generated. 
+                            saverecord4.save()
 
+        if error == False:
+            siteRedirect = '/civilian/' + request.POST.get('hcc_no') + '/'
+            return redirect(siteRedirect)
 
-        siteRedirect = '/civilian/' + request.POST.get('hcc_no') + '/'
-        return redirect(siteRedirect)
-
-    else: 
-        return render(request, "tracker/civilian_registration.html")
+    
+    return render(request, "tracker/civilian_registration.html")
 
 
 def newCivilianIntError():
