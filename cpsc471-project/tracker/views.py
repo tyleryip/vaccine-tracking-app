@@ -110,6 +110,10 @@ def civilian_homepage(request, hcc_no):
 # This endpoint will have to handle a GET and POST request
 @ensure_csrf_cookie
 def new_civilian(request):
+    
+    context_dict = {
+        "doctor_obj": Doctor.objects.all(),
+    }
     error = False
     if request.method == 'POST':
     
@@ -180,7 +184,7 @@ def new_civilian(request):
             return redirect(siteRedirect)
 
     
-    return render(request, "tracker/civilian_registration.html")
+    return render(request, "tracker/civilian_registration.html", context_dict)
 
 
 def newCivilianIntError():
