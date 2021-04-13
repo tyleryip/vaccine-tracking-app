@@ -3,24 +3,32 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.heading{
+  text-align: center;
+}
 .subheading {
   font-size: 24px;
 }
 
 .risk-factor {
   text-align: center;
+  font-size: 20px;
 }
+
 
 .rating {
   text-decoration: bold;
+  font-weight: bold;
 }
 
 .riskfactor-information {
-  margin-top: 10vh;
+  
   text-align: center;
   font-style: italic;
   font-size: 14px;
+  margin-top: 10vh;
   margin-left: 10vw;
   margin-right: 10vw;
   margin-top: 80vh;
 }
+

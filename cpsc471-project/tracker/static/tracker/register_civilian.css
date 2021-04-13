@@ -27,10 +27,11 @@ form {
   padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
-  border-radius: 10px;
   text-align: center;
   overflow: auto;
   margin-top: 1vh;
+  border: 2px solid #000;
+  border-radius: 12px;
 }
 
 .button:hover {
@@ -116,9 +117,12 @@ form{
 }
 
 select{
-  border:0;
-  border-radius: 12px;
+  background: white;
+  display: block;
+  margin:auto;
+  text-align: left;
   border: 2px solid #000;
+  border-radius: 12px;
   transition: 0.75s;
   outline:none;
 }
@@ -127,3 +131,13 @@ select:focus{
   border-color: green;
 }
 
+input[type="date"]{
+  background: white;
+  display: block;
+  margin:auto;
+  text-align: left;
+  border: 2px solid #000;
+  border-radius: 12px;
+  transition: 0.75s;
+  outline:none;
+}

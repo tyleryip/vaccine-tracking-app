@@ -18,7 +18,7 @@
     </div>
 
     <!-- Entering Credentials to become a Citizen in the Database. -->
-    <div>
+    <div class="reg_form">
       <form method="POST">
         {% csrf_token %} Health Care Number:
         <input
@@ -97,7 +97,7 @@
           {% endfor%} 
           {% endif %}
         </div>
-        
+
         <br />
         <input type="submit" value="Submit" />
       </form>
