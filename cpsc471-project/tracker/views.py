@@ -282,7 +282,8 @@ def add_appointment(request, hcc_no):
         
 
             my_appointment = Appointment()
-            ##placeholder logic for nurse adding until I can figure out how to handle not null following for loop
+            
+            ##Default nurse if none found in below nurse checking.
             my_appointment.nurse_hcc_no = Nurse.objects.get(hcc_no = 343434343)
 
             my_appointment.appointment_id = random.randint(0,10000)
@@ -291,15 +292,18 @@ def add_appointment(request, hcc_no):
             my_appointment.vaccination_site_address = VaccinationSite.objects.get(address = request.POST.get('site_address'))
             
             my_appointment.time = request.POST.get('appointment_date')
-            
-            #Later to do - randomly select a nurse in each site rather than the first result in the foor loop
-            nurse_obj = Nurse.objects.all()
+
+            ##populate an array with ALL Nurses that work at selected site address
+            matching_nurses_arr = []
+            nurse_obj = Nurse.objects.filter(site_address = request.POST.get('site_address'))
 
             for data in nurse_obj: 
-                
-                if(data.site_address == request.POST.get('site_address')):
-                    my_appointment.nurse_hcc_no = Nurse.objects.get(hcc_no = data.hcc_no)
-                    
+                    matching_nurses_arr.append(data)
+
+            #randomly select one of the nurses to oversee the appointment       
+            arr_len = len(matching_nurses_arr)
+            rand_index = random.randint(0, arr_len-1)
+            my_appointment.nurse_hcc_no = Nurse.objects.get(hcc_no = matching_nurses_arr[rand_index].hcc_no)
 
             my_appointment.save()
              
