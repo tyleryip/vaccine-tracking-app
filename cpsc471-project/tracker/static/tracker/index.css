@@ -5,6 +5,7 @@ body {
 
 .content {
   text-align: center;
+  font-weight: bold;
 }
 
 .title {
@@ -26,9 +27,11 @@ body {
   padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
-  border-radius: 10px;
+  border-radius: 12px;
   margin: 3vw;
   transition-duration: 0.5s;
+  border: 2px solid #000;
+
 }
 
 .button:hover {

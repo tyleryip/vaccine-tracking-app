@@ -219,6 +219,20 @@ def edit_civilian(request, hcc_no):
             my_civilian.doctor_hcc = Doctor.objects.get(hcc_no = int (request.POST.get('doctor_hcc')))
             my_civilian.save()     
 
+            if(request.POST.get('health_condition1')):
+                            saverecord3 = HealthCondition()
+                            saverecord3.hcc_no = Civilian.objects.get(hcc_no = my_civilian.hcc_no)
+                            saverecord3.condition = request.POST.get('health_condition1')
+                            saverecord3.health_condition_id = random.randint(0,10000) #placeholder for now, since I am unsure if the key is automatically generated. 
+                            saverecord3.save()
+
+            if(request.POST.get('health_condition2')):
+                            saverecord4 = HealthCondition()
+                            saverecord4.hcc_no = Civilian.objects.get(hcc_no = my_civilian.hcc_no)
+                            saverecord4.condition = request.POST.get('health_condition2')
+                            saverecord4.health_condition_id = random.randint(0,10000) #placeholder for now, since I am unsure if the key is automatically generated. 
+                            saverecord4.save()
+
         siteRedirect = '/civilian/' + str(my_civilian.hcc_no) + '/'
         return redirect(siteRedirect)
 
@@ -253,16 +267,10 @@ def civilian_appointments(request, hcc_no):
 def add_appointment(request, hcc_no):
 
     my_civilian = Civilian.objects.get(hcc_no = hcc_no)
-
-    ##if it exists continue
     my_riskfactor = RiskFactor.objects.get(hcc_no = hcc_no)
-    ##else default risk factor is 'low'
-    
-
     risk_score = my_riskfactor.get_score()
 
     datetime_object = datetime.datetime.today()
-
     three_month = datetime_object + timedelta(days=90) 
     six_month = datetime_object + timedelta(days=180) 
 
@@ -273,10 +281,7 @@ def add_appointment(request, hcc_no):
         datetime_object = six_month
         print(datetime_object)
 
-
     dateStr = datetime_object.strftime("%Y-%m-%d")
-    print("Printing the formatted string")
-    print(dateStr)
 
     context_dict = {
         "civilian_obj": my_civilian,
@@ -285,15 +290,14 @@ def add_appointment(request, hcc_no):
         "date_Str": dateStr
     }
 
-
-
     if request.method == 'POST':
         if (request.POST.get('DIN_no') and
             request.POST.get('site_address') and request.POST.get('appointment_date')):
         
 
             my_appointment = Appointment()
-            ##placeholder logic for nurse adding until I can figure out how to handle not null following for loop
+            
+            ##Default nurse if none found in below nurse checking.
             my_appointment.nurse_hcc_no = Nurse.objects.get(hcc_no = 343434343)
 
             my_appointment.appointment_id = random.randint(0,10000)
@@ -302,15 +306,18 @@ def add_appointment(request, hcc_no):
             my_appointment.vaccination_site_address = VaccinationSite.objects.get(address = request.POST.get('site_address'))
             
             my_appointment.time = request.POST.get('appointment_date')
-            
-            #Later to do - randomly select a nurse in each site rather than the first result in the foor loop
-            nurse_obj = Nurse.objects.all()
+
+            ##populate an array with ALL Nurses that work at selected site address
+            matching_nurses_arr = []
+            nurse_obj = Nurse.objects.filter(site_address = request.POST.get('site_address'))
 
             for data in nurse_obj: 
-                
-                if(data.site_address == request.POST.get('site_address')):
-                    my_appointment.nurse_hcc_no = Nurse.objects.get(hcc_no = data.hcc_no)
-            
+                    matching_nurses_arr.append(data)
+
+            #randomly select one of the nurses to oversee the appointment       
+            arr_len = len(matching_nurses_arr)
+            rand_index = random.randint(0, arr_len-1)
+            my_appointment.nurse_hcc_no = Nurse.objects.get(hcc_no = matching_nurses_arr[rand_index].hcc_no)
 
             my_appointment.save()
              
@@ -392,36 +399,51 @@ def nurse_ppe(request, hcc_no):
 # This endpoint will have to handle a GET and POST request
 # GET - display the fields that the user needs to fill it
 # POST - upon button click, validate the fields and save the new item to the database
+@ensure_csrf_cookie
 def new_nurse(request):
 
     context_dict = {
         "vaccine_Sites": VaccinationSite.objects.all()
     }
 
-
+    error = False
     if request.method == 'POST':
 
         #future to do: check if they exist in db and return to the registration page. 
         if (request.POST.get('hcc_no') and request.POST.get('phone_no') and request.POST.get('sex') and
             request.POST.get('address') and request.POST.get('age') and request.POST.get('first_name') and
             request.POST.get('last_name') and request.POST.get('site_address')):
-                saverecord = Nurse()
-                saverecord.hcc_no = int(request.POST.get('hcc_no'))
-                saverecord.phone_no = int(request.POST.get('phone_no')) 
-                saverecord.sex = request.POST.get('sex')
-                saverecord.address = request.POST.get('address')
-                saverecord.age = int(request.POST.get('age'))
-                saverecord.first_name = request.POST.get('first_name')
-                saverecord.last_name = request.POST.get('last_name')
-                saverecord.site_address = VaccinationSite.objects.get(address = request.POST.get('site_address'))
-                
-                saverecord.save()
+                #Check if nurse already exists, since we don't want to replace existing data
+                try:
+                    my_nurse = Nurse.objects.get(hcc_no = int(request.POST.get('hcc_no')))
+                    error = True
+                    messages.error(request, "Account already exists! Please login with your HealthCard Number.")
+                except Nurse.DoesNotExist:
+                    saverecord = Nurse()
+                    saverecord.hcc_no = int(request.POST.get('hcc_no'))
+                    saverecord.phone_no = int(request.POST.get('phone_no')) 
+                    saverecord.sex = request.POST.get('sex')
+                    saverecord.address = request.POST.get('address')
+                    saverecord.age = int(request.POST.get('age'))
+                    saverecord.first_name = request.POST.get('first_name')
+                    saverecord.last_name = request.POST.get('last_name')
+                    saverecord.site_address = VaccinationSite.objects.get(address = request.POST.get('site_address'))
+                    #check for correct length of hcc_no
+                    str_hcc = str(saverecord.hcc_no)
+                    length = len(str_hcc)
+                    #check for proper length of Hcc_no
+                    if length != 9:
+                        error = True
+                        print('wrong length inputted')
+                        messages.error(request, "Specified Healthcard Number is invalid! Please enter a valid Healthcard Number.")
+                    else:
+                        saverecord.save()
+        if error == False:
+            siteRedirect = '/nurse/' + request.POST.get('hcc_no') + '/'
+            return redirect(siteRedirect)
 
-        siteRedirect = '/nurse/' + request.POST.get('hcc_no') + '/'
-        return redirect(siteRedirect)
 
-    else: 
-        return render(request, "tracker/nurse_registration.html", context_dict)
+    return render(request, "tracker/nurse_registration.html", context_dict)
 
 # This endpoint will have to handle a GET and POST request
 # GET - get the current values of the nurse and display in editable fields
