@@ -90,6 +90,14 @@
         </select>
         <br />
 
+        <div class="error">
+          {% if messages %} 
+          {% for message in messages %} 
+          {{ message }} 
+          {% endfor%} 
+          {% endif %}
+        </div>
+        
         <br />
         <input type="submit" value="Submit" />
       </form>

@@ -381,36 +381,51 @@ def nurse_ppe(request, hcc_no):
 # This endpoint will have to handle a GET and POST request
 # GET - display the fields that the user needs to fill it
 # POST - upon button click, validate the fields and save the new item to the database
+@ensure_csrf_cookie
 def new_nurse(request):
 
     context_dict = {
         "vaccine_Sites": VaccinationSite.objects.all()
     }
 
-
+    error = False
     if request.method == 'POST':
 
         #future to do: check if they exist in db and return to the registration page. 
         if (request.POST.get('hcc_no') and request.POST.get('phone_no') and request.POST.get('sex') and
             request.POST.get('address') and request.POST.get('age') and request.POST.get('first_name') and
             request.POST.get('last_name') and request.POST.get('site_address')):
-                saverecord = Nurse()
-                saverecord.hcc_no = int(request.POST.get('hcc_no'))
-                saverecord.phone_no = int(request.POST.get('phone_no')) 
-                saverecord.sex = request.POST.get('sex')
-                saverecord.address = request.POST.get('address')
-                saverecord.age = int(request.POST.get('age'))
-                saverecord.first_name = request.POST.get('first_name')
-                saverecord.last_name = request.POST.get('last_name')
-                saverecord.site_address = VaccinationSite.objects.get(address = request.POST.get('site_address'))
-                
-                saverecord.save()
+                #Check if nurse already exists, since we don't want to replace existing data
+                try:
+                    my_nurse = Nurse.objects.get(hcc_no = int(request.POST.get('hcc_no')))
+                    error = True
+                    messages.error(request, "Account already exists! Please login with your HealthCard Number.")
+                except Nurse.DoesNotExist:
+                    saverecord = Nurse()
+                    saverecord.hcc_no = int(request.POST.get('hcc_no'))
+                    saverecord.phone_no = int(request.POST.get('phone_no')) 
+                    saverecord.sex = request.POST.get('sex')
+                    saverecord.address = request.POST.get('address')
+                    saverecord.age = int(request.POST.get('age'))
+                    saverecord.first_name = request.POST.get('first_name')
+                    saverecord.last_name = request.POST.get('last_name')
+                    saverecord.site_address = VaccinationSite.objects.get(address = request.POST.get('site_address'))
+                    #check for correct length of hcc_no
+                    str_hcc = str(saverecord.hcc_no)
+                    length = len(str_hcc)
+                    #check for proper length of Hcc_no
+                    if length != 9:
+                        error = True
+                        print('wrong length inputted')
+                        messages.error(request, "Specified Healthcard Number is invalid! Please enter a valid Healthcard Number.")
+                    else:
+                        saverecord.save()
+        if error == False:
+            siteRedirect = '/nurse/' + request.POST.get('hcc_no') + '/'
+            return redirect(siteRedirect)
 
-        siteRedirect = '/nurse/' + request.POST.get('hcc_no') + '/'
-        return redirect(siteRedirect)
 
-    else: 
-        return render(request, "tracker/nurse_registration.html", context_dict)
+    return render(request, "tracker/nurse_registration.html", context_dict)
 
 # This endpoint will have to handle a GET and POST request
 # GET - get the current values of the nurse and display in editable fields
