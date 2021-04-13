@@ -219,6 +219,20 @@ def edit_civilian(request, hcc_no):
             my_civilian.doctor_hcc = Doctor.objects.get(hcc_no = int (request.POST.get('doctor_hcc')))
             my_civilian.save()     
 
+            if(request.POST.get('health_condition1')):
+                            saverecord3 = HealthCondition()
+                            saverecord3.hcc_no = Civilian.objects.get(hcc_no = my_civilian.hcc_no)
+                            saverecord3.condition = request.POST.get('health_condition1')
+                            saverecord3.health_condition_id = random.randint(0,10000) #placeholder for now, since I am unsure if the key is automatically generated. 
+                            saverecord3.save()
+
+            if(request.POST.get('health_condition2')):
+                            saverecord4 = HealthCondition()
+                            saverecord4.hcc_no = Civilian.objects.get(hcc_no = my_civilian.hcc_no)
+                            saverecord4.condition = request.POST.get('health_condition2')
+                            saverecord4.health_condition_id = random.randint(0,10000) #placeholder for now, since I am unsure if the key is automatically generated. 
+                            saverecord4.save()
+
         siteRedirect = '/civilian/' + str(my_civilian.hcc_no) + '/'
         return redirect(siteRedirect)
 
