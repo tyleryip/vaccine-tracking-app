@@ -253,16 +253,10 @@ def civilian_appointments(request, hcc_no):
 def add_appointment(request, hcc_no):
 
     my_civilian = Civilian.objects.get(hcc_no = hcc_no)
-
-    ##if it exists continue
     my_riskfactor = RiskFactor.objects.get(hcc_no = hcc_no)
-    ##else default risk factor is 'low'
-    
-
     risk_score = my_riskfactor.get_score()
 
     datetime_object = datetime.datetime.today()
-
     three_month = datetime_object + timedelta(days=90) 
     six_month = datetime_object + timedelta(days=180) 
 
@@ -273,10 +267,7 @@ def add_appointment(request, hcc_no):
         datetime_object = six_month
         print(datetime_object)
 
-
     dateStr = datetime_object.strftime("%Y-%m-%d")
-    print("Printing the formatted string")
-    print(dateStr)
 
     context_dict = {
         "civilian_obj": my_civilian,
@@ -284,8 +275,6 @@ def add_appointment(request, hcc_no):
         "vaccine_obj" : Vaccine.objects.all(),
         "date_Str": dateStr
     }
-
-
 
     if request.method == 'POST':
         if (request.POST.get('DIN_no') and
@@ -310,7 +299,7 @@ def add_appointment(request, hcc_no):
                 
                 if(data.site_address == request.POST.get('site_address')):
                     my_appointment.nurse_hcc_no = Nurse.objects.get(hcc_no = data.hcc_no)
-            
+                    
 
             my_appointment.save()
              
