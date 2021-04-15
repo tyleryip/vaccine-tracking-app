@@ -23,7 +23,11 @@ from datetime import timedelta
 def index_view(request):
     return render(request, 'tracker/index.html')
 
-# Login screen for nurses
+# This function is responsible for the nurse login end point. A nurse will have to pass in their respective health card number
+# in order to access their account and its associated information. There is error checking to ensure the health card number is correct,
+# and the information in the correct form.
+# GET - display the login fields that the nurse has to fill in
+# POST - upon button click, the field is validated, and the database returns the entered nurse account
 @ensure_csrf_cookie
 def nurse_login(request):
     error = False
@@ -57,7 +61,11 @@ def nurse_login(request):
 
     return render(request, 'tracker/nurse_login.html')
 
-# Login screen for civilian
+# This function is responsible for the civilian login end point. A civilian will have to pass in their respective health card number
+# in order to access their account and its associated information. There is error checking to ensure the health card number is correct,
+# and the information in the correct form.
+# GET - display the login fields that the civilian has to fill in
+# POST - upon button click, the field is validated, and the database returns the entered civilian account
 @ensure_csrf_cookie
 def civilian_login(request):
     error = False
