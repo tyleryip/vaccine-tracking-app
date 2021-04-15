@@ -3,6 +3,14 @@ from django.contrib import admin
 # Import all (*) from tracker.models
 from .models import Vaccine, VaccineSideEffect, VaccinationSite, StoredAt, DisposalSite, DisposedAt, Doctor, Civilian, RiskFactor, HealthCondition, Nurse, Appointment, DoctorCertification, PpeSupplier, Ppe
 
+# In general, all ModelAdmin classes below allow the admin site control over the model's table in the database.
+
+# Any of the classes that extend from admin.TabularInline allow for related models to be modified with their
+# parent model. Ex. VaccineSideEffects can be added/removed/modified from their parent Vaccine.
+
+# list_display simply allows for manual control over which attribtues are displayed, and in what order.
+# inlines attaches any inline classes to that parent class.
+
 class VaccineSideEffectInline(admin.TabularInline):
     model = VaccineSideEffect
     extra = 3
@@ -11,9 +19,7 @@ class StoredAtInline(admin.TabularInline):
     model = StoredAt
     extra = 1
 
-# This is a class used to determine how the vaccine will be displayed on the admin site
 class VaccineAdmin(admin.ModelAdmin):
-    # This list display will tell Django to populate the admin site with the following attributes
     list_display = ('DIN_no', 'disease_treated', 'manufacturer_name')
     inlines = [VaccineSideEffectInline, StoredAtInline]
 
@@ -74,8 +80,7 @@ admin.site.register(DisposedAt, DisposedAtAdmin)
 admin.site.register(PpeSupplier, PpeSupplierAdmin)
 admin.site.register(Ppe, PpeAdmin)
 
-# TODO: Ensure all these fields are commented out
-#The entities should not be directly editable
+# The entities should not be directly editable
 '''
 admin.site.register(HealthCondition)
 admin.site.register(VaccineSideEffect)
