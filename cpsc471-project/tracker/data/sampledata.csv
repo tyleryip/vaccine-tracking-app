@@ -1,8 +1,0 @@
-VaccinationSite,101 Main St. NW,200,Dr. Smith,1234567899,,,,
-Vaccine,1,AIDS,10mg,2021-04-01,Nurullo,,,
-Vaccine,2,StinkDink,69mg,2021-04-20,Trevor,,,
-VaccineSideEffect,1,2,Dying,,,,,
-Doctor,111111111,4031111111,M,11 Westcove Rd. NW,40,George,Greens,West Calgary Hospital
-Civilian,785521144,4035528530,M,3640 Poplar St. SW,58,Nick,Logan,111111111
-RiskFactor,785521144,False,True,False,,,,
-Nurse,121212121,4037274511,F,3962 Whitmore Rd. SE,25,Jeanette,French,101 Main St. NW
