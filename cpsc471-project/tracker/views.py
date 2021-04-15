@@ -107,17 +107,26 @@ def civilian_homepage(request, hcc_no):
     except Civilian.DoesNotExist:
         return redirect('/civilian/')
 
-# This endpoint will have to handle a GET and POST request
+# This function is repsonsible for the create new civilian end point. A civilian will have to pass in several pieces of info about
+#themselves to register. There is error checking to ensure they do not already exist in the database, and to ensure all information entered
+#is in the correct format. 
+# GET - display the fields that the user needs to fill it
+# POST - upon button click, validate the fields and save the new item to the database
 @ensure_csrf_cookie
 def new_civilian(request):
     
+    #the context dictionary passed into the default render
     context_dict = {
         "doctor_obj": Doctor.objects.all(),
     }
+
+    #error checking boolean
     error = False
+
+    #If a civilian has requested to submit their info, the following erorr checking and database injection will occur. 
     if request.method == 'POST':
     
-        #future to do: check if they exist in db and return to the registration page. 
+        
         if (request.POST.get('hcc_no') and request.POST.get('phone_no') and request.POST.get('sex') and
             request.POST.get('address') and request.POST.get('age') and request.POST.get('first_name') and
             request.POST.get('last_name') and request.POST.get('doctor_hcc')):
@@ -128,6 +137,7 @@ def new_civilian(request):
                     error = True
                     messages.error(request, "Account already exists! Please Login with your HealthCard Number.")
                 except Civilian.DoesNotExist:
+                    #set up a save record to save into the database, and retrieve all the credentials from the post request form.
                     saverecord = Civilian()
                     saverecord.hcc_no = int(request.POST.get('hcc_no'))
                     saverecord.phone_no = int(request.POST.get('phone_no')) 
@@ -148,6 +158,7 @@ def new_civilian(request):
                     else:
                         saverecord.save()
                         #Risk Factor checks
+                        #Now establishing a risk factor to inject into the datbase. Such info to consider is if they live in a high risk area or work in a high risk profession. 
                         saverecord2 = RiskFactor()
                         saverecord2.hcc_no = Civilian.objects.get(hcc_no = int(request.POST.get('hcc_no')))
                         if(request.POST.get('location') == 'Yes'): 
@@ -165,20 +176,23 @@ def new_civilian(request):
 
                         saverecord2.save()
 
+                        #The first OPTIONAL health condition to insert into the database should they enter anything. 
                         if(request.POST.get('health_condition1')):
                             saverecord3 = HealthCondition()
                             saverecord3.hcc_no = Civilian.objects.get(hcc_no = int(request.POST.get('hcc_no')))
                             saverecord3.condition = request.POST.get('health_condition1')
-                            saverecord3.health_condition_id = random.randint(0,10000) #placeholder for now, since I am unsure if the key is automatically generated. 
+                            saverecord3.health_condition_id = random.randint(0,10000) 
                             saverecord3.save()
 
+                        #The second OPTIONAL health condition to insert into the database should they enter anything. 
                         if(request.POST.get('health_condition2')):
                             saverecord4 = HealthCondition()
                             saverecord4.hcc_no = Civilian.objects.get(hcc_no = int(request.POST.get('hcc_no')))
                             saverecord4.condition = request.POST.get('health_condition2')
-                            saverecord4.health_condition_id = random.randint(0,10000) #placeholder for now, since I am unsure if the key is automatically generated. 
+                            saverecord4.health_condition_id = random.randint(0,10000) 
                             saverecord4.save()
 
+        ##if all information is correct, the records are entered into the database and the user is redirected to their homepage. 
         if error == False:
             siteRedirect = '/civilian/' + request.POST.get('hcc_no') + '/'
             return redirect(siteRedirect)
@@ -194,23 +208,31 @@ def newCivilianIntError():
 def civilianAlreadyExists():
     newErrorMSG = "Error, your information already exists in the database. Please login." 
 
-# This endpoint will have to handle a GET and POST request
+# This function is repsonsible for the editing an existing civilian. A civilian will have to pass in several pieces of info about
+#themselves to modify. The HTML info will hold old informaton such that if it is unchanged, it will pass the old info the POST request. 
+#A civilian will be unable to change their HCC number information but all other info may be changed. 
+# There is error checking to ensure  all information entered is in the correct format. 
+# GET - get the current values of the nurse and display in editable fields
+# POST - upon button click, validate fields and update if correct
 def edit_civilian(request, hcc_no):
     
     my_civilian = Civilian.objects.get(hcc_no = hcc_no)
 
     my_doctor = Doctor.objects.get(hcc_no = my_civilian.doctor_hcc.hcc_no)
 
+    #the context dictionary to pass into the edit civilian html redirect. 
     context_dict = {
         "civilian_obj": my_civilian,
         "doctor_obj": my_doctor
     }
 
+    #if the civilian submits their changed info, get all changed info and update the db. 
     if request.method == 'POST':
         if (request.POST.get('phone_no') and
             request.POST.get('address') and request.POST.get('age') and request.POST.get('first_name') and
             request.POST.get('last_name') and request.POST.get('doctor_hcc')):
 
+            #set the civilian objects info according to the forms changed info.
             my_civilian.phone_no = int(request.POST.get('phone_no')) 
             my_civilian.address = request.POST.get('address')
             my_civilian.age = int(request.POST.get('age'))
@@ -233,6 +255,7 @@ def edit_civilian(request, hcc_no):
                             saverecord4.health_condition_id = random.randint(0,10000) #placeholder for now, since I am unsure if the key is automatically generated. 
                             saverecord4.save()
 
+        #if info is changed and successfully saved into the db, redirect to the civilians homepage. 
         siteRedirect = '/civilian/' + str(my_civilian.hcc_no) + '/'
         return redirect(siteRedirect)
 
@@ -263,17 +286,24 @@ def civilian_appointments(request, hcc_no):
     return render(request, "tracker/civilian_appointments.html", context)
 
 
-
+#This function is responsible for adding an appointment to an existing civilian in the database. A default request to this endpoint will return a render,
+#Redirecting to the add appointment endpoint. It also passes a context dictionary holding information about vaccination sites, vaccines, dates, and your information 
+#which is shown on that endpoint in the html. 
+# GET - display the fields that the user needs to fill it
+# POST - upon button click, validate the fields and save the new item to the database
 def add_appointment(request, hcc_no):
 
+    #set up info to be passed into the html endpoint. 
     my_civilian = Civilian.objects.get(hcc_no = hcc_no)
     my_riskfactor = RiskFactor.objects.get(hcc_no = hcc_no)
     risk_score = my_riskfactor.get_score()
 
+    #get todays sdate
     datetime_object = datetime.datetime.today()
     three_month = datetime_object + timedelta(days=90) 
     six_month = datetime_object + timedelta(days=180) 
 
+    #Set future date for vaccination to be dependant on the civilians risk factor score
     if(risk_score == 'medium'):
         datetime_object = three_month
         print(datetime_object)
@@ -283,6 +313,7 @@ def add_appointment(request, hcc_no):
 
     dateStr = datetime_object.strftime("%Y-%m-%d")
 
+    #the context dictionary to be passed into the end point. 
     context_dict = {
         "civilian_obj": my_civilian,
         "vaccine_Sites": VaccinationSite.objects.all(),
@@ -290,21 +321,25 @@ def add_appointment(request, hcc_no):
         "date_Str": dateStr
     }
 
+    #once a civilian has submitted their info, the following will do some error checking, and once satasfied, submit the information into the database.
     if request.method == 'POST':
         if (request.POST.get('DIN_no') and
             request.POST.get('site_address') and request.POST.get('appointment_date')):
         
-
             my_appointment = Appointment()
             
             ##Default nurse if none found in below nurse checking.
             my_appointment.nurse_hcc_no = Nurse.objects.get(hcc_no = 343434343)
 
+            #randomly assign an appointment id 
             my_appointment.appointment_id = random.randint(0,10000)
+            #set the hcc number for the appointment to reference the civilian booking it
             my_appointment.civilian_hcc_no = Civilian.objects.get(hcc_no = hcc_no)
-            my_appointment.vaccine_DIN_no = Vaccine.objects.get(DIN_no = request.POST.get('DIN_no')) ##here 
+            #set the vaccination din number to the vaccine selected
+            my_appointment.vaccine_DIN_no = Vaccine.objects.get(DIN_no = request.POST.get('DIN_no')) 
+            #set the vaccination site to the selected site. 
             my_appointment.vaccination_site_address = VaccinationSite.objects.get(address = request.POST.get('site_address'))
-            
+            #set the appointment time to the selected time 
             my_appointment.time = request.POST.get('appointment_date')
 
             ##populate an array with ALL Nurses that work at selected site address
@@ -319,9 +354,10 @@ def add_appointment(request, hcc_no):
             rand_index = random.randint(0, arr_len-1)
             my_appointment.nurse_hcc_no = Nurse.objects.get(hcc_no = matching_nurses_arr[rand_index].hcc_no)
 
+            #save the appointment into the database
             my_appointment.save()
              
-
+        #once an appointment is made, redirect back to the civilians homepage. 
         siteRedirect = '/civilian/' + str(my_civilian.hcc_no) + '/'
         return redirect(siteRedirect)
 
@@ -396,20 +432,26 @@ def nurse_ppe(request, hcc_no):
     return render(request, 'tracker/nurse_ppe.html', context_dict)
 
 
-# This endpoint will have to handle a GET and POST request
+# This function is repsonsible for the create new nurse end point. A nurse will have to pass in several pieces of info about
+#themselves to register. There is error checking to ensure they do not already exist in the database, and to ensure all information entered
+#is in the correct format. 
 # GET - display the fields that the user needs to fill it
 # POST - upon button click, validate the fields and save the new item to the database
 @ensure_csrf_cookie
 def new_nurse(request):
 
+    #the context dictionary to pass into the new nurse webpage.
     context_dict = {
         "vaccine_Sites": VaccinationSite.objects.all()
     }
 
+    #error checking boolean 
     error = False
+
+    #if the new nurse submits their information then do record saving and error checking.
     if request.method == 'POST':
 
-        #future to do: check if they exist in db and return to the registration page. 
+        #check that all REQUIRED fields are filled out. 
         if (request.POST.get('hcc_no') and request.POST.get('phone_no') and request.POST.get('sex') and
             request.POST.get('address') and request.POST.get('age') and request.POST.get('first_name') and
             request.POST.get('last_name') and request.POST.get('site_address')):
@@ -419,6 +461,7 @@ def new_nurse(request):
                     error = True
                     messages.error(request, "Account already exists! Please login with your HealthCard Number.")
                 except Nurse.DoesNotExist:
+                    #create a new record that is a Nurse Object and populate its info with all fields information 
                     saverecord = Nurse()
                     saverecord.hcc_no = int(request.POST.get('hcc_no'))
                     saverecord.phone_no = int(request.POST.get('phone_no')) 
@@ -438,6 +481,7 @@ def new_nurse(request):
                         messages.error(request, "Specified Healthcard Number is invalid! Please enter a valid Healthcard Number.")
                     else:
                         saverecord.save()
+        #if the nurse has sucessfully been injected into the database, redirect them to their new homepage. 
         if error == False:
             siteRedirect = '/nurse/' + request.POST.get('hcc_no') + '/'
             return redirect(siteRedirect)
@@ -445,23 +489,30 @@ def new_nurse(request):
 
     return render(request, "tracker/nurse_registration.html", context_dict)
 
-# This endpoint will have to handle a GET and POST request
+# This function is repsonsible for the editing an existing nurse. A nurse will have to pass in several pieces of info about
+#themselves to modify. The HTML info will hold old informaton such that if it is unchanged, it will pass the old info the POST request. 
+#A nurse will be unable to change their HCC number information but all other info may be changed. 
+# There is error checking to ensure  all information entered is in the correct format. 
 # GET - get the current values of the nurse and display in editable fields
 # POST - upon button click, validate fields and update if correct
 def edit_nurse(request, hcc_no):
+    #get the nurse object from the database
     my_nurse = Nurse.objects.get(hcc_no = hcc_no)
     my_site = VaccinationSite.objects.get(address = my_nurse.site_address.address)
 
+    #The context dictionary containing necessary info to display on the HTML page. 
     context_dict = {
         "nurse_obj": my_nurse,
         "vaccine_Sites": VaccinationSite.objects.all()
     }
 
+    #If a nurse requests to change any info, gather all changed info and update the nurse object in the database. 
     if request.method == 'POST':
         if (request.POST.get('phone_no') and
             request.POST.get('address') and request.POST.get('age') and request.POST.get('first_name') and
             request.POST.get('last_name') and request.POST.get('site_address')):
 
+            #retreieve all fields info and insert it into the Nurse Objects data fields. 
             my_nurse.phone_no = int(request.POST.get('phone_no')) 
             my_nurse.address = request.POST.get('address')
             my_nurse.age = int(request.POST.get('age'))
@@ -470,6 +521,7 @@ def edit_nurse(request, hcc_no):
             my_nurse.site_address = VaccinationSite.objects.get(address = request.POST.get('site_address'))
             my_nurse.save()     
 
+        #redirect to the nurses homepage once completed. 
         siteRedirect = '/nurse/' + str(my_nurse.hcc_no) + '/'
         return redirect(siteRedirect)
 
