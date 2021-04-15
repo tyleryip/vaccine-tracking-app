@@ -343,14 +343,12 @@ def civilian_doctor(request, hcc_no):
     except (Civilian.DoesNotExist, Doctor.DoesNotExist):
         raise Http404("Queried objects do not exist")
 
-# Nurse Views: #########################################################
-# def nurse_homepage(request, hcc_no):
-#    try:
-#        my_nurse = Nurse.objects.get(hcc_no = hcc_no)
-#    except Nurse.DoesNotExist:
-#        raise Http404("Nurse does not exist")
-#    return HttpResponse("This is your information %s" % my_nurse)
 
+# Nurse Views:
+
+# Nurse_homepage is the homepage endpoint for a nurse user and displays button links to other nurse endpoints.
+# This endpoint requires a registered nurse's hcc_no to gain access.
+# This endpoint will have to handle a GET request.
 def nurse_homepage(request, hcc_no):
     try:
         my_nurse = Nurse.objects.get(hcc_no=hcc_no)
@@ -361,6 +359,9 @@ def nurse_homepage(request, hcc_no):
         return redirect('/nurse/')
     return render(request, 'tracker/nurse_homepage.html', context_dict)
 
+# Nurse_appointments is the appointments endpoint for a nurse user and displays a list of all the nurse's appointments.
+# This endpoint requires a registered nurse's hcc_no to gain access.
+# This endpoint will have to handle a GET request.
 def nurse_appointments(request, hcc_no):
     my_nurse_appointments = Appointment.objects.filter(nurse_hcc_no=hcc_no)
     context_dict = {
@@ -368,6 +369,9 @@ def nurse_appointments(request, hcc_no):
     }
     return render(request, 'tracker/nurse_appointments.html', context_dict)
 
+# Nurse_vaccines is a vaccine endpoint for a nurse user and displays a list of all available vaccines.
+# This endpoint also features button links to see further vaccine details.
+# This endpoint will have to handle a GET request.
 def nurse_vaccines(request):
     my_vaccines = Vaccine.objects.filter()
     context_dict = {
@@ -375,6 +379,10 @@ def nurse_vaccines(request):
     }
     return render(request, 'tracker/nurse_vaccines.html', context_dict)
 
+# Nurse_vaccine_details is a vaccine endpoint for a nurse user and displays the specifics of a certain vaccine in greater detail.
+# The specifics include: basic vaccine information, possible side effect(s), and storage and disposal facility information.
+# This endpoint requires a vaccine's unique DIN_no to be specified. 
+# This endpoint will have to handle a GET request.
 def nurse_vaccine_details(request, DIN_no):
     my_vaccine = Vaccine.objects.get(DIN_no=DIN_no)
     my_vaccine_details = VaccineSideEffect.objects.filter(vaccine_DIN_no=DIN_no)
@@ -388,6 +396,8 @@ def nurse_vaccine_details(request, DIN_no):
     }
     return render(request, 'tracker/nurse_vaccine_details.html', context_dict)
 
+# Nurse_ppe is a PPE endpoint for a nurse user and displays a list of all PPE that is being borrowed by the nurse user.
+# This endpoint will have to handle a GET request.
 def nurse_ppe(request, hcc_no):
     my_nurse_ppe = Ppe.objects.filter(nurse_hcc=hcc_no)
     context_dict = {
@@ -395,7 +405,7 @@ def nurse_ppe(request, hcc_no):
     }
     return render(request, 'tracker/nurse_ppe.html', context_dict)
 
-
+# New_nurse is a nurse info endpoint for a new nurse user which allows a new nurse user to submit their personal info which adds them to the database.
 # This endpoint will have to handle a GET and POST request
 # GET - display the fields that the user needs to fill it
 # POST - upon button click, validate the fields and save the new item to the database
@@ -445,6 +455,7 @@ def new_nurse(request):
 
     return render(request, "tracker/nurse_registration.html", context_dict)
 
+# Edit_nurse is a nurse info endpoint for an existing nurse user which displays and allows the nurse user to edit their personal info.
 # This endpoint will have to handle a GET and POST request
 # GET - get the current values of the nurse and display in editable fields
 # POST - upon button click, validate fields and update if correct
@@ -478,8 +489,8 @@ def edit_nurse(request, hcc_no):
 
 
   
-
-# This endpoint will show all disposal sites in the database
+# Nurse_disposal_sites is the disposal site endpoint for a nurse user which displays a list of all the disposal sites in the database.
+# This endpoint will have to handle a GET request.
 def nurse_disposal_sites(request):
     my_disposal_sites = DisposalSite.objects.filter()
 
@@ -489,7 +500,8 @@ def nurse_disposal_sites(request):
 
     return render(request, "tracker/nurse_disposal_sites.html", context)
 
-# This endpoint will show all vaccination sites in the database
+# Nurse_vaccination_sites is the vaccination site endpoint for a nurse user which displays a list of all the vaccination sites in the database.
+# This endpoint will have to handle a GET request.
 def nurse_vaccination_sites(request):
     my_vaccination_sites = VaccinationSite.objects.filter()
 
