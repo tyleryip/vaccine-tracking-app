@@ -18,8 +18,9 @@ import datetime
 from datetime import timedelta
 
 
-# Main page to pick which user type you are, also display information about the website
-
+# This function is responsible for the homepage end point. This is the main landing page when entering the website URL.
+# This page displays the buttons to either login as a civilian or nurse.
+# GET - display the buttons to select user type
 def index_view(request):
     return render(request, 'tracker/index.html')
 
@@ -272,7 +273,10 @@ def edit_civilian(request, hcc_no):
     else:    
         return render(request, "tracker/edit_civilian.html", context_dict)
     
-
+# This function is responsible for the civilian risk factor end point. This page is accessed when the civilian presses the risk
+# factor button on the homepage. This page displays the civilians associated risk factor, which were calculated when the 
+#civilian registered their account.
+# GET - display the civilians risk factor assessment.
 def civilian_riskfactor(request, hcc_no):
     try:
         my_riskfactor = RiskFactor.objects.get(hcc_no = hcc_no)
@@ -284,7 +288,10 @@ def civilian_riskfactor(request, hcc_no):
     except RiskFactor.DoesNotExist:
         raise Http404("Risk factor does not exist for this civilian")
 
-
+# This function is responsible for the civilian appointments end pooint. This page is accessed when the civilian presses the 
+# the Appointments button the homepage. This page displays the appointments the civilian has registered for, and presents the 
+# option to add another appointment to their list.
+# GET - display the appointments that the civilian has
 def civilian_appointments(request, hcc_no):
     my_appointments = Appointment.objects.filter(civilian_hcc_no = hcc_no)
     my_civilian = Civilian.objects.get(hcc_no = hcc_no)
@@ -374,7 +381,10 @@ def add_appointment(request, hcc_no):
     else: 
         return render(request, "tracker/add_appointment.html", context_dict)
 
-
+# This function is responsible for the civilian doctor end pooint. This page is accessed when the civilian presses the 
+# the My Doctor button the homepage. This page displays the Doctors information that the civilian assigned themselves
+# during the civilian account registration process.
+# GET - display the civilian's doctor's information, and certifications.
 def civilian_doctor(request, hcc_no):
     try:
         my_civilian = Civilian.objects.get(hcc_no = hcc_no)
@@ -394,7 +404,7 @@ def civilian_doctor(request, hcc_no):
 
 # Nurse_homepage is the homepage endpoint for a nurse user and displays button links to other nurse endpoints.
 # This endpoint requires a registered nurse's hcc_no to gain access.
-# This endpoint will have to handle a GET request.
+# GET - display the nurses homepage with their respective information.
 def nurse_homepage(request, hcc_no):
     try:
         my_nurse = Nurse.objects.get(hcc_no=hcc_no)
@@ -407,7 +417,7 @@ def nurse_homepage(request, hcc_no):
 
 # Nurse_appointments is the appointments endpoint for a nurse user and displays a list of all the nurse's appointments.
 # This endpoint requires a registered nurse's hcc_no to gain access.
-# This endpoint will have to handle a GET request.
+# GET - get the appointments on the Nurses account and display it on the page
 def nurse_appointments(request, hcc_no):
     my_nurse_appointments = Appointment.objects.filter(nurse_hcc_no=hcc_no)
     context_dict = {
@@ -417,7 +427,7 @@ def nurse_appointments(request, hcc_no):
 
 # Nurse_vaccines is a vaccine endpoint for a nurse user and displays a list of all available vaccines.
 # This endpoint also features button links to see further vaccine details.
-# This endpoint will have to handle a GET request.
+# GET - get the list of vaccines from the data base and display it with their corresponding information
 def nurse_vaccines(request):
     my_vaccines = Vaccine.objects.filter()
     context_dict = {
@@ -428,7 +438,7 @@ def nurse_vaccines(request):
 # Nurse_vaccine_details is a vaccine endpoint for a nurse user and displays the specifics of a certain vaccine in greater detail.
 # The specifics include: basic vaccine information, possible side effect(s), and storage and disposal facility information.
 # This endpoint requires a vaccine's unique DIN_no to be specified. 
-# This endpoint will have to handle a GET request.
+# GET - Gets the vaccine details from the database and display it on the page.
 def nurse_vaccine_details(request, DIN_no):
     my_vaccine = Vaccine.objects.get(DIN_no=DIN_no)
     my_vaccine_details = VaccineSideEffect.objects.filter(vaccine_DIN_no=DIN_no)
@@ -442,8 +452,9 @@ def nurse_vaccine_details(request, DIN_no):
     }
     return render(request, 'tracker/nurse_vaccine_details.html', context_dict)
 
-# Nurse_ppe is a PPE endpoint for a nurse user and displays a list of all PPE that is being borrowed by the nurse user.
-# This endpoint will have to handle a GET request.
+# This function is repsonsible for the nurse ppe end point. Nurses access this page by clicking the My PPE button
+# on the Nurse's Homepage. This page displays all the PPE's that the nurse borrowing.
+# GET - display the nurse's PPE's that the nurse is borrowing
 def nurse_ppe(request, hcc_no):
     my_nurse_ppe = Ppe.objects.filter(nurse_hcc=hcc_no)
     context_dict = {
@@ -455,8 +466,6 @@ def nurse_ppe(request, hcc_no):
 # This function is repsonsible for the create new nurse end point. A nurse will have to pass in several pieces of info about
 #themselves to register. There is error checking to ensure they do not already exist in the database, and to ensure all information entered
 #is in the correct format. 
-
-
 # GET - display the fields that the user needs to fill it
 # POST - upon button click, validate the fields and save the new item to the database
 @ensure_csrf_cookie
@@ -514,8 +523,7 @@ def new_nurse(request):
 # This function is repsonsible for the editing an existing nurse. A nurse will have to pass in several pieces of info about
 #themselves to modify. The HTML info will hold old informaton such that if it is unchanged, it will pass the old info the POST request. 
 #A nurse will be unable to change their HCC number information but all other info may be changed. 
-# There is error checking to ensure  all information entered is in the correct format. 
-
+# There is error checking to ensure all information entered is in the correct format. 
 # GET - get the current values of the nurse and display in editable fields
 # POST - upon button click, validate fields and update if correct
 def edit_nurse(request, hcc_no):
@@ -553,8 +561,9 @@ def edit_nurse(request, hcc_no):
 
 
   
-# Nurse_disposal_sites is the disposal site endpoint for a nurse user which displays a list of all the disposal sites in the database.
-# This endpoint will have to handle a GET request.
+# This function is responsible for displaying the disposal sites end point. This page is accessed when any nurse presses the
+# Disposal Site Information on the Nurse Homepage. This page displays the sites disposal methods for each disposal site.
+# GET - Get the information of all disposal sites in the database, and display it
 def nurse_disposal_sites(request):
     my_disposal_sites = DisposalSite.objects.filter()
 
@@ -564,8 +573,9 @@ def nurse_disposal_sites(request):
 
     return render(request, "tracker/nurse_disposal_sites.html", context)
 
-# Nurse_vaccination_sites is the vaccination site endpoint for a nurse user which displays a list of all the vaccination sites in the database.
-# This endpoint will have to handle a GET request.
+# This function is responsible for displaying the vaccination sites end point. This page is accessed when any nurse presses the
+# Vaccination Site Information on the Nurse Homepage. This page displays the vaccination site information and their primary contacts.
+# GET - Get the information of all Vaccination Sites in the database, and display it
 def nurse_vaccination_sites(request):
     my_vaccination_sites = VaccinationSite.objects.filter()
 
