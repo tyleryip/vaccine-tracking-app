@@ -16,6 +16,7 @@ class Vaccine(models.Model):
     expiry_date = models.DateField()
     manufacturer_name = models.CharField(max_length=200)
 
+    # toString() function for displaying in the admin site and elsewhere
     def __str__(self):
         return "DIN: " + str(self.DIN_no) + " - " + self.disease_treated
 
@@ -24,6 +25,7 @@ class VaccineSideEffect(models.Model):
     vaccine_DIN_no = models.ForeignKey(Vaccine, on_delete=models.CASCADE, verbose_name='Vaccine')
     side_effect_name = models.CharField("Side Effect", max_length=200)
 
+    # toString() function for displaying in the admin site and elsewhere
     def __str__(self):
         return "DIN: " + str(self.vaccine_DIN_no) + " - " +  self.side_effect_name
 
@@ -33,6 +35,7 @@ class VaccinationSite(models.Model):
     contact_name = models.CharField(max_length=200)
     contact_phone_no = models.IntegerField()
 
+    # toString() function for displaying in the admin site and elsewhere
     def __str__(self):
         return "Address: " + self.address
 
@@ -44,10 +47,12 @@ class StoredAt(models.Model):
     humidity = models.FloatField('Humidity (%)', default=60)
     lighting = models.FloatField('Light Level (Lumens)', default=0)
 
+    # Metadata for this class
     class Meta:
         verbose_name = 'Vaccine Stockpile (StoredAt)'
         verbose_name_plural = 'Vaccine Stockpiles (StoredAt)'
 
+    # toString() function for displaying in the admin site and elsewhere
     def __str__(self):
         return "DIN: " + str(self.DIN_no) + " - " + str(self.vaccination_site_address)
 
@@ -56,6 +61,7 @@ class DisposalSite(models.Model):
     name = models.CharField(max_length=200)
     disposal_method = models.CharField(max_length=200)
 
+    # toString() function for displaying in the admin site and elsewhere
     def __str__(self):
         return "Address: " + self.address
 
@@ -66,10 +72,12 @@ class DisposedAt(models.Model):
     sharp = models.BooleanField(default=True, verbose_name='Sharp Risk')
     biohazard_leakage = models.BooleanField(default=True, verbose_name='Biohazard Leakage Risk')
 
+    # Metadata for this class
     class Meta:
         verbose_name = 'Vaccine Disposal (DisposedAt)'
         verbose_name_plural = 'Vaccine Disposals (DisposedAt)'
 
+    # toString() function for displaying in the admin site and elsewhere
     def __str__(self):
         return "Din: " + str(self.DIN_no) + " - Address: " + str(self.disposal_site_address)
 
@@ -83,18 +91,18 @@ class Doctor(models.Model):
     last_name = models.CharField(max_length = 200)
     place_of_practice = models.CharField(max_length = 200)
 
+    # toString() function for displaying in the admin site and elsewhere
     def __str__(self):
         return "Doctor HCC: " + str(self.hcc_no) + " - " + str(self.first_name) + " " + str(self.last_name)
     
-    # This method returns the full name of the nurse
+    # Returns the full name of this doctor
     def get_fullname(self):
         return self.first_name + " " + self.last_name
 
-    # This is used to describe the method, primarily so that the admin site can call the method and display the result under a proper title
+    # Used to describe the function for the admin display
     get_fullname.short_description = 'Full Name'
 
 class Civilian(models.Model):
-    # The first field is the human readable name used for displaying, not used to access the data internally
     hcc_no = models.IntegerField("Healthcare Card Number", primary_key=True)
     phone_no = models.IntegerField("Phone Number")
     sex = models.CharField(max_length=1)
@@ -104,14 +112,15 @@ class Civilian(models.Model):
     last_name = models.CharField(max_length=200)
     doctor_hcc = models.ForeignKey(Doctor, on_delete=models.CASCADE)
 
+    # toString() function for displaying in the admin site and elsewhere
     def __str__(self):
         return "Civilian HCC: " + str(self.hcc_no) + " - " + self.first_name + " " + self.last_name
 
-    # This method returns the full name of the civilian
+    # Returns the fullname of this civilian
     def get_fullname(self):
         return self.first_name + " " + self.last_name
 
-    # This is used to describe the method, primarily so that the admin site can call the method and display the result under a proper title
+    # Used to describe the function for the admin display
     get_fullname.short_description = 'Full Name'
 
 
@@ -121,7 +130,7 @@ class RiskFactor(models.Model):
     occupation = models.BooleanField("High-Risk Occupation (Health Care)", default=False)
     at_risk_age = models.BooleanField("High-Risk Age Bracket (>70)", default=False)
 
-    # Return the risk factor for this civilian based on health conditions and 
+    # Return the risk factor for this civilian based on health conditions and risk assessment questions
     def calculate_riskfactor_score(self):
         conditions = HealthCondition.objects.filter(hcc_no = self.hcc_no)
         score = 0
@@ -132,6 +141,7 @@ class RiskFactor(models.Model):
         score += (self.occupation * 1000) + (self.location * 25) + (self.at_risk_age * 75)
         return score
 
+    # Return the risk factor score in a string format
     def get_score(self):
         score = self.calculate_riskfactor_score()
 
@@ -142,6 +152,7 @@ class RiskFactor(models.Model):
         else: 
             return "low"
 
+    # toString() function for displaying in the admin site and elsewhere
     def __str__(self):
         return "HCC: " + str(self.hcc_no)
 
@@ -150,6 +161,7 @@ class HealthCondition(models.Model):
     hcc_no = models.ForeignKey(Civilian, on_delete=models.CASCADE)
     condition = models.CharField(max_length=200)
 
+    # toString() function for displaying in the admin site and elsewhere
     def __str__(self):
         return "HCC: " + str(self.hcc_no) + " - " + self.condition
 
@@ -163,14 +175,15 @@ class Nurse(models.Model):
     last_name = models.CharField(max_length=200)
     site_address = models.ForeignKey(VaccinationSite, on_delete=models.CASCADE)
 
+    # toString() function for displaying in the admin site and elsewhere
     def __str__(self):
         return "Nurse HCC: " + str(self.hcc_no) + " - " + self.first_name + " " + self.last_name
 
-    # This method returns the full name of the nurse
+    # TReturns the full name of this nurse
     def get_fullname(self):
         return self.first_name + " " + self.last_name
 
-    # This is used to describe the method, primarily so that the admin site can call the method and display the result under a proper title
+    # Used to describe the function for the admin display
     get_fullname.short_description = 'Full Name'
 
 class Appointment(models.Model):
@@ -181,6 +194,7 @@ class Appointment(models.Model):
     civilian_hcc_no = models.ForeignKey(Civilian, on_delete=models.CASCADE)
     vaccination_site_address = models.ForeignKey(VaccinationSite, on_delete=models.CASCADE, verbose_name='Location')
 
+    # toString() function for displaying in the admin site and elsewhere
     def __str__(self):
         return "ID: " + str(self.appointment_id) + " - Time: " + str(self.time) + " - Client: " + str(self.civilian_hcc_no)
 
@@ -189,6 +203,7 @@ class DoctorCertification(models.Model):
     doctor_hcc_no = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     certification = models.CharField(max_length=200)
 
+    # toString() function for displaying in the admin site and elsewhere
     def __str__(self):
         return "Doctor HCC: " + str(self.doctor_hcc_no) + " - " + self.certification
 
@@ -198,6 +213,7 @@ class PpeSupplier(models.Model):
     contact_name = models.CharField(max_length=200)
     contact_phone = models.IntegerField()
 
+    # toString() function for displaying in the admin site and elsewhere
     def __str__(self):
         return "Supplier Name: " + str(self.name) + " - contact info: " + str(self.contact_phone)
 
@@ -207,5 +223,6 @@ class Ppe(models.Model):
     supplier_name = models.ForeignKey(PpeSupplier, on_delete=models.CASCADE, verbose_name='Supplier')
     nurse_hcc = models.ForeignKey(Nurse, on_delete=models.CASCADE, verbose_name='Assigned Nurse')
 
+    # toString() function for displaying in the admin site and elsewhere
     def __str__(self):
         return "PPE ID: " + str(self.ppe_id) + " - Manufactured by: " + str(self.supplier_name) + " - Used by: " + str(self.nurse_hcc)
