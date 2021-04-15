@@ -101,7 +101,9 @@ def civilian_login(request):
 
     return render(request, 'tracker/civilian_login.html')
 
-# Civilian Views: #########################################################
+# This function is responsible for the civilian homepage point. After logging in, the requested account information is 
+# displayed with on the page, and multiple buttons are displayed for the civilian to access different features. 
+# GET - display the requested civilian information, and display buttons.
 def civilian_homepage(request, hcc_no):
     try:
         my_civilian = Civilian.objects.get(hcc_no = hcc_no)
