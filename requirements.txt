@@ -1,5 +1,5 @@
 asgiref==3.3.4
-Django==3.2
+Django==3.2.4
 django-cors-headers==3.7.0
 django-extensions==3.1.2
 Pygments==2.8.1
